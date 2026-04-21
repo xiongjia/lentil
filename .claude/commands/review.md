@@ -1,113 +1,86 @@
 ---
 agent: code-reviewer
-description: Review all changes in current branch (committed + uncommitted)
----
-
-Review all relevant code changes in the current working branch.
-
+description: Full review (branch + uncommitted)
 ---
 
 ## Scope
 
-You MUST include:
+Review ALL changes:
 
-1. All committed changes in current branch (vs base branch)
-2. All staged changes
-3. All unstaged changes
+1. branch vs base
+2. staged
+3. unstaged
 
 ---
 
 ## Steps
 
-### 1. Prepare repository
-
-Run:
+### 1. Fetch
 
 git fetch origin
 
 ---
 
-### 2. Detect base branch
+### 2. Base branch
 
-Try in order:
+Try:
 
-1. origin/main
-2. origin/master
-3. main
-4. master
+- origin/main
+- origin/master
 
 ---
 
-### 3. Get branch changes (unmerged)
-
-Use triple-dot diff:
+### 3. Branch diff
 
 git diff origin/main...HEAD
-
-List changed files:
-
 git diff --name-only origin/main...HEAD
 
 ---
 
-### 4. Get uncommitted changes
+### 4. Uncommitted
 
-#### Staged:
-
+Staged:
 git diff --staged
 
-#### Unstaged:
-
+Unstaged:
 git diff
 
 ---
 
-### 5. Merge review scope
+### 5. Merge scope
 
-You MUST review:
+Combine all changes.
 
-- branch changes
-- staged changes
-- unstaged changes
-
-Avoid duplicate analysis if the same file appears multiple times.
+Avoid duplicate file review.
 
 ---
 
-### 6. Filter out irrelevant files
+### 6. Filter
 
 Ignore:
 
-- lock files (pnpm-lock.yaml, package-lock.json, yarn.lock)
-- generated folders (dist/, build/, .next/, coverage/)
-- binary files
-- pure formatting changes
+- lock files
+- dist/build/.next
+- generated code
 
 ---
 
-### 7. Handle large diffs
+### 7. Large diff strategy
 
-If changes are too large:
-
-- Review per file instead of entire diff
+- Review per file
 - Prioritize:
   - new files
-  - core business logic
-  - API/interface changes
-  - error handling
+  - core logic
+  - API changes
 
 ---
 
 ### 8. Execute review
 
-Apply the `code-reviewer` agent rules.
+Use code-reviewer agent
 
 ---
 
-### 9. Risk evaluation
+### 9. Risk classification
 
-Classify overall change risk:
-
-- HIGH -> breaking / security / major logic
-- MEDIUM -> moderate impact
-- LOW -> minor or safe
+HIGH / MEDIUM / LOW
