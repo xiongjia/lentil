@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": ["@repo/eslint-config"]
+  "extends": ["@lentil/config/eslint-config/base"]
 }
