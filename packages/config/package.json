@@ -1,0 +1,19 @@
+{
+  "name": "@lentil/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./eslint-config/base": "./eslint-config-base.js",
+    "./eslint-config/react-internal": "./eslint-config-react-internal.js",
+    "./typescript-config/base": "./typescript-config-base.json",
+    "./typescript-config/nextjs": "./typescript-config-nextjs.json",
+    "./typescript-config/react-library": "./typescript-config-react-library.json"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "typescript": "5.9.2"
+  }
+}
