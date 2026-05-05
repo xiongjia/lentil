@@ -9,8 +9,7 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit",
-    "build:css": "tailwindcss -i ./src/globals.css -o ./src/output.css"
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@lentil/config": "workspace:*",
