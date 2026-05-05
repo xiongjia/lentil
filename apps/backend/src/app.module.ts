@@ -1,7 +1,7 @@
 import { Module, OnModuleInit, Inject } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { GeneralModule } from "@/modules/general/general.module";
-import { LoggerModule, APP_LOGGER } from "@/modules/logger/logger.module";
+import { GeneralModule } from "./modules/general/general.module";
+import { LoggerModule, APP_LOGGER } from "./modules/logger/logger.module";
 import pino from "pino";
 
 @Module({

@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from "@nestjs/common";
 import pino from "pino";
-import { APP_LOGGER } from "@/modules/logger/logger.module";
+import { APP_LOGGER } from "../logger/logger.module";
 
 @Controller()
 export class GeneralController {
