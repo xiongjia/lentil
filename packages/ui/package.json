@@ -4,7 +4,8 @@
   "private": true,
   "exports": {
     "./button": "./src/components/ui/button.tsx",
-    "./card": "./src/components/ui/card.tsx"
+    "./card": "./src/components/ui/card.tsx",
+    "./theme-toggle": "./src/components/ui/theme-toggle.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
