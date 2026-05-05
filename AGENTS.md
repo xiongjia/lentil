@@ -27,3 +27,8 @@ lentil/
 - Start the playground app to test UI components: `pnpm turbo run dev --filter=@lentil/playground`
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
+
+## Coding Principles
+
+1. **Code review required before push**: All changes must be reviewed and approved by a human before pushing to remote branches.
+2. **Avoid `any` in TypeScript**: Use proper typing instead of `any`. If an any is truly unavoidable, use a comment to explain why.
