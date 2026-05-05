@@ -3,6 +3,7 @@
 ```
 lentil/
 ├── apps/
+│   ├── backend/            # NestJS REST API server
 │   └── playground/          # Vite + React playground for testing UI components
 ├── packages/
 │   ├── config/              # Shared ESLint & TypeScript configs
@@ -16,15 +17,15 @@ lentil/
 
 - **Package Manager**: pnpm 9.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
-- **UI Library**: React 19.x
-- **UI Components**: shadcn/ui + Tailwind CSS v4
-- **Playground**: Vite 6.x + React
+- **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
+- **Backend**: NestJS 10.x with pino logger
 - **TypeScript**: 5.9.x
 
 ## DEV environment tips
 
 - Install deps: `pnpm install`
-- Start the playground app to test UI components: `pnpm turbo run dev --filter=@lentil/playground`
+- Start playground (frontend): `pnpm turbo run dev --filter=@lentil/playground`
+- Start backend: `pnpm turbo run dev --filter=@lentil/backend`
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
 
@@ -33,3 +34,4 @@ lentil/
 1. **Code review required before push**: All changes must be reviewed and approved by a human before pushing to remote branches.
 2. **Avoid `any` in TypeScript**: Use proper typing instead of `any`. If an any is truly unavoidable, use a comment to explain why.
 3. **File naming conventions**: Use kebab-case (`my-component.tsx`) or lowercase with dots (`my.component.tsx`). Special exceptions like `App.tsx`, `main.tsx` are allowed to use PascalCase.
+4. **Backend logging**: Use `APP_LOGGER` injection for runtime logging; use pino directly in bootstrap code. Log levels controlled by `LOG_LEVEL` env var.

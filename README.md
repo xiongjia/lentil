@@ -7,6 +7,7 @@ A monorepo for UI component development with shadcn/ui + Tailwind CSS.
 ```
 lentil/
 ├── apps/
+│   ├── backend/            # NestJS REST API server
 │   └── playground/          # Vite + React playground for testing UI components
 ├── packages/
 │   ├── config/              # Shared ESLint & TypeScript configs
@@ -20,9 +21,8 @@ lentil/
 
 - **Package Manager**: pnpm 9.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
-- **UI Library**: React 19.x
-- **UI Components**: shadcn/ui + Tailwind CSS v4
-- **Playground**: Vite 6.x + React
+- **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
+- **Backend**: NestJS 10.x with pino logger
 - **TypeScript**: 5.9.x
 
 ## Getting Started
@@ -42,6 +42,14 @@ Start the playground app to test UI components:
 ```sh
 pnpm turbo run dev --filter=@lentil/playground
 ```
+
+Start the backend API server:
+
+```sh
+pnpm turbo run dev --filter=@lentil/backend
+```
+
+Backend runs on `http://localhost:3850` with Swagger docs at `http://localhost:3850/api`.
 
 ### Build
 
@@ -78,6 +86,15 @@ pnpm turbo run check-types
 ```
 
 ## Packages
+
+### @lentil/backend
+
+NestJS REST API server with pino logger, Swagger UI, and environment-based configuration.
+
+- Port: `3850` (configurable via `.env.dev`)
+- Swagger docs: `http://localhost:3850/api`
+- Log level controlled by `LOG_LEVEL` env var (trace, debug, info, warn, error)
+- Environment files: `.env.dev`, `.env.test`, `.env.prod`
 
 ### @lentil/playground
 

@@ -11,6 +11,9 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
+apps/backend/.env.dev
+apps/backend/.env.prod
+apps/backend/.env.test
 
 # Testing
 coverage
