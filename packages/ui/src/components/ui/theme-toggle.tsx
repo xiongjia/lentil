@@ -1,57 +1,55 @@
-import * as React from "react"
+import * as React from "react";
 
 function useTheme() {
   const [isDark, setIsDark] = React.useState(() => {
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem('theme') === 'dark'
-  })
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("theme") === "dark";
+  });
 
   React.useEffect(() => {
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark') {
-      document.documentElement.classList.add('dark')
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove("dark");
     }
-  }, [])
+  }, []);
 
   const toggleTheme = React.useCallback(() => {
-    const newIsDark = !isDark
-    setIsDark(newIsDark)
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
     if (newIsDark) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, [isDark])
+  }, [isDark]);
 
-  return { isDark, toggleTheme }
+  return { isDark, toggleTheme };
 }
 
 const ThemeToggle = React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<"button">
->(
-  ({ className, ...props }, ref) => {
-    const { isDark, toggleTheme } = useTheme()
+>(({ className, ...props }, ref) => {
+  const { isDark, toggleTheme } = useTheme();
 
-    return (
-      <button
-        ref={ref}
-        className={className}
-        onClick={toggleTheme}
-        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-        aria-pressed={isDark}
-        {...props}
-      >
-        {isDark ? <SunIcon /> : <MoonIcon />}
-      </button>
-    )
-  }
-)
-ThemeToggle.displayName = "ThemeToggle"
+  return (
+    <button
+      ref={ref}
+      className={className}
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      aria-pressed={isDark}
+      {...props}
+    >
+      {isDark ? <SunIcon /> : <MoonIcon />}
+    </button>
+  );
+});
+ThemeToggle.displayName = "ThemeToggle";
 
 function SunIcon() {
   return (
@@ -76,7 +74,7 @@ function SunIcon() {
       <path d="m6.34 17.66-1.41 1.41" />
       <path d="m19.07 4.93-1.41 1.41" />
     </svg>
-  )
+  );
 }
 
 function MoonIcon() {
@@ -94,7 +92,7 @@ function MoonIcon() {
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
-  )
+  );
 }
 
-export { ThemeToggle, useTheme }
+export { ThemeToggle, useTheme };
