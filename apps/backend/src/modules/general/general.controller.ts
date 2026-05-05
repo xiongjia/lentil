@@ -1,14 +1,14 @@
-import { Controller, Get, Inject } from '@nestjs/common'
-import pino from 'pino'
-import { APP_LOGGER } from '@/modules/logger/logger.module'
+import { Controller, Get, Inject } from "@nestjs/common";
+import pino from "pino";
+import { APP_LOGGER } from "@/modules/logger/logger.module";
 
 @Controller()
 export class GeneralController {
   constructor(@Inject(APP_LOGGER) private readonly logger: pino.Logger) {}
 
-  @Get('health')
+  @Get("health")
   health() {
-    this.logger.debug('Health check called')
-    return { status: 'ok' }
+    this.logger.debug("Health check called");
+    return { status: "ok" };
   }
 }

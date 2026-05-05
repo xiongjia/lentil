@@ -108,6 +108,34 @@ Shared UI component library using shadcn/ui + Tailwind CSS v4.
 
 Shared ESLint and TypeScript configurations.
 
+## VSCode Setup
+
+### Auto Format on Save
+
+1. Install **Prettier - Code formatter** extension (`esbenp.prettier-vscode`)
+2. Copy `.vscode/settings.json` from below or create it manually:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+```
+
+Note: `.vscode/` directory is gitignored - settings are local only.
+
 ## ESLint Configuration
 
 The `@lentil/config` package provides two ESLint configurations:
