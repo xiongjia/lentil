@@ -32,3 +32,4 @@ lentil/
 
 1. **Code review required before push**: All changes must be reviewed and approved by a human before pushing to remote branches.
 2. **Avoid `any` in TypeScript**: Use proper typing instead of `any`. If an any is truly unavoidable, use a comment to explain why.
+3. **File naming conventions**: Use kebab-case (`my-component.tsx`) or lowercase with dots (`my.component.tsx`). Special exceptions like `App.tsx`, `main.tsx` are allowed to use PascalCase.
