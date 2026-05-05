@@ -37,5 +37,5 @@ import { ThemeToggle } from '@lentil/ui/theme-toggle'
 
 ## Notes
 
-- PostCSS config (`postcss.config.js`) is gitignored - local dev only
 - Tailwind CSS v4 with `@tailwindcss/postcss` plugin
+- PostCSS config (`postcss.config.js`) is versioned and shared across team
