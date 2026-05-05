@@ -1,5 +1,6 @@
 import { Button } from '@lentil/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@lentil/ui/card'
+import { MapView } from '@lentil/ui/map'
 import { ThemeToggle, useTheme } from '@lentil/ui/theme-toggle'
 
 function App() {
@@ -63,6 +64,19 @@ function App() {
           </CardHeader>
           <CardContent>
             <p>Card content paragraph.</p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem' }}>Map</h2>
+        <Card className="w-96">
+          <CardHeader>
+            <CardTitle>MapLibre GL</CardTitle>
+            <CardDescription>Basic map with OpenStreetMap tiles</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <MapView className="rounded-md" />
           </CardContent>
         </Card>
       </section>
