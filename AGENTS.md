@@ -28,6 +28,7 @@ lentil/
 - Start backend: `pnpm turbo run dev --filter=@lentil/backend`
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
+- Run unit tests: `pnpm turbo run test`
 
 ## Coding Principles
 

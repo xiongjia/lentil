@@ -85,6 +85,13 @@ pnpm turbo run lint --filter=@lentil/ui
 pnpm turbo run check-types
 ```
 
+### Unit Tests
+
+```sh
+pnpm turbo run test              # Run all tests
+pnpm turbo run test --filter=@lentil/backend  # Run backend tests only
+```
+
 ## Packages
 
 ### @lentil/backend
