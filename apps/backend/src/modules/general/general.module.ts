@@ -5,6 +5,6 @@ import { GeneralService } from "./general.service";
 @Module({
   controllers: [GeneralController],
   providers: [GeneralService],
-  exports: [],
+  exports: [GeneralService],
 })
 export class GeneralModule {}

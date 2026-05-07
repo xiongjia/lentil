@@ -18,7 +18,7 @@ lentil/
 - **Package Manager**: pnpm 9.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
 - **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
-- **Backend**: NestJS 10.x with pino logger
+- **Backend**: NestJS 11.x with pino logger
 - **TypeScript**: 5.9.x
 
 ## DEV environment tips
@@ -29,6 +29,7 @@ lentil/
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
 - Run unit tests: `pnpm turbo run test`
+- Run backend CLI: `pnpm turbo run cli --filter=@lentil/backend -- health`
 
 ## Coding Principles
 

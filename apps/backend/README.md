@@ -4,10 +4,11 @@ NestJS REST API server with pino logger and Swagger UI.
 
 ## Tech Stack
 
-- **Framework**: NestJS 10.x
+- **Framework**: NestJS 11.x
 - **Logger**: pino with nestjs-pino
 - **API Documentation**: Swagger UI
 - **Validation**: class-validator + class-transformer
+- **CLI**: nest-commander 3
 
 ## Environment Variables
 
@@ -35,7 +36,28 @@ pnpm start     # Start production server
 pnpm lint      # Lint code
 pnpm check-types  # TypeScript type check
 pnpm test      # Run unit tests
+pnpm cli       # Run CLI commands
 ```
+
+## CLI
+
+CLI commands are located in `src/cli/` and use nest-commander (built on Commander) for argument parsing.
+
+```sh
+pnpm cli health  # Check health status via GeneralService
+```
+
+### CLI Environment
+
+CLI uses `.env.cli` (not committed) for configuration. Copy `.env.example.cli` to create your local config:
+
+```sh
+cp .env.example.cli .env.cli
+```
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LOG_LEVEL` | `debug` | Log level (trace, debug, info, warn, error) |
 
 ## Testing
 

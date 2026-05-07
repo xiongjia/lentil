@@ -22,7 +22,7 @@ lentil/
 - **Package Manager**: pnpm 9.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
 - **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
-- **Backend**: NestJS 10.x with pino logger
+- **Backend**: NestJS 11.x with pino logger
 - **TypeScript**: 5.9.x
 
 ## Getting Started
@@ -92,16 +92,23 @@ pnpm turbo run test              # Run all tests
 pnpm turbo run test --filter=@lentil/backend  # Run backend tests only
 ```
 
+### CLI
+
+```sh
+pnpm turbo run cli --filter=@lentil/backend -- health  # Run backend CLI health check
+```
+
 ## Packages
 
 ### @lentil/backend
 
-NestJS REST API server with pino logger, Swagger UI, and environment-based configuration.
+NestJS 11 REST API server with pino logger, Swagger UI, and nest-commander CLI.
 
 - Port: `3850` (configurable via `.env.dev`)
 - Swagger docs: `http://localhost:3850/api`
 - Log level controlled by `LOG_LEVEL` env var (trace, debug, info, warn, error)
 - Environment files: `.env.dev`, `.env.test`, `.env.prod`
+- CLI: `pnpm turbo run cli --filter=@lentil/backend -- <command>` (uses nest-commander 3)
 
 ### @lentil/playground
 
