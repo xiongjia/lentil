@@ -62,6 +62,7 @@ export const appLoggerProvider = {
           file: resolvedLogFile,
           size: maxSize,
           limit: { count: maxFiles },
+          mkdir: true,
         },
       });
       streams.unshift({ stream: fsTransport, level: logLevel });
