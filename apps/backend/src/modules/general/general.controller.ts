@@ -3,7 +3,9 @@ import { GeneralService } from "./general.service";
 
 @Controller()
 export class GeneralController {
-  constructor(@Inject(GeneralService) private readonly generalService: GeneralService) {}
+  constructor(
+    @Inject(GeneralService) private readonly generalService: GeneralService,
+  ) {}
 
   @Get("health")
   health() {

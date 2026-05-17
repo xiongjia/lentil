@@ -4,7 +4,10 @@ import { GeneralService } from "../../modules/general/general.service";
 import { APP_LOGGER } from "../../modules/providers";
 import pino from "pino";
 
-@Command({ name: "health", description: "Check health status via GeneralService" })
+@Command({
+  name: "health",
+  description: "Check health status via GeneralService",
+})
 export class HealthCommand extends CommandRunner {
   constructor(
     private generalService: GeneralService,

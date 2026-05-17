@@ -4,6 +4,6 @@ import { appLoggerProvider } from "./app-logger.provider";
 @Global()
 @Module({
   providers: [appLoggerProvider],
-  exports: [appLoggerProvider.provide],
+  exports: [appLoggerProvider],
 })
 export class ProvidersModule {}
