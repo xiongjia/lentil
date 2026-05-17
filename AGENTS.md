@@ -29,6 +29,7 @@ lentil/
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
 - Run unit tests: `pnpm turbo run test`
+- Run UI tests: `cd packages/ui && npx vitest --run`
 - Run backend CLI: `pnpm turbo run cli --filter=@lentil/backend -- health`
 
 ## Coding Principles

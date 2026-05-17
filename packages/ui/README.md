@@ -49,6 +49,8 @@ Components use CSS custom properties for theming. Light/dark mode is controlled 
 
 ```sh
 pnpm lint         # Lint code
+pnpm test         # Run unit tests with Vitest
+pnpm test:ui      # Run unit tests with UI update (watch mode)
 pnpm check-types  # TypeScript type check
 pnpm generate:component  # Generate new component (shadcn/ui style)
 ```
