@@ -1,4 +1,3 @@
-import { Module, Global } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import pino from "pino";
 
@@ -13,10 +12,3 @@ export const appLoggerProvider = {
     });
   },
 };
-
-@Global()
-@Module({
-  providers: [appLoggerProvider],
-  exports: [APP_LOGGER],
-})
-export class LoggerModule {}

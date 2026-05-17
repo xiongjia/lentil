@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import pino from "pino";
-import { APP_LOGGER } from "../logger/logger.module";
+import { APP_LOGGER } from "../providers";
 
 @Injectable()
 export class GeneralService {

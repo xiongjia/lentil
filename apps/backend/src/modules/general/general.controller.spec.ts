@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { ConfigModule } from "@nestjs/config";
 import { GeneralModule } from "./general.module";
 import { GeneralController } from "./general.controller";
-import { LoggerModule } from "../logger/logger.module";
+import { ProvidersModule } from "../providers";
 import { describe, beforeEach, it, expect } from "@jest/globals";
 
 describe("GeneralController", () => {
@@ -12,7 +12,7 @@ describe("GeneralController", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({ isGlobal: true, envFilePath: [".env.test"] }),
-        LoggerModule,
+        ProvidersModule,
         GeneralModule,
       ],
     }).compile();

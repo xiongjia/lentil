@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from "nest-commander";
 import { Inject } from "@nestjs/common";
 import { GeneralService } from "../../modules/general/general.service";
-import { APP_LOGGER } from "../../modules/logger/logger.module";
+import { APP_LOGGER } from "../../modules/providers";
 import pino from "pino";
 
 @Command({ name: "health", description: "Check health status via GeneralService" })

@@ -1,7 +1,7 @@
 import { Module, OnModuleInit, Inject } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GeneralModule } from "./modules/general/general.module";
-import { LoggerModule, APP_LOGGER } from "./modules/logger/logger.module";
+import { ProvidersModule, APP_LOGGER } from "./modules/providers";
 import pino from "pino";
 
 @Module({
@@ -10,7 +10,7 @@ import pino from "pino";
       isGlobal: true,
       envFilePath: [".env.dev", ".env.test", ".env.prod"],
     }),
-    LoggerModule,
+    ProvidersModule,
     GeneralModule,
   ],
   controllers: [],
