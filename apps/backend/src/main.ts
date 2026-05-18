@@ -14,15 +14,18 @@ async function bootstrap() {
     }),
   );
 
-  const config = new DocumentBuilder()
-    .setTitle("Lentil API")
-    .setDescription("Lentil backend API")
-    .setVersion("1.0")
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
-
   const configService = app.get(ConfigService);
+  const apiDocsEnabled = configService.get<boolean>("API_DOCS_ENABLED", true);
+  if (apiDocsEnabled) {
+    const config = new DocumentBuilder()
+      .setTitle("Lentil API")
+      .setDescription("Lentil backend API")
+      .setVersion("1.0")
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup("api/docs", app, document);
+  }
+
   const port = configService.get<number>("PORT", 3850);
 
   await app.listen(port);

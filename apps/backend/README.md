@@ -16,6 +16,7 @@ NestJS REST API server with pino logger and Swagger UI.
 |----------|--------|-------------|
 | `PORT` | `3850` | Server port |
 | `LOG_LEVEL` | `info` | Log level (trace, debug, info, warn, error) |
+| `API_DOCS_ENABLED` | `true` | Enable Swagger API docs at `/api/docs` |
 
 ### Environment Files
 
@@ -104,7 +105,7 @@ describe("GeneralService", () => {
 ## API
 
 - Server: `http://localhost:3850`
-- Swagger docs: `http://localhost:3850/api`
+- Swagger docs: `http://localhost:3850/api/docs`
 
 ## Modules
 
