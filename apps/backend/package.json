@@ -9,7 +9,8 @@
     "cli": "node -r ts-node/register src/cli/main.ts",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "docker:build": "cd ../.. && docker build -t lentil-backend:latest -f apps/backend/Dockerfile ."
   },
   "dependencies": {
     "@nestjs/common": "^11",
