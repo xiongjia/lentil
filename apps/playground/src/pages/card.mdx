@@ -1,0 +1,110 @@
+---
+title: Card
+description: Card layout and sub-components
+---
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@lentil/ui/card";
+import { Button } from "@lentil/ui/button";
+import { ComponentPreview } from "@lentil/ui/component-preview";
+
+# Card
+
+Displays a card with header, content, and footer sections.
+
+## Basic Card
+
+<ComponentPreview
+  code={`<Card className="w-96">
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card description goes here</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Card content paragraph.</p>
+  </CardContent>
+</Card>`}
+>
+  <Card className="w-96">
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+      <CardDescription>Card description goes here</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Card content paragraph.</p>
+    </CardContent>
+  </Card>
+</ComponentPreview>
+
+## Card with Footer
+
+<ComponentPreview
+  code={`<Card className="w-96">
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>With footer actions</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Card content here.</p>
+  </CardContent>
+  <CardFooter className="gap-2">
+    <Button variant="outline" size="sm">Cancel</Button>
+    <Button size="sm">Save</Button>
+  </CardFooter>
+</Card>`}
+>
+  <Card className="w-96">
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+      <CardDescription>With footer actions</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Card content here.</p>
+    </CardContent>
+    <CardFooter className="gap-2">
+      <Button variant="outline" size="sm">
+        Cancel
+      </Button>
+      <Button size="sm">Save</Button>
+    </CardFooter>
+  </Card>
+</ComponentPreview>
+
+## Full Layout
+
+<ComponentPreview
+  code={`<Card className="w-96">
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>Content</CardContent>
+  <CardFooter>Footer</CardFooter>
+</Card>`}
+>
+  <Card className="w-96">
+    <CardHeader>
+      <CardTitle>Title</CardTitle>
+      <CardDescription>Description</CardDescription>
+    </CardHeader>
+    <CardContent>Content</CardContent>
+    <CardFooter>Footer</CardFooter>
+  </Card>
+</ComponentPreview>
+
+## API
+
+| Component         | Props       |
+| ----------------- | ----------- |
+| `Card`            | `className` |
+| `CardHeader`      | `className` |
+| `CardTitle`       | `className` |
+| `CardDescription` | `className` |
+| `CardContent`     | `className` |
+| `CardFooter`      | `className` |

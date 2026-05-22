@@ -1,13 +1,30 @@
 # @lentil/playground
 
-Vite + React playground for testing UI components.
+Vite + React playground for testing and documenting UI components with MDX.
 
 ## Tech Stack
 
 - **Framework**: React 19.x
 - **Build Tool**: Vite 6.x
-- **Styling**: Tailwind CSS v4
+- **Styling**: Tailwind CSS v4 + @tailwindcss/typography
+- **Documentation**: MDX (@mdx-js/mdx + remark plugins)
+- **Syntax Highlighting**: Shiki
 - **UI Components**: @lentil/ui
+
+## Structure
+
+```
+src/
+  App.tsx            # Shell: header + sidebar + content
+  lib/
+    router.ts        # Hash-based routing hook
+    registry.ts      # Page registry (MDX imports + metadata)
+  pages/
+    overview.mdx     # Welcome + component index
+    button.mdx       # Button docs with API table
+    card.mdx         # Card docs
+    map.mdx          # MapView docs
+```
 
 ## Commands
 
@@ -18,24 +35,15 @@ pnpm preview   # Preview production build
 pnpm lint      # Lint code
 ```
 
-## Usage
+## Adding a New Component Page
 
-Import components from `@lentil/ui`:
+1. Create `src/pages/<name>.mdx` with frontmatter and docs
+2. Add to `src/lib/registry.ts` with slug, icon, and import
+3. Run `pnpm dev` to verify
 
-```tsx
-import { Button } from '@lentil/ui/button'
-import { Card } from '@lentil/ui/card'
-import { MapView } from '@lentil/ui/map'
-import { ThemeToggle } from '@lentil/ui/theme-toggle'
-```
+## MDX Features
 
-## Adding New Components
-
-1. Create component in `packages/ui/src/components/ui/`
-2. Export from `packages/ui/package.json`
-3. Test in playground
-
-## Notes
-
-- Tailwind CSS v4 with `@tailwindcss/postcss` plugin
-- PostCSS config (`postcss.config.js`) is versioned and shared across team
+- **Frontmatter**: `title` and `description` auto-extracted for sidebar
+- **Markdown**: headings, paragraphs, inline code, tables (via remark-gfm)
+- **Components**: import and render live `@lentil/ui` components
+- **Code blocks**: auto-highlighted via Shiki

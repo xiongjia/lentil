@@ -1,0 +1,91 @@
+---
+title: Button
+description: Button variants, sizes, and usage
+---
+
+import { Button } from "@lentil/ui/button";
+import { ComponentPreview } from "@lentil/ui/component-preview";
+
+# Button
+
+Displays a button or a component that looks like a button.
+
+## Variants
+
+<ComponentPreview
+  code={`<Button>Default</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>`}
+>
+  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+    <Button>Default</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="link">Link</Button>
+  </div>
+</ComponentPreview>
+
+## Sizes
+
+<ComponentPreview
+  code={`<Button size="sm">Small</Button>
+<Button size="default">Default</Button>
+<Button size="lg">Large</Button>
+<Button size="icon">+</Button>`}
+>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      gap: "0.5rem",
+    }}
+  >
+    <Button size="sm">Small</Button>
+    <Button>Default</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon">+</Button>
+  </div>
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview
+  code={`<Button disabled>Disabled</Button>
+<Button variant="destructive" disabled>Disabled Destructive</Button>`}
+>
+  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+    <Button disabled>Disabled</Button>
+    <Button variant="destructive" disabled>
+      Disabled Destructive
+    </Button>
+  </div>
+</ComponentPreview>
+
+## asChild
+
+Render as a link while keeping the button styles.
+
+<ComponentPreview
+  code={`<Button asChild>
+  <a href="#/overview">Link styled as button</a>
+</Button>`}
+>
+  <Button asChild>
+    <a href="#/overview">Link styled as button</a>
+  </Button>
+</ComponentPreview>
+
+## API
+
+| Prop       | Type                                                                     | Default     |
+| ---------- | ------------------------------------------------------------------------ | ----------- |
+| `variant`  | `"default"` `"destructive"` `"outline"` `"secondary"` `"ghost"` `"link"` | `"default"` |
+| `size`     | `"default"` `"sm"` `"lg"` `"icon"`                                       | `"default"` |
+| `asChild`  | `boolean`                                                                | `false`     |
+| `disabled` | `boolean`                                                                | `false`     |

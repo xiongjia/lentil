@@ -31,13 +31,14 @@ Environment files are loaded in priority order: `.env.dev`, `.env.test`, `.env.p
 ## Commands
 
 ```sh
-pnpm dev       # Start with watch mode
-pnpm build     # Build for production
-pnpm start     # Start production server
-pnpm lint      # Lint code
+pnpm dev          # Start with watch mode
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Lint code
 pnpm check-types  # TypeScript type check
-pnpm test      # Run unit tests
-pnpm cli       # Run CLI commands
+pnpm test         # Run unit tests
+pnpm cli          # Run CLI commands
+pnpm docker:build # Build Docker image
 ```
 
 ## CLI
@@ -125,3 +126,23 @@ constructor(@Inject(APP_LOGGER) private readonly logger: pino.Logger) {}
 ## Path Aliases
 
 - `@/*` maps to `src/*`
+
+## Docker
+
+Multi-stage Docker build with pnpm deploy for minimal production image.
+
+```sh
+# Build image
+pnpm docker:build
+
+# Run container
+docker run --rm -p 3850:3850 lentil-backend:latest
+
+# With file logging
+docker run --rm -p 3850:3850 \
+  -e LOG_ENABLE_FS_LOG=true \
+  -v $(pwd)/logs:/app/logs \
+  lentil-backend:latest
+```
+
+Image pushed to `ghcr.io/<repo>/backend` on tag push via CI.
