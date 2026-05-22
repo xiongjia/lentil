@@ -1,0 +1,68 @@
+---
+title: Map
+description: MapView with MapLibre GL
+---
+
+import { MapView } from "@lentil/ui/map";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@lentil/ui/card";
+import { ComponentPreview } from "@lentil/ui/component-preview";
+
+# Map
+
+Interactive map powered by MapLibre GL with OpenStreetMap tiles.
+
+## Default
+
+Centered on Tokyo with default zoom and height.
+
+<ComponentPreview code={`<MapView />`}>
+  <MapView className="rounded-md" />
+</ComponentPreview>
+
+## Custom Center
+
+New York City with custom zoom level.
+
+<ComponentPreview code={`<MapView center={[-74.006, 40.7128]} zoom={12} />`}>
+  <MapView className="rounded-md" center={[-74.006, 40.7128]} zoom={12} />
+</ComponentPreview>
+
+## Inside a Card
+
+<ComponentPreview
+  code={`<Card className="w-96">
+  <CardHeader>
+    <CardTitle>MapLibre GL</CardTitle>
+    <CardDescription>With OpenStreetMap tiles</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <MapView className="rounded-md" />
+  </CardContent>
+</Card>`}
+>
+  <Card className="w-96">
+    <CardHeader>
+      <CardTitle>MapLibre GL</CardTitle>
+      <CardDescription>With OpenStreetMap tiles</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <MapView className="rounded-md" />
+    </CardContent>
+  </Card>
+</ComponentPreview>
+
+## API
+
+| Prop        | Type               | Default               | Description        |
+| ----------- | ------------------ | --------------------- | ------------------ |
+| `center`    | `[number, number]` | `[139.6917, 35.6895]` | Map center (Tokyo) |
+| `zoom`      | `number`           | `10`                  | Zoom level         |
+| `height`    | `string`           | `"300px"`             | Map height         |
+| `className` | `string`           | —                     | CSS class          |
+| `style`     | `CSSProperties`    | —                     | Inline styles      |

@@ -5,8 +5,18 @@
   "exports": {
     "./button": "./src/components/ui/button.tsx",
     "./card": "./src/components/ui/card.tsx",
+    "./code-block": "./src/components/ui/code-block.tsx",
+    "./component-preview": "./src/components/ui/component-preview.tsx",
+    "./content": "./src/components/ui/content.tsx",
+    "./header": "./src/components/ui/header.tsx",
     "./map": "./src/components/ui/map.tsx",
-    "./theme-toggle": "./src/components/ui/theme-toggle.tsx"
+    "./separator": "./src/components/ui/separator.tsx",
+    "./sheet": "./src/components/ui/sheet.tsx",
+    "./sidebar": "./src/components/ui/sidebar.tsx",
+    "./theme-toggle": "./src/components/ui/theme-toggle.tsx",
+    "./tooltip": "./src/components/ui/tooltip.tsx",
+    "./use-mobile": "./src/hooks/use-mobile.tsx",
+    "./utils": "./src/lib/utils.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -30,12 +40,17 @@
     "vitest": "^3.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
     "maplibre-gl": "^5.5.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "shiki": "^4.1.0",
     "tailwind-merge": "^3.2.0"
   }
 }
