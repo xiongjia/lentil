@@ -19,7 +19,7 @@ lentil/
 
 ## Tech Stack
 
-- **Package Manager**: pnpm 9.x (monorepo workspace)
+- **Package Manager**: pnpm 11.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
 - **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
 - **Backend**: NestJS 11.x with pino logger
