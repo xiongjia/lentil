@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 export function useHashRoute(
-  defaultSlug = "overview"
+  defaultSlug = "overview",
 ): [string, (slug: string) => void] {
   const [slug, setSlug] = useState(() => {
     const hash = window.location.hash.replace("#/", "");
@@ -17,12 +17,9 @@ export function useHashRoute(
     return () => window.removeEventListener("hashchange", onHashChange);
   }, [defaultSlug]);
 
-  const navigate = useCallback(
-    (slug: string) => {
-      window.location.hash = `#/${slug}`;
-    },
-    []
-  );
+  const navigate = useCallback((slug: string) => {
+    window.location.hash = `#/${slug}`;
+  }, []);
 
   return [slug, navigate];
 }

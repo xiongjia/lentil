@@ -25,7 +25,7 @@ function SidebarNavItems({ slug }: { slug: string }) {
           className={cn(
             "flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
             slug === item.slug &&
-              "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+              "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
           )}
         >
           <item.icon className="h-4 w-4 shrink-0" />
@@ -72,7 +72,7 @@ function App() {
         <aside
           className={cn(
             "hidden md:flex flex-col border-r bg-sidebar text-sidebar-foreground shrink-0 transition-all duration-200",
-            sidebarOpen ? "w-56" : "w-0 overflow-hidden"
+            sidebarOpen ? "w-56" : "w-0 overflow-hidden",
           )}
         >
           {sidebarOpen && (
@@ -91,9 +91,7 @@ function App() {
         <div className="flex flex-1 flex-col">
           <Content>
             <Suspense
-              fallback={
-                <div className="text-muted-foreground">Loading...</div>
-              }
+              fallback={<div className="text-muted-foreground">Loading...</div>}
             >
               {PageComponent ? (
                 <PageComponent />

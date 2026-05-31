@@ -16,7 +16,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentProps>(
         {children}
       </div>
     </div>
-  )
+  ),
 );
 Content.displayName = "Content";
 

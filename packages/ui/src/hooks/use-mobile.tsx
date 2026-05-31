@@ -21,7 +21,7 @@ export function MobileOverrideProvider({
 export function useIsMobile() {
   const override = React.useContext(MobileOverrideContext);
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
-    () => override ?? undefined
+    () => override ?? undefined,
   );
 
   React.useEffect(() => {

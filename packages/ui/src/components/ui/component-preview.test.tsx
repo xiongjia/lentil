@@ -1,14 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ComponentPreview } from "./component-preview";
-import React from "react";
-
 describe("ComponentPreview", () => {
   it("should render children in preview area", () => {
     render(
       <ComponentPreview>
         <button>Test Button</button>
-      </ComponentPreview>
+      </ComponentPreview>,
     );
     expect(screen.getByText("Test Button")).toBeDefined();
   });
@@ -17,7 +15,7 @@ describe("ComponentPreview", () => {
     render(
       <ComponentPreview code="<Button>Hello</Button>">
         <button>Hello</button>
-      </ComponentPreview>
+      </ComponentPreview>,
     );
     expect(screen.getByText("<Button>Hello</Button>")).toBeDefined();
   });
@@ -26,7 +24,7 @@ describe("ComponentPreview", () => {
     const { container } = render(
       <ComponentPreview className="custom-class">
         <button>Hello</button>
-      </ComponentPreview>
+      </ComponentPreview>,
     );
     expect(container.firstChild).toHaveClass("custom-class");
   });

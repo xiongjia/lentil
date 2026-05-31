@@ -14,48 +14,48 @@ Shared UI component library using shadcn/ui + Tailwind CSS v4.
 
 ### UI Components
 
-| Export | Description |
-|--------|-------------|
-| `./button` | Button with variants (default, destructive, outline, secondary, ghost, link) |
-| `./card` | Card components (Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter) |
-| `./map` | MapLibre GL map component (MapView) |
-| `./theme-toggle` | Light/dark theme toggle (ThemeToggle, useTheme) |
+| Export           | Description                                                                             |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| `./button`       | Button with variants (default, destructive, outline, secondary, ghost, link)            |
+| `./card`         | Card components (Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter) |
+| `./map`          | MapLibre GL map component (MapView)                                                     |
+| `./theme-toggle` | Light/dark theme toggle (ThemeToggle, useTheme)                                         |
 
 ### Shadcn Components
 
-| Export | Description |
-|--------|-------------|
-| `./separator` | Visual separator (Radix) |
-| `./sheet` | Slide-over panel for mobile/dialogs (Radix Dialog) |
-| `./sidebar` | Full sidebar with collapsible, mobile, keyboard shortcuts |
-| `./tooltip` | Hover tooltip (Radix Tooltip) |
+| Export        | Description                                               |
+| ------------- | --------------------------------------------------------- |
+| `./separator` | Visual separator (Radix)                                  |
+| `./sheet`     | Slide-over panel for mobile/dialogs (Radix Dialog)        |
+| `./sidebar`   | Full sidebar with collapsible, mobile, keyboard shortcuts |
+| `./tooltip`   | Hover tooltip (Radix Tooltip)                             |
 
 ### Documentation Components
 
-| Export | Description |
-|--------|-------------|
-| `./header` | Page header with title + actions slot |
-| `./content` | Scrollable content area with prose typography |
-| `./code-block` | Syntax-highlighted code block (Shiki) |
+| Export                | Description                                          |
+| --------------------- | ---------------------------------------------------- |
+| `./header`            | Page header with title + actions slot                |
+| `./content`           | Scrollable content area with prose typography        |
+| `./code-block`        | Syntax-highlighted code block (Shiki)                |
 | `./component-preview` | Live component demo with preview + code side-by-side |
 
 ### Utilities
 
-| Export | Description |
-|--------|-------------|
-| `./utils` | `cn()` class merge helper |
+| Export         | Description                                     |
+| -------------- | ----------------------------------------------- |
+| `./utils`      | `cn()` class merge helper                       |
 | `./use-mobile` | `useIsMobile()` hook + `MobileOverrideProvider` |
 
 ## Usage
 
 ```tsx
-import { Button } from '@lentil/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@lentil/ui/card'
-import { Header } from '@lentil/ui/header'
-import { Content } from '@lentil/ui/content'
-import { CodeBlock } from '@lentil/ui/code-block'
-import { ComponentPreview } from '@lentil/ui/component-preview'
-import { cn } from '@lentil/ui/utils'
+import { Button } from "@lentil/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@lentil/ui/card";
+import { Header } from "@lentil/ui/header";
+import { Content } from "@lentil/ui/content";
+import { CodeBlock } from "@lentil/ui/code-block";
+import { ComponentPreview } from "@lentil/ui/component-preview";
+import { cn } from "@lentil/ui/utils";
 ```
 
 ## Theming

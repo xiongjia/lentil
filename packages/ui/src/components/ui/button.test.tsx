@@ -28,7 +28,9 @@ describe("Button", () => {
   });
 
   it("should apply secondary variant", () => {
-    const { container } = render(<Button variant="secondary">Secondary</Button>);
+    const { container } = render(
+      <Button variant="secondary">Secondary</Button>,
+    );
     expect(container.firstChild).toHaveClass("bg-secondary");
   });
 
@@ -74,7 +76,9 @@ describe("Button", () => {
   });
 
   it("should apply custom className", () => {
-    const { container } = render(<Button className="custom-class">Custom</Button>);
+    const { container } = render(
+      <Button className="custom-class">Custom</Button>,
+    );
     expect(container.firstChild).toHaveClass("custom-class");
   });
 
@@ -82,7 +86,7 @@ describe("Button", () => {
     render(
       <Button asChild>
         <span>Child</span>
-      </Button>
+      </Button>,
     );
     expect(screen.getByText("Child")).toBeDefined();
   });

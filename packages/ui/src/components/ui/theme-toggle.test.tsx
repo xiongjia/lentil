@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import { ThemeToggle, useTheme } from "./theme-toggle";
-import React from "react";
-
 describe("ThemeToggle", () => {
   let localStorageMock: Record<string, string>;
 

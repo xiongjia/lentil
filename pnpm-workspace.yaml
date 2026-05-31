@@ -1,8 +1,10 @@
 packages:
   - "apps/*"
   - "packages/*"
-onlyBuiltDependencies:
-  - '@nestjs/core'
-  - '@parcel/watcher'
-  - esbuild
-  - unrs-resolver
+allowBuilds:
+  "@nestjs/core": true
+  "@parcel/watcher": true
+  "@scarf/scarf": true
+  esbuild: true
+  unrs-resolver: true
+

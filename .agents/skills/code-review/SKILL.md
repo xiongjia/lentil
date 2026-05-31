@@ -28,17 +28,21 @@ You are a senior staff engineer doing code review.
 ## Output format
 
 ### ❌ Issues
+
 - [severity] description
 - suggestion
 
 ### ⚠️ Improvements
+
 - optional improvements
 
 ### 🔤 Naming Issues
+
 - [severity] file:line
 - current name -> suggested name
 - reason
 
 ### ✅ Summary
+
 - overall quality
 - approve / request changes

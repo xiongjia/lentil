@@ -1,12 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { CodeBlock } from "./code-block";
-import React from "react";
-
 vi.mock("./highlight-code", () => ({
-  highlightCode: vi.fn().mockResolvedValue(
-    '<pre class="shiki"><code><span>const x = 1;</span></code></pre>'
-  ),
+  highlightCode: vi.fn().mockReturnValue(new Promise(() => {})),
 }));
 
 describe("CodeBlock", () => {
