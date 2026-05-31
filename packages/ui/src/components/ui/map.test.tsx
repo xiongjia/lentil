@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MapView } from "./map";
-import React from "react";
-
 vi.mock("maplibre-gl", () => ({
   default: {
     Map: vi.fn().mockImplementation(() => ({

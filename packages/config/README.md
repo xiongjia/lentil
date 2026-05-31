@@ -6,16 +6,16 @@ Shared ESLint and TypeScript configurations for the Lentil monorepo.
 
 ### ESLint
 
-| Export | Description |
-|--------|-------------|
-| `./eslint-config/base` | Base ESLint config for general projects |
+| Export                           | Description                                 |
+| -------------------------------- | ------------------------------------------- |
+| `./eslint-config/base`           | Base ESLint config for general projects     |
 | `./eslint-config/react-internal` | ESLint config for React component libraries |
 
 ### TypeScript
 
-| Export | Description |
-|--------|-------------|
-| `./typescript-config/base` | Base TypeScript config |
+| Export                              | Description                           |
+| ----------------------------------- | ------------------------------------- |
+| `./typescript-config/base`          | Base TypeScript config                |
 | `./typescript-config/react-library` | TypeScript config for React libraries |
 
 ## Usage
@@ -24,16 +24,16 @@ Shared ESLint and TypeScript configurations for the Lentil monorepo.
 
 ```javascript
 // eslint.config.mjs (for base config)
-import { config as baseConfig } from '@lentil/config/eslint-config/base'
+import { config as baseConfig } from "@lentil/config/eslint-config/base";
 
-export default [...baseConfig]
+export default [...baseConfig];
 ```
 
 ```javascript
 // eslint.config.mjs (for react-internal)
-import { config as reactInternalConfig } from '@lentil/config/eslint-config/react-internal'
+import { config as reactInternalConfig } from "@lentil/config/eslint-config/react-internal";
 
-export default [...reactInternalConfig]
+export default [...reactInternalConfig];
 ```
 
 ### TypeScript

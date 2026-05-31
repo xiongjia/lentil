@@ -9,8 +9,6 @@ import {
   SheetFooter,
   SheetTrigger,
 } from "./sheet";
-import React from "react";
-
 describe("Sheet", () => {
   it("should render trigger element", () => {
     render(
@@ -20,8 +18,9 @@ describe("Sheet", () => {
         </SheetTrigger>
         <SheetContent>
           <SheetTitle>Sheet Title</SheetTitle>
+          <SheetDescription>Sheet description</SheetDescription>
         </SheetContent>
-      </Sheet>
+      </Sheet>,
     );
     expect(screen.getByText("Open sheet")).toBeDefined();
   });
@@ -34,7 +33,7 @@ describe("Sheet", () => {
           <SheetDescription>Sheet description</SheetDescription>
           <p>Body content</p>
         </SheetContent>
-      </Sheet>
+      </Sheet>,
     );
     expect(screen.getByText("Sheet Title")).toBeDefined();
     expect(screen.getByText("Sheet description")).toBeDefined();
@@ -47,9 +46,10 @@ describe("Sheet", () => {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Header Title</SheetTitle>
+            <SheetDescription>Header description</SheetDescription>
           </SheetHeader>
         </SheetContent>
-      </Sheet>
+      </Sheet>,
     );
     expect(screen.getByText("Header Title")).toBeDefined();
   });
@@ -58,9 +58,11 @@ describe("Sheet", () => {
     render(
       <Sheet open onOpenChange={() => {}}>
         <SheetContent>
+          <SheetTitle>Footer Sheet</SheetTitle>
+          <SheetDescription>Footer description</SheetDescription>
           <SheetFooter>Footer content</SheetFooter>
         </SheetContent>
-      </Sheet>
+      </Sheet>,
     );
     expect(screen.getByText("Footer content")).toBeDefined();
   });

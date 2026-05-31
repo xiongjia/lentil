@@ -1,8 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Header } from "./header";
-import React from "react";
-
 describe("Header", () => {
   it("should render with title", () => {
     render(<Header title="Test Header" />);
@@ -13,14 +11,14 @@ describe("Header", () => {
     render(
       <Header title="Test">
         <button>Action</button>
-      </Header>
+      </Header>,
     );
     expect(screen.getByText("Action")).toBeDefined();
   });
 
   it("should apply custom className", () => {
     const { container } = render(
-      <Header title="Test" className="custom-class" />
+      <Header title="Test" className="custom-class" />,
     );
     expect(container.firstChild).toHaveClass("custom-class");
   });

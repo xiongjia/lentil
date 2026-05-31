@@ -1,14 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 import { Content } from "./content";
-import React from "react";
-
 describe("Content", () => {
   it("should render children", () => {
     render(
       <Content>
         <p>Hello</p>
-      </Content>
+      </Content>,
     );
     expect(document.querySelector("p")).toBeDefined();
   });
@@ -17,7 +15,7 @@ describe("Content", () => {
     const { container } = render(
       <Content className="custom-class">
         <p>Hello</p>
-      </Content>
+      </Content>,
     );
     expect(container.firstChild).toHaveClass("custom-class");
   });

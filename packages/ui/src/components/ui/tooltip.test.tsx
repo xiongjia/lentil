@@ -6,7 +6,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip";
-import React from "react";
 
 describe("Tooltip", () => {
   it("should render trigger element", () => {
@@ -18,7 +17,7 @@ describe("Tooltip", () => {
           </TooltipTrigger>
           <TooltipContent>Tooltip text</TooltipContent>
         </Tooltip>
-      </TooltipProvider>
+      </TooltipProvider>,
     );
     expect(screen.getByText("Hover me")).toBeDefined();
   });
@@ -32,7 +31,7 @@ describe("Tooltip", () => {
           </TooltipTrigger>
           <TooltipContent>Help text</TooltipContent>
         </Tooltip>
-      </TooltipProvider>
+      </TooltipProvider>,
     );
     const elements = screen.queryAllByText("Help text");
     expect(elements.length).toBeGreaterThan(0);

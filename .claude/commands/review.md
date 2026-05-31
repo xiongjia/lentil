@@ -5,6 +5,7 @@ Run `git status` and `git diff` to show all uncommitted changes, then run `git l
 Provide a thorough code review following the review standards in `.claude/agents/reviewer.md`.
 
 Focus on:
+
 - Code correctness
 - Following project conventions
 - Performance implications

@@ -25,29 +25,34 @@ interface MdxExports {
 const pages: PageEntry[] = [
   {
     slug: "overview",
-    title: (OverviewMod as unknown as MdxExports).frontmatter?.title ?? "Overview",
-    description: (OverviewMod as unknown as MdxExports).frontmatter?.description ?? "",
+    title:
+      (OverviewMod as unknown as MdxExports).frontmatter?.title ?? "Overview",
+    description:
+      (OverviewMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: LayoutDashboard,
     Component: OverviewMod.default,
   },
   {
     slug: "button",
     title: (ButtonMod as unknown as MdxExports).frontmatter?.title ?? "Button",
-    description: (ButtonMod as unknown as MdxExports).frontmatter?.description ?? "",
+    description:
+      (ButtonMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: Square,
     Component: ButtonMod.default,
   },
   {
     slug: "card",
     title: (CardMod as unknown as MdxExports).frontmatter?.title ?? "Card",
-    description: (CardMod as unknown as MdxExports).frontmatter?.description ?? "",
+    description:
+      (CardMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: Layers,
     Component: CardMod.default,
   },
   {
     slug: "map",
     title: (MapMod as unknown as MdxExports).frontmatter?.title ?? "Map",
-    description: (MapMod as unknown as MdxExports).frontmatter?.description ?? "",
+    description:
+      (MapMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: Map,
     Component: MapMod.default,
   },
@@ -63,5 +68,5 @@ export const pagesMeta: PageMeta[] = pages.map(
     title,
     description,
     icon,
-  })
+  }),
 );

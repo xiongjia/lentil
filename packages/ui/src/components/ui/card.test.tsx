@@ -47,7 +47,7 @@ describe("CardHeader", () => {
 
   it("should apply custom className", () => {
     const { container } = render(
-      <CardHeader className="custom-header">Header</CardHeader>
+      <CardHeader className="custom-header">Header</CardHeader>,
     );
     expect(container.firstChild).toHaveClass("custom-header");
   });
@@ -74,7 +74,7 @@ describe("CardTitle", () => {
 
   it("should apply custom className", () => {
     const { container } = render(
-      <CardTitle className="custom-title">Title</CardTitle>
+      <CardTitle className="custom-title">Title</CardTitle>,
     );
     expect(container.firstChild).toHaveClass("custom-title");
   });
@@ -86,7 +86,9 @@ describe("CardTitle", () => {
 
 describe("CardDescription", () => {
   it("should render", () => {
-    const { container } = render(<CardDescription>Description</CardDescription>);
+    const { container } = render(
+      <CardDescription>Description</CardDescription>,
+    );
     expect(container.firstChild).toBeDefined();
     expect(container.firstChild).toHaveClass("text-sm");
     expect(container.firstChild).toHaveClass("text-muted-foreground");
@@ -94,7 +96,7 @@ describe("CardDescription", () => {
 
   it("should apply custom className", () => {
     const { container } = render(
-      <CardDescription className="custom-desc">Desc</CardDescription>
+      <CardDescription className="custom-desc">Desc</CardDescription>,
     );
     expect(container.firstChild).toHaveClass("custom-desc");
   });
@@ -114,7 +116,7 @@ describe("CardContent", () => {
 
   it("should apply custom className", () => {
     const { container } = render(
-      <CardContent className="custom-content">Content</CardContent>
+      <CardContent className="custom-content">Content</CardContent>,
     );
     expect(container.firstChild).toHaveClass("custom-content");
   });
@@ -136,7 +138,7 @@ describe("CardFooter", () => {
 
   it("should apply custom className", () => {
     const { container } = render(
-      <CardFooter className="custom-footer">Footer</CardFooter>
+      <CardFooter className="custom-footer">Footer</CardFooter>,
     );
     expect(container.firstChild).toHaveClass("custom-footer");
   });

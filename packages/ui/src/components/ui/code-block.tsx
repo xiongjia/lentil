@@ -11,7 +11,9 @@ interface CodeBlockProps {
 
 function useIsDark() {
   const [dark, setDark] = useState(
-    () => typeof document !== "undefined" && document.documentElement.classList.contains("dark")
+    () =>
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark"),
   );
 
   useLayoutEffect(() => {
@@ -35,7 +37,9 @@ function CodeBlock({ code, title, lang = "tsx", className }: CodeBlockProps) {
     highlightCode(code, lang, isDark).then((h) => {
       if (!cancelled) setHtml(h);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [code, lang, isDark]);
 
   return (
@@ -51,7 +55,7 @@ function CodeBlock({ code, title, lang = "tsx", className }: CodeBlockProps) {
         <div
           className={cn(
             "overflow-x-auto text-sm [&_pre]:!bg-transparent [&_pre]:p-4 [&_pre]:font-mono",
-            className
+            className,
           )}
           dangerouslySetInnerHTML={{ __html: html }}
         />
@@ -59,7 +63,7 @@ function CodeBlock({ code, title, lang = "tsx", className }: CodeBlockProps) {
         <pre
           className={cn(
             "overflow-x-auto p-4 text-sm font-mono text-black dark:text-zinc-100",
-            className
+            className,
           )}
         >
           <code>{code}</code>

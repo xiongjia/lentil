@@ -12,14 +12,14 @@ const Header = React.forwardRef<HTMLElement, HeaderProps>(
       ref={ref}
       className={cn(
         "flex items-center gap-3 border-b px-6 py-3 bg-card",
-        className
+        className,
       )}
       {...props}
     >
       <h1 className="text-lg font-semibold">{title}</h1>
       <div className="flex items-center gap-2">{children}</div>
     </header>
-  )
+  ),
 );
 Header.displayName = "Header";
 

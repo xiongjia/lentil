@@ -1,8 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 import { Separator } from "./separator";
-import React from "react";
-
 describe("Separator", () => {
   it("should render horizontal by default", () => {
     const { container } = render(<Separator />);

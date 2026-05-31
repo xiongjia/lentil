@@ -12,11 +12,11 @@ NestJS REST API server with pino logger and Swagger UI.
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|----------|--------|-------------|
-| `PORT` | `3850` | Server port |
-| `LOG_LEVEL` | `info` | Log level (trace, debug, info, warn, error) |
-| `API_DOCS_ENABLED` | `true` | Enable Swagger API docs at `/api/docs` |
+| Variable           | Default | Description                                 |
+| ------------------ | ------- | ------------------------------------------- |
+| `PORT`             | `3850`  | Server port                                 |
+| `LOG_LEVEL`        | `info`  | Log level (trace, debug, info, warn, error) |
+| `API_DOCS_ENABLED` | `true`  | Enable Swagger API docs at `/api/docs`      |
 
 ### Environment Files
 
@@ -57,8 +57,8 @@ CLI uses `.env.cli` (not committed) for configuration. Copy `.env.example.cli` t
 cp .env.example.cli .env.cli
 ```
 
-| Variable | Default | Description |
-|----------|---------|-------------|
+| Variable    | Default | Description                                 |
+| ----------- | ------- | ------------------------------------------- |
 | `LOG_LEVEL` | `debug` | Log level (trace, debug, info, warn, error) |
 
 ## Testing
