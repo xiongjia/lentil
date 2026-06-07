@@ -45,4 +45,4 @@ lentil/
 3. **File naming conventions**: Use kebab-case (`my-component.tsx`) or lowercase with dots (`my.component.tsx`). Special exceptions like `App.tsx`, `main.tsx` are allowed to use PascalCase.
 4. **Backend logging**: Use `APP_LOGGER` injection for runtime logging; use pino directly in bootstrap code. Log levels controlled by `LOG_LEVEL` env var.
 5. **Tests co-located**: Test files live next to source files (`*.test.tsx`, `*.spec.ts`).
-6. **UI components in @lentil/ui**: Reusable components go in the UI package with exports in package.json. Playground uses them for documentation.
+6. **UI components in @lentil/ui**: Reusable components go in the UI package with exports in `src/index.ts`. Import from `@lentil/ui` directly (not subpaths). Playground uses them for documentation.

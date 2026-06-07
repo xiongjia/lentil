@@ -46,4 +46,5 @@ pnpm lint      # Lint code
 - **Frontmatter**: `title` and `description` auto-extracted for sidebar
 - **Markdown**: headings, paragraphs, inline code, tables (via remark-gfm)
 - **Components**: import and render live `@lentil/ui` components
+- **Live Preview**: use ` ```tsx preview ` fenced code blocks to auto-generate live component previews with source code
 - **Code blocks**: auto-highlighted via Shiki

@@ -3,15 +3,14 @@ title: Map
 description: MapView with MapLibre GL
 ---
 
-import { MapView } from "@lentil/ui/map";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@lentil/ui/card";
-import { ComponentPreview } from "@lentil/ui/component-preview";
+  MapView,
+} from "@lentil/ui";
 
 # Map
 
@@ -21,22 +20,22 @@ Interactive map powered by MapLibre GL with OpenStreetMap tiles.
 
 Centered on Tokyo with default zoom and height.
 
-<ComponentPreview code={`<MapView />`}>
-  <MapView className="rounded-md" />
-</ComponentPreview>
+```tsx preview
+<MapView className="rounded-md" />
+```
 
 ## Custom Center
 
 New York City with custom zoom level.
 
-<ComponentPreview code={`<MapView center={[-74.006, 40.7128]} zoom={12} />`}>
-  <MapView className="rounded-md" center={[-74.006, 40.7128]} zoom={12} />
-</ComponentPreview>
+```tsx preview
+<MapView className="rounded-md" center={[-74.006, 40.7128]} zoom={12} />
+```
 
 ## Inside a Card
 
-<ComponentPreview
-  code={`<Card className="w-96">
+```tsx preview
+<Card className="w-96">
   <CardHeader>
     <CardTitle>MapLibre GL</CardTitle>
     <CardDescription>With OpenStreetMap tiles</CardDescription>
@@ -44,18 +43,8 @@ New York City with custom zoom level.
   <CardContent>
     <MapView className="rounded-md" />
   </CardContent>
-</Card>`}
->
-  <Card className="w-96">
-    <CardHeader>
-      <CardTitle>MapLibre GL</CardTitle>
-      <CardDescription>With OpenStreetMap tiles</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <MapView className="rounded-md" />
-    </CardContent>
-  </Card>
-</ComponentPreview>
+</Card>
+```
 
 ## API
 

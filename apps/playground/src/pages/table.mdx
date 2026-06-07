@@ -1,0 +1,119 @@
+---
+title: Table
+description: Data table with header, body, and footer
+---
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@lentil/ui";
+
+# Table
+
+A responsive data table for displaying structured information.
+
+## Basic
+
+```tsx preview
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead>Role</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Alice</TableCell>
+      <TableCell>alice@example.com</TableCell>
+      <TableCell>Admin</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Bob</TableCell>
+      <TableCell>bob@example.com</TableCell>
+      <TableCell>Editor</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Charlie</TableCell>
+      <TableCell>charlie@example.com</TableCell>
+      <TableCell>Viewer</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## With Footer
+
+```tsx preview
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Item</TableHead>
+      <TableHead>Qty</TableHead>
+      <TableHead className="text-right">Price</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Widget A</TableCell>
+      <TableCell>2</TableCell>
+      <TableCell className="text-right">$10.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Widget B</TableCell>
+      <TableCell>1</TableCell>
+      <TableCell className="text-right">$25.00</TableCell>
+    </TableRow>
+  </TableBody>
+  <TableFooter>
+    <TableRow>
+      <TableCell colSpan={2}>Total</TableCell>
+      <TableCell className="text-right">$35.00</TableCell>
+    </TableRow>
+  </TableFooter>
+</Table>
+```
+
+## With Caption
+
+```tsx preview
+<Table>
+  <TableCaption>A list of team members and their roles.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Team</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Diana</TableCell>
+      <TableCell>Engineering</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Eve</TableCell>
+      <TableCell>Design</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## API
+
+| Component      | Props       |
+| -------------- | ----------- |
+| `Table`        | `className` |
+| `TableHeader`  | `className` |
+| `TableBody`    | `className` |
+| `TableFooter`  | `className` |
+| `TableHead`    | `className` |
+| `TableRow`     | `className` |
+| `TableCell`    | `className` |
+| `TableCaption` | `className` |

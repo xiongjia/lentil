@@ -3,20 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./button": "./src/components/ui/button.tsx",
-    "./card": "./src/components/ui/card.tsx",
-    "./code-block": "./src/components/ui/code-block.tsx",
-    "./component-preview": "./src/components/ui/component-preview.tsx",
-    "./content": "./src/components/ui/content.tsx",
-    "./header": "./src/components/ui/header.tsx",
-    "./map": "./src/components/ui/map.tsx",
-    "./separator": "./src/components/ui/separator.tsx",
-    "./sheet": "./src/components/ui/sheet.tsx",
-    "./sidebar": "./src/components/ui/sidebar.tsx",
-    "./theme-toggle": "./src/components/ui/theme-toggle.tsx",
-    "./tooltip": "./src/components/ui/tooltip.tsx",
-    "./use-mobile": "./src/hooks/use-mobile.tsx",
-    "./utils": "./src/lib/utils.ts"
+    ".": "./src/index.ts",
+    "./globals.css": "./src/globals.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

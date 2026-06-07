@@ -12,50 +12,42 @@ Shared UI component library using shadcn/ui + Tailwind CSS v4.
 
 ## Components
 
+All components and utilities are available from the root `@lentil/ui` import.
+
 ### UI Components
 
-| Export           | Description                                                                             |
-| ---------------- | --------------------------------------------------------------------------------------- |
-| `./button`       | Button with variants (default, destructive, outline, secondary, ghost, link)            |
-| `./card`         | Card components (Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter) |
-| `./map`          | MapLibre GL map component (MapView)                                                     |
-| `./theme-toggle` | Light/dark theme toggle (ThemeToggle, useTheme)                                         |
+`Button`, `buttonVariants`, `ButtonProps`, `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`,
+`MapView`, `MapViewProps`, `ThemeToggle`, `useTheme`
 
 ### Shadcn Components
 
-| Export        | Description                                               |
-| ------------- | --------------------------------------------------------- |
-| `./separator` | Visual separator (Radix)                                  |
-| `./sheet`     | Slide-over panel for mobile/dialogs (Radix Dialog)        |
-| `./sidebar`   | Full sidebar with collapsible, mobile, keyboard shortcuts |
-| `./tooltip`   | Hover tooltip (Radix Tooltip)                             |
+`Separator`, `Sheet`, `SheetOverlay`, `SheetTrigger`, `SheetClose`, `SheetContent`, `SheetHeader`, `SheetFooter`, `SheetTitle`, `SheetDescription`,
+`Sidebar`, `SidebarProvider`, `SidebarTrigger`, `SidebarContent`, `SidebarFooter`, `SidebarGroup`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarGroupLabel`, `SidebarHeader`, `SidebarInset`, `SidebarMenu`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuButton`, `SidebarMenuItem`, `SidebarMenuSub`, `SidebarMenuSubButton`, `SidebarMenuSubItem`, `SidebarRail`, `SidebarSeparator`, `useSidebar`,
+`Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipProvider`
 
 ### Documentation Components
 
-| Export                | Description                                          |
-| --------------------- | ---------------------------------------------------- |
-| `./header`            | Page header with title + actions slot                |
-| `./content`           | Scrollable content area with prose typography        |
-| `./code-block`        | Syntax-highlighted code block (Shiki)                |
-| `./component-preview` | Live component demo with preview + code side-by-side |
+`Header`, `Content`, `CodeBlock`, `ComponentPreview`
 
 ### Utilities
 
-| Export         | Description                                     |
-| -------------- | ----------------------------------------------- |
-| `./utils`      | `cn()` class merge helper                       |
-| `./use-mobile` | `useIsMobile()` hook + `MobileOverrideProvider` |
+`cn`, `useIsMobile`, `MobileOverrideProvider`
 
 ## Usage
 
 ```tsx
-import { Button } from "@lentil/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@lentil/ui/card";
-import { Header } from "@lentil/ui/header";
-import { Content } from "@lentil/ui/content";
-import { CodeBlock } from "@lentil/ui/code-block";
-import { ComponentPreview } from "@lentil/ui/component-preview";
-import { cn } from "@lentil/ui/utils";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CodeBlock,
+  ComponentPreview,
+  Content,
+  Header,
+  cn,
+} from "@lentil/ui";
 ```
 
 ## Theming
@@ -89,7 +81,7 @@ pnpm generate:component  # Generate new component (shadcn/ui style)
 
 1. Create component in `src/components/ui/`
 2. Add test in `src/components/ui/<name>.test.tsx`
-3. Export from `package.json` exports field
+3. Export from `src/index.ts`
 4. Add CSS variables to `src/globals.css` if needed
 5. Test in `@lentil/playground`
 
