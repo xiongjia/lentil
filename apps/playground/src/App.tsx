@@ -1,17 +1,17 @@
 import { Suspense, useState } from "react";
-import { Header } from "@lentil/ui/header";
-import { Content } from "@lentil/ui/content";
-import { Button } from "@lentil/ui/button";
-import { Separator } from "@lentil/ui/separator";
-import { ThemeToggle } from "@lentil/ui/theme-toggle";
 import {
+  Button,
+  cn,
+  Content,
+  Header,
+  Separator,
+  ThemeToggle,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@lentil/ui/tooltip";
+} from "@lentil/ui";
 import { PanelLeftClose, PanelLeft } from "lucide-react";
-import { cn } from "@lentil/ui/utils";
 import { useHashRoute } from "./lib/router";
 import { getPage, pagesMeta } from "./lib/registry";
 

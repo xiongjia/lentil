@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
-import { LayoutDashboard, Square, Layers, Map } from "lucide-react";
+import { LayoutDashboard, Square, Layers, Map, Table2 } from "lucide-react";
 
 import * as OverviewMod from "../pages/overview.mdx";
 import * as ButtonMod from "../pages/button.mdx";
 import * as CardMod from "../pages/card.mdx";
 import * as MapMod from "../pages/map.mdx";
+import * as TableMod from "../pages/table.mdx";
 
 export interface PageMeta {
   slug: string;
@@ -55,6 +56,14 @@ const pages: PageEntry[] = [
       (MapMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: Map,
     Component: MapMod.default,
+  },
+  {
+    slug: "table",
+    title: (TableMod as unknown as MdxExports).frontmatter?.title ?? "Table",
+    description:
+      (TableMod as unknown as MdxExports).frontmatter?.description ?? "",
+    icon: Table2,
+    Component: TableMod.default,
   },
 ];
 

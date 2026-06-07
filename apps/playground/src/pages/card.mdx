@@ -4,15 +4,14 @@ description: Card layout and sub-components
 ---
 
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@lentil/ui/card";
-import { Button } from "@lentil/ui/button";
-import { ComponentPreview } from "@lentil/ui/component-preview";
+} from "@lentil/ui";
 
 # Card
 
@@ -20,8 +19,8 @@ Displays a card with header, content, and footer sections.
 
 ## Basic Card
 
-<ComponentPreview
-  code={`<Card className="w-96">
+```tsx preview
+<Card className="w-96">
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
     <CardDescription>Card description goes here</CardDescription>
@@ -29,23 +28,13 @@ Displays a card with header, content, and footer sections.
   <CardContent>
     <p>Card content paragraph.</p>
   </CardContent>
-</Card>`}
->
-  <Card className="w-96">
-    <CardHeader>
-      <CardTitle>Card Title</CardTitle>
-      <CardDescription>Card description goes here</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <p>Card content paragraph.</p>
-    </CardContent>
-  </Card>
-</ComponentPreview>
+</Card>
+```
 
 ## Card with Footer
 
-<ComponentPreview
-  code={`<Card className="w-96">
+```tsx preview
+<Card className="w-96">
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
     <CardDescription>With footer actions</CardDescription>
@@ -54,49 +43,26 @@ Displays a card with header, content, and footer sections.
     <p>Card content here.</p>
   </CardContent>
   <CardFooter className="gap-2">
-    <Button variant="outline" size="sm">Cancel</Button>
+    <Button variant="outline" size="sm">
+      Cancel
+    </Button>
     <Button size="sm">Save</Button>
   </CardFooter>
-</Card>`}
->
-  <Card className="w-96">
-    <CardHeader>
-      <CardTitle>Card Title</CardTitle>
-      <CardDescription>With footer actions</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <p>Card content here.</p>
-    </CardContent>
-    <CardFooter className="gap-2">
-      <Button variant="outline" size="sm">
-        Cancel
-      </Button>
-      <Button size="sm">Save</Button>
-    </CardFooter>
-  </Card>
-</ComponentPreview>
+</Card>
+```
 
 ## Full Layout
 
-<ComponentPreview
-  code={`<Card className="w-96">
+```tsx preview
+<Card className="w-96">
   <CardHeader>
     <CardTitle>Title</CardTitle>
     <CardDescription>Description</CardDescription>
   </CardHeader>
   <CardContent>Content</CardContent>
   <CardFooter>Footer</CardFooter>
-</Card>`}
->
-  <Card className="w-96">
-    <CardHeader>
-      <CardTitle>Title</CardTitle>
-      <CardDescription>Description</CardDescription>
-    </CardHeader>
-    <CardContent>Content</CardContent>
-    <CardFooter>Footer</CardFooter>
-  </Card>
-</ComponentPreview>
+</Card>
+```
 
 ## API
 
