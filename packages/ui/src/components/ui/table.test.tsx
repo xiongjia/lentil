@@ -191,6 +191,9 @@ describe("TableHead", () => {
     expect(th).toHaveClass("h-10");
     expect(th).toHaveClass("text-left");
     expect(th).toHaveClass("align-middle");
+    expect(th).toHaveClass("bg-muted/50");
+    expect(th).toHaveClass("font-medium");
+    expect(th).toHaveClass("text-muted-foreground");
   });
 
   it("should apply custom className", () => {

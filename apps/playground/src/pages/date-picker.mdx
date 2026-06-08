@@ -1,0 +1,84 @@
+---
+title: Date Picker
+description: Popover date picker with calendar
+---
+
+import { useState } from "react";
+import { DatePicker } from "@lentil/ui";
+
+# Date Picker
+
+A date picker component combining a Popover, Button trigger, and Calendar. Built on react-day-picker and date-fns.
+
+## Basic
+
+```tsx preview
+<DatePicker />
+```
+
+## Controlled
+
+export function ControlledDemo() {
+  const [date, setDate] = useState(new Date());
+
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <DatePicker date={date} onDateChange={setDate} />
+      <p className="text-sm text-muted-foreground">
+        Selected: {date.toLocaleDateString()}
+      </p>
+    </div>
+  );
+}
+
+<ControlledDemo />
+
+## Custom Placeholder
+
+```tsx preview
+<DatePicker placeholder="Select your birthday" />
+```
+
+## Custom Date Format
+
+export function FormatDemo() {
+  const [date, setDate] = useState(new Date());
+
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <DatePicker
+        date={date}
+        onDateChange={setDate}
+        dateFormat="yyyy-MM-dd"
+      />
+      <p className="text-sm text-muted-foreground">
+        ISO format: yyyy-MM-dd
+      </p>
+    </div>
+  );
+}
+
+<FormatDemo />
+
+## Disabled
+
+```tsx preview
+<DatePicker disabled placeholder="Disabled picker" />
+```
+
+## Preselected
+
+```tsx preview
+<DatePicker date={new Date(2024, 0, 1)} />
+```
+
+## API
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `date` | `Date` | — | The selected date |
+| `onDateChange` | `(date: Date \| undefined) => void` | — | Date change callback |
+| `placeholder` | `string` | `"Pick a date"` | Placeholder text |
+| `dateFormat` | `string` | `"PPP"` | date-fns format string |
+| `disabled` | `boolean` | `false` | Disable the picker |
+| `className` | `string` | — | CSS class for the trigger button |

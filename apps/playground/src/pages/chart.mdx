@@ -1,0 +1,76 @@
+---
+title: Charts
+description: Area, Pie, and Radar charts powered by Recharts
+---
+
+import { ChartArea, ChartPie, ChartRadar } from "@lentil/ui";
+import { areaData, pieData, radarData } from "../lib/chart-samples";
+
+# Charts
+
+Chart components built on [Recharts](https://recharts.org) with responsive containers.
+
+## Area Chart
+
+Gradient-filled area chart for time-series data comparison.
+
+```tsx preview
+<ChartArea
+  data={areaData}
+  xKey="month"
+  series={[
+    { key: "revenue", color: "#3b82f6", name: "Revenue" },
+    { key: "expenses", color: "#ef4444", name: "Expenses" },
+  ]}
+/>
+```
+
+## Pie Chart
+
+Donut-style pie chart for proportional data.
+
+```tsx preview
+<ChartPie data={pieData} />
+```
+
+## Radar Chart
+
+Radar chart for multi-variable comparison.
+
+```tsx preview
+<ChartRadar
+  data={radarData}
+  axes={["subject"]}
+  series={[
+    { key: "A", color: "#3b82f6", name: "Player A" },
+    { key: "B", color: "#ef4444", name: "Player B" },
+  ]}
+/>
+```
+
+## API
+
+### ChartArea
+
+| Prop       | Type                                                    | Default | Description       |
+| ---------- | ------------------------------------------------------- | ------- | ----------------- |
+| `data`     | `Record<string, unknown>[]`                             | —       | Chart data        |
+| `xKey`     | `string`                                                | —       | X-axis data key   |
+| `series`   | `{ key: string; color: string; name?: string }[]`       | —       | Data series       |
+| `height`   | `number`                                                | `300`   | Chart height (px) |
+
+### ChartPie
+
+| Prop       | Type                                                 | Default | Description       |
+| ---------- | ---------------------------------------------------- | ------- | ----------------- |
+| `data`     | `{ name: string; value: number; color: string }[]`   | —       | Chart data        |
+| `height`   | `number`                                             | `300`   | Chart height (px) |
+
+### ChartRadar
+
+| Prop       | Type                                                    | Default | Description       |
+| ---------- | ------------------------------------------------------- | ------- | ----------------- |
+| `data`     | `Record<string, unknown>[]`                             | —       | Chart data        |
+| `axes`     | `string[]`                                              | —       | Angle axis keys   |
+| `series`   | `{ key: string; color: string; name?: string }[]`       | —       | Data series       |
+| `height`   | `number`                                                | `300`   | Chart height (px) |
