@@ -1,0 +1,108 @@
+---
+title: Calendar
+description: Date selection calendar with multiple modes
+---
+
+import { useState } from "react";
+import { Calendar } from "@lentil/ui";
+
+# Calendar
+
+A calendar component built on react-day-picker, supporting single, multiple, and range date selections.
+
+## Basic
+
+```tsx preview
+<Calendar mode="single" className="rounded-md border shadow" />
+```
+
+## Single Selection
+
+export function SingleDemo() {
+  const [date, setDate] = useState(new Date());
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={(d) => d && setDate(d)}
+        className="rounded-md border shadow"
+      />
+      <p className="text-sm text-muted-foreground">
+        Selected: {date.toLocaleDateString()}
+      </p>
+    </div>
+  );
+}
+
+<SingleDemo />
+
+## Multiple Selection
+
+export function MultipleDemo() {
+  const [dates, setDates] = useState([new Date()]);
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar
+        mode="multiple"
+        selected={dates}
+        onSelect={(d) => d && setDates(d)}
+        className="rounded-md border shadow"
+      />
+      <p className="text-sm text-muted-foreground">
+        {dates.length} date{dates.length !== 1 ? "s" : ""} selected
+      </p>
+    </div>
+  );
+}
+
+<MultipleDemo />
+
+## Range Selection
+
+export function RangeDemo() {
+  const [range, setRange] = useState({
+    from: new Date(),
+    to: new Date(new Date().setDate(new Date().getDate() + 7)),
+  });
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar
+        mode="range"
+        selected={range}
+        onSelect={(r) => r && setRange(r)}
+        className="rounded-md border shadow"
+      />
+      <p className="text-sm text-muted-foreground">
+        {range.from?.toLocaleDateString()} – {range.to?.toLocaleDateString()}
+      </p>
+    </div>
+  );
+}
+
+<RangeDemo />
+
+## With Disabled Dates
+
+```tsx preview
+<Calendar
+  mode="single"
+  disabled={{ before: new Date() }}
+  className="rounded-md border shadow"
+/>
+```
+
+## API
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | `"single"` \| `"multiple"` \| `"range"` | — | Selection mode |
+| `selected` | `Date` \| `Date[]` \| `DateRange` | — | Selected date(s) |
+| `onSelect` | `(selected, triggerDate, modifiers, e) => void` | — | Selection callback |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `disabled` | `Matcher \| Matcher[]` | — | Disable specific dates |
+| `numberOfMonths` | `number` | `1` | Number of months to display |
+| `className` | `string` | — | CSS class for the root element |

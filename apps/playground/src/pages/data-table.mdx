@@ -1,0 +1,115 @@
+---
+title: Data Table
+description: Sortable, filterable data table with search, selection, and pagination
+---
+
+import { useState, useEffect } from "react";
+import { DataTable } from "@lentil/ui";
+import { paymentData, paymentColumns } from "../lib/data-table-samples";
+
+# Data Table
+
+Full-featured table with sorting, search, column filtering, row selection, and pagination — powered by `@tanstack/react-table`.
+
+## Quick Start
+
+```tsx preview
+<DataTable
+  columns={[
+    { accessorKey: "name", header: "Name" },
+    { accessorKey: "role", header: "Role" },
+  ]}
+  data={[
+    { name: "Alice", role: "Admin" },
+    { name: "Bob", role: "Editor" },
+    { name: "Charlie", role: "Viewer" },
+  ]}
+/>
+```
+
+## Full Example
+
+Click column headers to **sort**. Use the search dropdown to **filter** by email or status. Toggle columns from the **Columns** dropdown. Use the **checkboxes** to select rows. Click **refresh** to reload.
+
+export function FullExample() {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(paymentData);
+  const [key, setKey] = useState(0);
+
+  const refresh = () => {
+    setLoading(true);
+    setData([]);
+    setTimeout(() => {
+      setData(paymentData);
+      setLoading(false);
+      setKey(k => k + 1);
+    }, 10);
+  };
+
+  return (
+    <DataTable
+      key={key}
+      columns={paymentColumns}
+      data={data}
+      searchKeys={["email", "status"]}
+      searchPlaceholder="Search email or status..."
+      loading={loading}
+      onRefresh={refresh}
+      enableRowSelection
+    />
+  );
+}
+
+<FullExample />
+
+## Loading State
+
+Pass `loading` to show a spinner while data is being fetched. This demo simulates a 2-second load.
+
+export function LoadingDemo() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [key, setKey] = useState(0);
+
+  const fetchData = () => {
+    setLoading(true);
+    setData([]);
+    setTimeout(() => {
+      // Simulate shuffled data for refresh demo
+      const shuffled = [...paymentData].sort(() => Math.random() - 0.5);
+      setData(shuffled);
+      setLoading(false);
+      setKey(k => k + 1);
+    }, 1500);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  return (
+    <DataTable
+      key={key}
+      columns={paymentColumns}
+      data={data}
+      searchKeys={["email", "status"]}
+      loading={loading}
+      onRefresh={fetchData}
+      enableRowSelection
+    />
+  );
+}
+
+<LoadingDemo />
+
+## API
+
+| Prop                  | Type                         | Default          | Description              |
+| --------------------- | ---------------------------- | ---------------- | ------------------------ |
+| `columns`             | `ColumnDef<TData, TV>[]`     | —                | Column definitions       |
+| `data`                | `TData[]`                    | —                | Row data                 |
+| `searchKeys`          | `string[]`                   | —                | Column keys for search   |
+| `searchPlaceholder`   | `string`                     | `"Search..."`    | Search input placeholder |
+| `loading`             | `boolean`                    | `false`          | Show loading spinner     |
+| `onRefresh`           | `() => void`                 | —                | Show refresh button      |
+| `enableRowSelection`  | `boolean`                    | `false`          | Show row checkboxes      |
+| `onRowSelectionChange`| `(rows: TData[]) => void`    | —                | Selection callback       |
+| `className`           | `string`                     | —                | CSS class                |

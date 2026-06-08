@@ -1,0 +1,135 @@
+---
+title: Sheet
+description: Slide-over panel for dialogs and mobile interfaces
+---
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  Button,
+  Separator,
+} from "@lentil/ui";
+
+# Sheet
+
+A slide-over panel built on Radix Dialog, used for supplementary content, mobile menus, and drawers.
+
+## Basic
+
+```tsx preview
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Open Sheet</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Sheet Title</SheetTitle>
+      <SheetDescription>
+        This is a simple sheet with a title and description.
+      </SheetDescription>
+    </SheetHeader>
+    <div className="mt-4 text-sm text-muted-foreground">
+      Sheet content goes here. You can put any React components inside.
+    </div>
+  </SheetContent>
+</Sheet>
+```
+
+## With Footer
+
+```tsx preview
+<Sheet>
+  <SheetTrigger asChild>
+    <Button>Edit Profile</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>
+        Make changes to your profile here. Click save when you're done.
+      </SheetDescription>
+    </SheetHeader>
+    <div className="mt-6 flex flex-col gap-5">
+      <div className="text-sm">
+        <label className="block font-medium mb-1">Name</label>
+        <input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" placeholder="Your name" />
+      </div>
+      <div className="text-sm">
+        <label className="block font-medium mb-1">Email</label>
+        <input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" placeholder="your@email.com" />
+      </div>
+    </div>
+    <SheetFooter className="mt-8">
+      <SheetClose asChild>
+        <Button type="submit">Save changes</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+## Side Variants
+
+```tsx preview
+<div className="flex flex-wrap gap-2">
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Top</Button>
+    </SheetTrigger>
+    <SheetContent side="top">
+      <SheetHeader>
+        <SheetTitle>Top Sheet</SheetTitle>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Right</Button>
+    </SheetTrigger>
+    <SheetContent side="right">
+      <SheetHeader>
+        <SheetTitle>Right Sheet</SheetTitle>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Bottom</Button>
+    </SheetTrigger>
+    <SheetContent side="bottom">
+      <SheetHeader>
+        <SheetTitle>Bottom Sheet</SheetTitle>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Left</Button>
+    </SheetTrigger>
+    <SheetContent side="left">
+      <SheetHeader>
+        <SheetTitle>Left Sheet</SheetTitle>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+</div>
+```
+
+## API
+
+| Component           | Props               | Description              |
+| ------------------- | ------------------- | ------------------------ |
+| `Sheet`             | `open`, `onOpenChange` | Root container         |
+| `SheetTrigger`      | `asChild`           | Trigger element          |
+| `SheetContent`      | `side`, `className` | Panel content (`top` `right` `bottom` `left`) |
+| `SheetHeader`       | `className`         | Header wrapper           |
+| `SheetTitle`        | `className`         | Dialog title             |
+| `SheetDescription`  | `className`         | Dialog description       |
+| `SheetFooter`       | `className`         | Footer wrapper           |
+| `SheetClose`        | `asChild`           | Close button wrapper     |

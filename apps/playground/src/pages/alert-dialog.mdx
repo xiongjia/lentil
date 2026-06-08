@@ -1,0 +1,130 @@
+---
+title: Alert Dialog
+description: Modal for critical confirmations and alerts
+---
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+} from "@lentil/ui";
+
+# Alert Dialog
+
+A modal dialog built on Radix Alert Dialog, designed for critical confirmations that interrupt the user. Unlike a regular Dialog, the overlay cannot be dismissed by clicking outside.
+
+## Basic
+
+```tsx preview
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="outline">Delete Account</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Destructive Action
+
+```tsx preview
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive">Delete Project</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete Project</AlertDialogTitle>
+      <AlertDialogDescription>
+        Are you sure you want to delete this project? All of its data,
+        including tasks, files, and comments will be permanently removed.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+        Delete
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Publish Confirmation
+
+```tsx preview
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button>Publish</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Publish Article</AlertDialogTitle>
+      <AlertDialogDescription>
+        Are you ready to publish this article? Once published, it will be
+        visible to all users and search engines.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Publish</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Logout Confirmation
+
+```tsx preview
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="secondary">Logout</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Logout</AlertDialogTitle>
+      <AlertDialogDescription>
+        Are you sure you want to logout? Any unsaved changes will be lost.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Logout</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## API
+
+| Component                 | Props               | Description              |
+| ------------------------- | ------------------- | ------------------------ |
+| `AlertDialog`             | `open`, `onOpenChange` | Root container         |
+| `AlertDialogTrigger`      | `asChild`           | Trigger element          |
+| `AlertDialogContent`      | `className`         | Modal content panel      |
+| `AlertDialogHeader`       | `className`         | Header wrapper           |
+| `AlertDialogTitle`        | `className`         | Dialog title             |
+| `AlertDialogDescription`  | `className`         | Dialog description       |
+| `AlertDialogFooter`       | `className`         | Footer wrapper           |
+| `AlertDialogAction`       | `className`         | Confirm action button    |
+| `AlertDialogCancel`       | `className`         | Cancel button            |
+| `AlertDialogPortal`       | —                   | Portal container         |
+| `AlertDialogOverlay`      | `className`         | Backdrop overlay         |

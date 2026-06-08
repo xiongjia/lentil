@@ -33,9 +33,16 @@ function mdxCodePreview(): Plugin {
       }
 
       // 2. Re-parse after import injection to get fresh offsets
-      const tree = parser.parse({ value: source }) as any;
+      let tree: any;
+      try {
+        tree = parser.parse({ value: source });
+      } catch {
+        // TypeScript-heavy MDX can't be parsed by the standalone processor; skip
+        return;
+      }
 
-      const blocks: Array<{ start: number; end: number; codeText: string }> = [];
+      const blocks: Array<{ start: number; end: number; codeText: string }> =
+        [];
 
       function walk(node: any) {
         if (
@@ -62,8 +69,7 @@ function mdxCodePreview(): Plugin {
       // 3. Replace each code block with ComponentPreview (reverse order)
       for (const { start, end, codeText } of [...blocks].reverse()) {
         const replacement = `<ComponentPreview code={${JSON.stringify(codeText)}}>\n${codeText}\n</ComponentPreview>`;
-        source =
-          source.slice(0, start) + replacement + source.slice(end);
+        source = source.slice(0, start) + replacement + source.slice(end);
       }
 
       return { code: source };
