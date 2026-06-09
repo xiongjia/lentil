@@ -1,4 +1,6 @@
 import * as React from "react";
+import { cn } from "../../lib/utils";
+import { buttonVariants } from "./button";
 
 function useTheme() {
   const [isDark, setIsDark] = React.useState(() => {
@@ -39,7 +41,10 @@ const ThemeToggle = React.forwardRef<
   return (
     <button
       ref={ref}
-      className={className}
+      className={cn(
+        buttonVariants({ variant: "ghost", size: "icon" }),
+        className,
+      )}
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}

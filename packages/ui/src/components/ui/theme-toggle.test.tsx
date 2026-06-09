@@ -64,6 +64,23 @@ describe("ThemeToggle", () => {
     expect(button).toHaveClass("custom-toggle");
   });
 
+  it("should apply ghost variant button styles", () => {
+    localStorageMock["theme"] = "light";
+    render(<ThemeToggle />);
+    const button = screen.getByRole("button");
+    // ghost variant
+    expect(button).toHaveClass("hover:bg-accent");
+    expect(button).toHaveClass("hover:text-accent-foreground");
+    // icon size
+    expect(button).toHaveClass("h-9");
+    expect(button).toHaveClass("w-9");
+    // core layout from buttonVariants
+    expect(button).toHaveClass("inline-flex");
+    expect(button).toHaveClass("rounded-md");
+    // SVG sizing
+    expect(button).toHaveClass("[&_svg]:size-4");
+  });
+
   it("should have displayName", () => {
     expect(ThemeToggle.displayName).toBe("ThemeToggle");
   });

@@ -70,6 +70,7 @@ export {
   SheetDescription,
 } from "./components/ui/sheet";
 export {
+  SidebarAside,
   Sidebar,
   SidebarContent,
   SidebarFooter,
