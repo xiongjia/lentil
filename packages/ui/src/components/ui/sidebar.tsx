@@ -511,7 +511,7 @@ const SidebarMenu = React.forwardRef<
   <ul
     ref={ref}
     data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+    className={cn("flex w-full min-w-0 flex-col gap-1 list-none", className)}
     {...props}
   />
 ));
@@ -769,7 +769,31 @@ const SidebarMenuSubButton = React.forwardRef<
 });
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton";
 
+const SidebarAside = React.forwardRef<
+  HTMLElement,
+  React.ComponentProps<"aside"> & {
+    collapsed?: boolean;
+  }
+>(({ collapsed = false, className, children, ...props }, ref) => {
+  return (
+    <aside
+      ref={ref}
+      className={cn(
+        "shrink-0 border-r bg-sidebar text-sidebar-foreground transition-all duration-300",
+        "flex flex-col overflow-hidden",
+        collapsed ? "w-12 pt-2 px-1 pb-1" : "w-64 pt-4 px-2 pb-2",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </aside>
+  );
+});
+SidebarAside.displayName = "SidebarAside";
+
 export {
+  SidebarAside,
   Sidebar,
   SidebarContent,
   SidebarFooter,

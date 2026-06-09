@@ -4,7 +4,7 @@ description: Lentil UI component library overview
 ---
 
 import { Card, CardDescription, CardHeader, CardTitle } from "@lentil/ui";
-import { AppWindow, BarChart3, CalendarDays, CalendarSearch, CheckSquare, Database, Layers, Map, MessageSquareWarning, PanelRight, Square, Table2 } from "lucide-react";
+import { AppWindow, BarChart3, CalendarDays, CalendarSearch, CheckSquare, Database, Layers, Map, MessageSquareWarning, PanelLeft, PanelRight, Square, Table2 } from "lucide-react";
 
 # Lentil UI
 
@@ -75,6 +75,17 @@ Click a component in the sidebar to explore its variants and usage.
           <span>Sheet</span>
         </CardTitle>
         <CardDescription>Slide-over panel for dialogs and mobile interfaces</CardDescription>
+      </CardHeader>
+    </Card>
+  </a>
+  <a href="#/sidebar">
+    <Card className="h-full transition-shadow hover:shadow-md">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <PanelLeft className="h-5 w-5 shrink-0" />
+          <span>Sidebar</span>
+        </CardTitle>
+        <CardDescription>Collapsible sidebar navigation with icon and offcanvas modes</CardDescription>
       </CardHeader>
     </Card>
   </a>

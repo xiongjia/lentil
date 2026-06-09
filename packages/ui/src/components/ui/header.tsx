@@ -4,10 +4,12 @@ import { cn } from "../../lib/utils";
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   title: string;
   children?: React.ReactNode;
+  start?: React.ReactNode;
+  end?: React.ReactNode;
 }
 
 const Header = React.forwardRef<HTMLElement, HeaderProps>(
-  ({ title, children, className, ...props }, ref) => (
+  ({ title, start, children, end, className, ...props }, ref) => (
     <header
       ref={ref}
       className={cn(
@@ -16,8 +18,12 @@ const Header = React.forwardRef<HTMLElement, HeaderProps>(
       )}
       {...props}
     >
+      {start && <div className="flex items-center gap-2">{start}</div>}
       <h1 className="text-lg font-semibold">{title}</h1>
-      <div className="flex items-center gap-2">{children}</div>
+      {children && <div className="flex items-center gap-2">{children}</div>}
+      {end && (
+        <div className="flex items-center gap-2 ml-auto">{end}</div>
+      )}
     </header>
   ),
 );

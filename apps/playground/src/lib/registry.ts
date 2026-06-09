@@ -10,6 +10,7 @@ import {
   Layers,
   Map,
   MessageSquareWarning,
+  PanelLeft,
   PanelRight,
   Square,
   Table2,
@@ -25,6 +26,7 @@ import * as ChartMod from "../pages/chart.mdx";
 import * as DatePickerMod from "../pages/date-picker.mdx";
 import * as DialogMod from "../pages/dialog.mdx";
 import * as SheetMod from "../pages/sheet.mdx";
+import * as SidebarMod from "../pages/sidebar.mdx";
 import * as MapMod from "../pages/map.mdx";
 import * as TableMod from "../pages/table.mdx";
 import * as DataTableMod from "../pages/data-table.mdx";
@@ -132,6 +134,15 @@ const pages: PageEntry[] = [
       (SheetMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: PanelRight,
     Component: SheetMod.default,
+  },
+  {
+    slug: "sidebar",
+    title:
+      (SidebarMod as unknown as MdxExports).frontmatter?.title ?? "Sidebar",
+    description:
+      (SidebarMod as unknown as MdxExports).frontmatter?.description ?? "",
+    icon: PanelLeft,
+    Component: SidebarMod.default,
   },
   {
     slug: "chart",
