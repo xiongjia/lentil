@@ -50,10 +50,10 @@ describe("AppSidebar", () => {
     expect(screen.getByText("Settings")).toBeDefined();
   });
 
-  it("applies expanded width (w-56) when expanded", () => {
+  it("applies expanded width (w-64) when expanded", () => {
     renderSidebar(false);
     const aside = document.querySelector("aside");
-    expect(aside?.className).toContain("w-56");
+    expect(aside?.className).toContain("w-64");
   });
 
   it("applies collapsed width (w-12) when collapsed", () => {

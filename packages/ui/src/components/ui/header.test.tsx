@@ -97,11 +97,7 @@ describe("Header", () => {
 
   it("should render end as last child in DOM order", () => {
     const { container } = render(
-      <Header
-        title="Title"
-        start={<span>Start</span>}
-        end={<span>End</span>}
-      >
+      <Header title="Title" start={<span>Start</span>} end={<span>End</span>}>
         <span>Child</span>
       </Header>,
     );

@@ -12,6 +12,7 @@ import {
   MessageSquareWarning,
   PanelLeft,
   PanelRight,
+  RectangleEllipsis,
   Square,
   Table2,
 } from "lucide-react";
@@ -26,6 +27,7 @@ import * as ChartMod from "../pages/chart.mdx";
 import * as DatePickerMod from "../pages/date-picker.mdx";
 import * as DialogMod from "../pages/dialog.mdx";
 import * as SheetMod from "../pages/sheet.mdx";
+import * as InputMod from "../pages/input.mdx";
 import * as SidebarMod from "../pages/sidebar.mdx";
 import * as MapMod from "../pages/map.mdx";
 import * as TableMod from "../pages/table.mdx";
@@ -169,6 +171,14 @@ const pages: PageEntry[] = [
       (DataTableMod as unknown as MdxExports).frontmatter?.description ?? "",
     icon: Database,
     Component: DataTableMod.default,
+  },
+  {
+    slug: "input",
+    title: (InputMod as unknown as MdxExports).frontmatter?.title ?? "Input",
+    description:
+      (InputMod as unknown as MdxExports).frontmatter?.description ?? "",
+    icon: RectangleEllipsis,
+    Component: InputMod.default,
   },
 ];
 

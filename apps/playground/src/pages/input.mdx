@@ -1,0 +1,157 @@
+---
+title: Input
+description: Text input with built-in validation and type variants
+---
+
+import {
+  Input,
+  InputStatus,
+  InputEmail,
+  InputPassword,
+  InputURL,
+  InputTel,
+  InputNumber,
+} from "@lentil/ui";
+import { FormDemo } from "../lib/input-samples";
+
+# Input
+
+Text input field for collecting user data. Supports all native HTML input types,
+and provides specialised variants with built-in validation for common use cases.
+
+## Basic
+
+```tsx preview
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+    maxWidth: "24rem",
+  }}
+>
+  <Input placeholder="Type something..." />
+  <Input placeholder="Disabled" disabled />
+  <Input defaultValue="Read-only value" readOnly />
+</div>
+```
+
+## Types
+
+Specialised inputs with built-in validation that triggers on blur.
+
+```tsx preview
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+    maxWidth: "24rem",
+  }}
+>
+  <label className="text-sm font-medium">Email</label>
+  <InputEmail placeholder="name@example.com" />
+
+  <label className="text-sm font-medium">Number</label>
+  <InputNumber placeholder="0–100" min={0} max={100} />
+
+  <label className="text-sm font-medium">Password</label>
+  <InputPassword placeholder="Min 8 characters" successText="" />
+
+  <label className="text-sm font-medium">URL</label>
+  <InputURL placeholder="https://example.com" successText="" />
+
+  <label className="text-sm font-medium">Tel</label>
+  <InputTel placeholder="+1 (555) 000-0000" successText="" />
+
+  <label className="text-sm font-medium">Search</label>
+  <Input type="search" placeholder="Search..." />
+  <div className="min-h-5" />
+
+  <label className="text-sm font-medium">Date</label>
+  <Input type="date" />
+  <div className="min-h-5" />
+
+  <label className="text-sm font-medium">File</label>
+  <Input type="file" />
+  <div className="min-h-5" />
+
+  <label className="text-sm font-medium">Color</label>
+  <Input type="color" className="h-10 w-16 p-1" />
+  <div className="min-h-5" />
+</div>
+```
+
+## Form
+
+A complete form example with external validation.
+
+```tsx preview
+<FormDemo />
+```
+
+## Validation States
+
+Use `InputStatus` for manual error / success control.
+
+```tsx preview
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+    maxWidth: "24rem",
+  }}
+>
+  <label className="text-sm font-medium">Error</label>
+  <InputStatus
+    defaultValue="invalid@"
+    error="Please enter a valid email address"
+  />
+
+  <label className="text-sm font-medium">Success</label>
+  <InputStatus
+    defaultValue="user@example.com"
+    success="Looks good"
+  />
+</div>
+```
+
+## API
+
+### Input
+
+| Prop          | Type                     | Default  | Description                 |
+| ------------- | ------------------------ | -------- | --------------------------- |
+| `type`        | `HTMLInputTypeAttribute` | `"text"` | Native input type           |
+| `placeholder` | `string`                 | —        | Placeholder text            |
+| `disabled`    | `boolean`                | `false`  | Disable the input           |
+| `readOnly`    | `boolean`                | `false`  | Make input read-only        |
+| `required`    | `boolean`                | `false`  | Mark as required            |
+| `className`   | `string`                 | —        | Additional CSS classes      |
+| `...props`    | `InputHTMLAttributes`    | —        | All native input attributes |
+
+The `Input` component accepts all standard HTML `<input>` attributes including `min`, `max`, `maxLength`, `pattern`, `autoComplete`, `onChange`, `onBlur`, `onFocus`, etc.
+
+### InputStatus
+
+| Prop        | Type                     | Default | Description                             |
+| ----------- | ------------------------ | ------- | --------------------------------------- |
+| `error`     | `string`                 | —       | Error message (shows red AlertCircle)   |
+| `success`   | `string`                 | —       | Success message (shows green CheckCircle2, hidden if error is set) |
+| `type`      | `HTMLInputTypeAttribute` | `"text"`| Native input type                       |
+| `className` | `string`                 | —       | Additional CSS classes                  |
+| `...props`  | `InputHTMLAttributes`    | —       | All native input attributes             |
+
+### InputEmail / InputPassword / InputURL / InputTel / InputNumber
+
+Specialised inputs with built-in validation and internal `touched` state. Accept all
+`InputStatus` props plus:
+
+| Prop          | Type                               | Default              | Description                              |
+| ------------- | ---------------------------------- | -------------------- | ---------------------------------------- |
+| `validate`    | `(value: string) => string`        | —                    | Custom validator (return `""` when valid) |
+| `successText` | `string`                           | `"Valid …"`          | Set to `""` to hide success feedback      |
+| `minLength`   | `number`                           | `8`                  | *(InputPassword only)* Minimum length     |
+| `showToggle`  | `boolean`                          | `false`              | *(InputPassword only)* Show/hide button   |
+| `min` / `max` | `number`                           | —                    | *(InputNumber only)* Number range         |

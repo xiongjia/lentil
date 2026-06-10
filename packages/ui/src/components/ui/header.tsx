@@ -21,9 +21,7 @@ const Header = React.forwardRef<HTMLElement, HeaderProps>(
       {start && <div className="flex items-center gap-2">{start}</div>}
       <h1 className="text-lg font-semibold">{title}</h1>
       {children && <div className="flex items-center gap-2">{children}</div>}
-      {end && (
-        <div className="flex items-center gap-2 ml-auto">{end}</div>
-      )}
+      {end && <div className="flex items-center gap-2 ml-auto">{end}</div>}
     </header>
   ),
 );

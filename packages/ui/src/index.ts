@@ -46,6 +46,22 @@ export {
   DialogDescription,
 } from "./components/ui/dialog";
 export { Input } from "./components/ui/input";
+export { InputStatus } from "./components/ui/input-status";
+export type { InputStatusProps } from "./components/ui/input-status";
+export {
+  InputEmail,
+  InputPassword,
+  InputURL,
+  InputTel,
+  InputNumber,
+} from "./components/ui/input-validated";
+export type {
+  InputEmailProps,
+  InputPasswordProps,
+  InputURLProps,
+  InputTelProps,
+  InputNumberProps,
+} from "./components/ui/input-validated";
 export { Content } from "./components/ui/content";
 export { Header } from "./components/ui/header";
 export { MapView } from "./components/ui/map";

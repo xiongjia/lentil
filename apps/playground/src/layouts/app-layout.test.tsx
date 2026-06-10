@@ -68,9 +68,9 @@ describe("AppLayout", () => {
     // Find the toggle button (first button in the header)
     const [toggleButton] = screen.getAllByRole("button");
 
-    // Sidebar should start expanded (w-56)
+    // Sidebar should start expanded (w-64)
     const aside = document.querySelector("aside")!;
-    expect(aside.className).toContain("w-56");
+    expect(aside.className).toContain("w-64");
 
     // Click toggle
     fireEvent.click(toggleButton!);
