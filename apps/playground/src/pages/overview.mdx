@@ -4,7 +4,22 @@ description: Lentil UI component library overview
 ---
 
 import { Card, CardDescription, CardHeader, CardTitle } from "@lentil/ui";
-import { AppWindow, BarChart3, CalendarDays, CalendarSearch, CheckSquare, Database, Layers, Map, MessageSquareWarning, PanelLeft, PanelRight, Square, Table2 } from "lucide-react";
+import {
+  AppWindow,
+  BarChart3,
+  CalendarDays,
+  CalendarSearch,
+  CheckSquare,
+  Database,
+  Layers,
+  Map,
+  MessageSquareWarning,
+  PanelLeft,
+  PanelRight,
+  RectangleEllipsis,
+  Square,
+  Table2,
+} from "lucide-react";
 
 # Lentil UI
 
@@ -23,6 +38,19 @@ Click a component in the sidebar to explore its variants and usage.
       </CardHeader>
     </Card>
   </a>
+  <a href="#/input">
+    <Card className="h-full transition-shadow hover:shadow-md">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <RectangleEllipsis className="h-5 w-5 shrink-0" />
+          <span>Input</span>
+        </CardTitle>
+        <CardDescription>
+          Text input with validation and type variants
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </a>
   <a href="#/calendar">
     <Card className="h-full transition-shadow hover:shadow-md">
       <CardHeader>
@@ -30,7 +58,9 @@ Click a component in the sidebar to explore its variants and usage.
           <CalendarDays className="h-5 w-5 shrink-0" />
           <span>Calendar</span>
         </CardTitle>
-        <CardDescription>Date selection calendar with single, multiple, and range modes</CardDescription>
+        <CardDescription>
+          Date selection calendar with single, multiple, and range modes
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -41,7 +71,9 @@ Click a component in the sidebar to explore its variants and usage.
           <CalendarSearch className="h-5 w-5 shrink-0" />
           <span>Date Picker</span>
         </CardTitle>
-        <CardDescription>Popover date picker with calendar and formatting</CardDescription>
+        <CardDescription>
+          Popover date picker with calendar and formatting
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -74,7 +106,9 @@ Click a component in the sidebar to explore its variants and usage.
           <PanelRight className="h-5 w-5 shrink-0" />
           <span>Sheet</span>
         </CardTitle>
-        <CardDescription>Slide-over panel for dialogs and mobile interfaces</CardDescription>
+        <CardDescription>
+          Slide-over panel for dialogs and mobile interfaces
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -85,7 +119,9 @@ Click a component in the sidebar to explore its variants and usage.
           <PanelLeft className="h-5 w-5 shrink-0" />
           <span>Sidebar</span>
         </CardTitle>
-        <CardDescription>Collapsible sidebar navigation with icon and offcanvas modes</CardDescription>
+        <CardDescription>
+          Collapsible sidebar navigation with icon and offcanvas modes
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -118,7 +154,9 @@ Click a component in the sidebar to explore its variants and usage.
           <MessageSquareWarning className="h-5 w-5 shrink-0" />
           <span>Alert Dialog</span>
         </CardTitle>
-        <CardDescription>Modal for critical confirmations and alerts</CardDescription>
+        <CardDescription>
+          Modal for critical confirmations and alerts
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -129,7 +167,9 @@ Click a component in the sidebar to explore its variants and usage.
           <Table2 className="h-5 w-5 shrink-0" />
           <span>Table</span>
         </CardTitle>
-        <CardDescription>Data table with header, body, and footer</CardDescription>
+        <CardDescription>
+          Data table with header, body, and footer
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -140,7 +180,9 @@ Click a component in the sidebar to explore its variants and usage.
           <Database className="h-5 w-5 shrink-0" />
           <span>Data Table</span>
         </CardTitle>
-        <CardDescription>Sortable, filterable table with search, selection, and pagination</CardDescription>
+        <CardDescription>
+          Sortable, filterable table with search, selection, and pagination
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>
@@ -151,7 +193,9 @@ Click a component in the sidebar to explore its variants and usage.
           <BarChart3 className="h-5 w-5 shrink-0" />
           <span>Charts</span>
         </CardTitle>
-        <CardDescription>Area, Pie, and Radar charts powered by Recharts</CardDescription>
+        <CardDescription>
+          Area, Pie, and Radar charts powered by Recharts
+        </CardDescription>
       </CardHeader>
     </Card>
   </a>

@@ -13,11 +13,7 @@ export default function App() {
       <Suspense
         fallback={<div className="text-muted-foreground">Loading...</div>}
       >
-        {PageComponent ? (
-          <PageComponent />
-        ) : (
-          <div>Page not found: {slug}</div>
-        )}
+        {PageComponent ? <PageComponent /> : <div>Page not found: {slug}</div>}
       </Suspense>
     </AppLayout>
   );
