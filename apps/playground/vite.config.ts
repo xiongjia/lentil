@@ -18,8 +18,12 @@ function mdxCodePreview(): Plugin {
     name: "mdx-code-preview",
     enforce: "pre",
 
-    transform(code, id) {
+    transform(rawCode, id) {
       if (!id.endsWith(".mdx") && !id.endsWith(".md")) return;
+
+      // Normalize CRLF -> LF so Windows git autocrlf doesn't break position
+      // offsets and frontmatter detection below.
+      const code = rawCode.replace(/\r\n/g, "\n");
 
       // 1. Inject import if needed (right after frontmatter, or at the top)
       const importStmt = 'import { ComponentPreview } from "@lentil/ui";\n';
