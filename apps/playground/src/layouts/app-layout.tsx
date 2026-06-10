@@ -8,7 +8,7 @@ interface AppLayoutProps {
   children: ReactNode;
 }
 
-function AppLayout({ slug, children }: AppLayoutProps) {
+const AppLayout = ({ slug, children }: AppLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleSidebar = useCallback(() => setCollapsed((v) => !v), []);
 
@@ -27,6 +27,6 @@ function AppLayout({ slug, children }: AppLayoutProps) {
       </div>
     </SidebarProvider>
   );
-}
+};
 
 export { AppLayout };

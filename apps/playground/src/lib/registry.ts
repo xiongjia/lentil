@@ -182,9 +182,8 @@ const pages: PageEntry[] = [
   },
 ];
 
-export function getPage(slug: string): PageEntry | undefined {
-  return pages.find((p) => p.slug === slug);
-}
+export const getPage = (slug: string): PageEntry | undefined =>
+  pages.find((p) => p.slug === slug);
 
 export const pagesMeta: PageMeta[] = pages.map(
   ({ slug, title, description, icon }) => ({

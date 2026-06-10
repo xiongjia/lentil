@@ -2,17 +2,21 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AppHeader } from "./app-header";
 
-function renderHeader(collapsed = false, onToggle?: () => void) {
+vi.mock("./page-search", () => ({
+  PageSearch: () => null,
+}));
+
+const renderHeader = (collapsed = false, onToggle?: () => void) => {
   return render(
     <AppHeader collapsed={collapsed} onToggle={onToggle ?? vi.fn()} />,
   );
-}
+};
 
 /** Returns toggle button + theme button, asserting both exist. */
-function getButtons() {
+const getButtons = () => {
   const buttons = screen.getAllByRole("button");
   return buttons as [HTMLElement, ...HTMLElement[]];
-}
+};
 
 describe("AppHeader", () => {
   it("renders header with title", () => {
