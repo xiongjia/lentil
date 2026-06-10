@@ -34,13 +34,13 @@ beforeAll(() => {
   });
 });
 
-function renderSidebar(collapsed: boolean, slug = "overview") {
+const renderSidebar = (collapsed: boolean, slug = "overview") => {
   return render(
     <SidebarProvider>
       <AppSidebar collapsed={collapsed} slug={slug} />
     </SidebarProvider>,
   );
-}
+};
 
 describe("AppSidebar", () => {
   it("renders navigation items when expanded", () => {

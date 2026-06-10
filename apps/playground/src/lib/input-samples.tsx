@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { InputStatus, InputPassword, InputNumber } from "@lentil/ui";
 
-export function FormDemo() {
+export const FormDemo = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
@@ -132,4 +132,4 @@ export function FormDemo() {
       </button>
     </form>
   );
-}
+};

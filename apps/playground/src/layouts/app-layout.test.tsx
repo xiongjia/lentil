@@ -41,9 +41,9 @@ beforeAll(() => {
   });
 });
 
-function renderLayout(children: ReactNode) {
+const renderLayout = (children: ReactNode) => {
   return render(<AppLayout slug="overview">{children}</AppLayout>);
-}
+};
 
 describe("AppLayout", () => {
   it("renders children", () => {

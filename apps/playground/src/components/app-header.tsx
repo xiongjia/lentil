@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Button,
   Header,
@@ -8,13 +9,29 @@ import {
   TooltipTrigger,
 } from "@lentil/ui";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
+import { PageSearch } from "./page-search";
+
+const shortcutLabel = (() => {
+  if (typeof navigator === "undefined") return "⌘B";
+  return /Mac|iPod|iPhone|iPad/.test(navigator.platform ?? "")
+    ? "⌘B"
+    : "Ctrl+B";
+})();
 
 interface AppHeaderProps {
   collapsed: boolean;
   onToggle: () => void;
 }
 
-function AppHeader({ collapsed, onToggle }: AppHeaderProps) {
+const AppHeader = ({ collapsed, onToggle }: AppHeaderProps) => {
+  const tooltipText = useMemo(
+    () =>
+      collapsed
+        ? `Expand sidebar (${shortcutLabel})`
+        : `Collapse sidebar (${shortcutLabel})`,
+    [collapsed],
+  );
+
   return (
     <Header
       title="Lentil UI"
@@ -30,15 +47,15 @@ function AppHeader({ collapsed, onToggle }: AppHeaderProps) {
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
-              {collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            </TooltipContent>
+            <TooltipContent>{tooltipText}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       }
       end={<ThemeToggle />}
-    />
+    >
+      <PageSearch />
+    </Header>
   );
-}
+};
 
 export { AppHeader };

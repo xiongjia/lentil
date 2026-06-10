@@ -46,3 +46,4 @@ lentil/
 4. **Backend logging**: Use `APP_LOGGER` injection for runtime logging; use pino directly in bootstrap code. Log levels controlled by `LOG_LEVEL` env var.
 5. **Tests co-located**: Test files live next to source files (`*.test.tsx`, `*.spec.ts`).
 6. **UI components in @lentil/ui**: Reusable components go in the UI package with exports in `src/index.ts`. Import from `@lentil/ui` directly (not subpaths). Playground uses them for documentation.
+7. **Arrow functions preferred**: Use `const ... = () => {}` arrow functions instead of `function` declarations. `function` is only for special cases (generators, `this` binding, hoisting).
