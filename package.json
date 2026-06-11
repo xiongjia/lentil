@@ -9,10 +9,10 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
-    "tailwindcss": "^4.2.4",
-    "turbo": "^2.9.6",
-    "typescript": "5.9.2"
+    "prettier": "catalog:",
+    "tailwindcss": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
   },
   "packageManager": "pnpm@11.5.2",
   "engines": {

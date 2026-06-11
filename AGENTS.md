@@ -3,7 +3,8 @@
 ```
 lentil/
 ├── apps/
-│   ├── backend/              # NestJS REST API server
+│   ├── backend/              # NestJS REST API server (serves dashboard SPA)
+│   ├── dashboard/            # Vite + React admin dashboard UI
 │   └── playground/           # Vite + React + MDX playground for UI docs
 ├── packages/
 │   ├── config/               # Shared ESLint & TypeScript configs
@@ -24,11 +25,14 @@ lentil/
 - **Testing**: Vitest (UI), Jest (backend)
 - **CI/CD**: GitHub Actions (build, test, Docker push to ghcr.io)
 - **TypeScript**: 5.9.x
+- **Dependency Management**: pnpm catalog (shared versions in `pnpm-workspace.yaml`)
+- **Build Order**: backend depends on dashboard (`^build` ensures dashboard → backend order)
 
 ## DEV environment tips
 
 - Install deps: `pnpm install`
 - Start playground (frontend): `pnpm turbo run dev --filter=@lentil/playground`
+- Start dashboard (admin UI): `pnpm turbo run dev --filter=@lentil/dashboard`
 - Start backend: `pnpm turbo run dev --filter=@lentil/backend`
 - Build all packages: `pnpm turbo run build`
 - Lint all packages: `pnpm turbo run lint`
