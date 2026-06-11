@@ -12,11 +12,13 @@ NestJS REST API server with pino logger and Swagger UI.
 
 ## Environment Variables
 
-| Variable           | Default | Description                                 |
-| ------------------ | ------- | ------------------------------------------- |
-| `PORT`             | `3850`  | Server port                                 |
-| `LOG_LEVEL`        | `info`  | Log level (trace, debug, info, warn, error) |
-| `API_DOCS_ENABLED` | `true`  | Enable Swagger API docs at `/api/docs`      |
+| Variable               | Default             | Description                                 |
+| ---------------------- | ------------------- | ------------------------------------------- |
+| `PORT`                 | `3990`              | Server port                                 |
+| `LOG_LEVEL`            | `info`              | Log level (trace, debug, info, warn, error) |
+| `API_DOCS_ENABLED`     | `true`              | Enable Swagger API docs at `/api/docs`      |
+| `DASHBOARD_BASE_URL`   | `/dashboard/`       | Dashboard URL prefix (set to `/` for root)  |
+| `DASHBOARD_STATIC_DIR` | `../dashboard/dist` | Dashboard build output directory            |
 
 ### Environment Files
 
@@ -105,8 +107,11 @@ describe("GeneralService", () => {
 
 ## API
 
-- Server: `http://localhost:3850`
-- Swagger docs: `http://localhost:3850/api/docs`
+- Server: `http://localhost:3990`
+- Swagger docs: `http://localhost:3990/api/docs`
+- Dashboard UI: `http://localhost:3990/dashboard/` (configurable via `DASHBOARD_BASE_URL`)
+
+The backend serves the dashboard's static build output. The dashboard is built first (turbo `^build`), then served at the configured base URL. The SPA fallback serves `index.html` for all unmatched dashboard routes, while API routes (`/health`, `/api/*`) are handled by NestJS controllers.
 
 ## Modules
 
@@ -136,10 +141,10 @@ Multi-stage Docker build with pnpm deploy for minimal production image.
 pnpm docker:build
 
 # Run container
-docker run --rm -p 3850:3850 lentil-backend:latest
+docker run --rm -p 3990:3990 lentil-backend:latest
 
 # With file logging
-docker run --rm -p 3850:3850 \
+docker run --rm -p 3990:3990 \
   -e LOG_ENABLE_FS_LOG=true \
   -v $(pwd)/logs:/app/logs \
   lentil-backend:latest

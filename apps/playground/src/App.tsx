@@ -3,7 +3,7 @@ import { useHashRoute } from "./lib/router";
 import { getPage } from "./lib/registry";
 import { AppLayout } from "./layouts/app-layout";
 
-export default function App() {
+const App = () => {
   const [slug] = useHashRoute();
   const page = getPage(slug);
   const PageComponent = page?.Component;
@@ -17,4 +17,6 @@ export default function App() {
       </Suspense>
     </AppLayout>
   );
-}
+};
+
+export default App;

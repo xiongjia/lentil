@@ -4,21 +4,102 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@jest/globals':
+      specifier: ^30.3.0
+      version: 30.3.0
+    '@tailwindcss/postcss':
+      specifier: ^4.2.4
+      version: 4.2.4
+    '@tanstack/react-table':
+      specifier: ^8.21.3
+      version: 8.21.3
+    '@testing-library/jest-dom':
+      specifier: ^6.9.1
+      version: 6.9.1
+    '@testing-library/react':
+      specifier: ^16.0.0
+      version: 16.3.2
+    '@types/jest':
+      specifier: ^30.0.0
+      version: 30.0.0
+    '@types/node':
+      specifier: ^22.15.3
+      version: 22.19.20
+    '@types/react':
+      specifier: ^19.2.2
+      version: 19.2.2
+    '@types/react-dom':
+      specifier: ^19.2.2
+      version: 19.2.2
+    '@vitejs/plugin-react':
+      specifier: ^4.5.0
+      version: 4.7.0
+    clsx:
+      specifier: ^2.1.1
+      version: 2.1.1
+    eslint:
+      specifier: ^9.39.1
+      version: 9.39.4
+    jest:
+      specifier: ^30.3.0
+      version: 30.3.0
+    jsdom:
+      specifier: ^26.1.0
+      version: 26.1.0
+    lucide-react:
+      specifier: ^1.16.0
+      version: 1.16.0
+    postcss:
+      specifier: ^8.5.3
+      version: 8.5.14
+    prettier:
+      specifier: ^3.7.4
+      version: 3.8.3
+    react:
+      specifier: ^19.2.0
+      version: 19.2.5
+    react-dom:
+      specifier: ^19.2.0
+      version: 19.2.5
+    tailwind-merge:
+      specifier: ^3.2.0
+      version: 3.5.0
+    tailwindcss:
+      specifier: ^4.2.4
+      version: 4.2.4
+    ts-jest:
+      specifier: ^29.4.9
+      version: 29.4.9
+    turbo:
+      specifier: ^2.9.18
+      version: 2.9.18
+    typescript:
+      specifier: ^5.9.2
+      version: 5.9.2
+    vite:
+      specifier: ^6.3.5
+      version: 6.4.2
+    vitest:
+      specifier: ^3.0.0
+      version: 3.2.4
+
 importers:
 
   .:
     devDependencies:
       prettier:
-        specifier: ^3.7.4
+        specifier: 'catalog:'
         version: 3.8.3
       tailwindcss:
-        specifier: ^4.2.4
+        specifier: 'catalog:'
         version: 4.2.4
       turbo:
-        specifier: ^2.9.6
-        version: 2.9.6
+        specifier: 'catalog:'
+        version: 2.9.18
       typescript:
-        specifier: 5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
 
   apps/backend:
@@ -70,11 +151,14 @@ importers:
         version: 7.8.2
     devDependencies:
       '@jest/globals':
-        specifier: ^30.3.0
+        specifier: 'catalog:'
         version: 30.3.0
       '@lentil/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@lentil/dashboard':
+        specifier: workspace:*
+        version: link:../dashboard
       '@nestjs/cli':
         specifier: ^10.4.9
         version: 10.4.9
@@ -88,19 +172,19 @@ importers:
         specifier: ^5.0.0
         version: 5.0.6
       '@types/jest':
-        specifier: ^30.0.0
+        specifier: 'catalog:'
         version: 30.0.0
       '@types/node':
-        specifier: ^22.15.3
+        specifier: 'catalog:'
         version: 22.19.20
       eslint:
-        specifier: ^9.39.1
+        specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
       jest:
-        specifier: ^30.3.0
+        specifier: 'catalog:'
         version: 30.3.0(@types/node@22.19.20)(ts-node@10.9.2(@types/node@22.19.20)(typescript@5.9.2))
       ts-jest:
-        specifier: ^29.4.9
+        specifier: 'catalog:'
         version: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest-util@30.3.0)(jest@30.3.0(@types/node@22.19.20)(ts-node@10.9.2(@types/node@22.19.20)(typescript@5.9.2)))(typescript@5.9.2)
       ts-node:
         specifier: '10'
@@ -109,8 +193,63 @@ importers:
         specifier: ^4.21.0
         version: 4.21.0
       typescript:
-        specifier: 5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
+
+  apps/dashboard:
+    dependencies:
+      '@lentil/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      react:
+        specifier: 'catalog:'
+        version: 19.2.5
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.5(react@19.2.5)
+    devDependencies:
+      '@lentil/config':
+        specifier: workspace:*
+        version: link:../../packages/config
+      '@tailwindcss/postcss':
+        specifier: 'catalog:'
+        version: 4.2.4
+      '@testing-library/jest-dom':
+        specifier: 'catalog:'
+        version: 6.9.1
+      '@testing-library/react':
+        specifier: 'catalog:'
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.2(@types/react@19.2.2)
+      '@vitejs/plugin-react':
+        specifier: 'catalog:'
+        version: 4.7.0(vite@6.4.2(@types/node@22.19.20)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4(jiti@2.6.1)
+      jsdom:
+        specifier: 'catalog:'
+        version: 26.1.0
+      postcss:
+        specifier: 'catalog:'
+        version: 8.5.14
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.2.4
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vite:
+        specifier: 'catalog:'
+        version: 6.4.2(@types/node@22.19.20)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4)
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.4(@types/debug@4.1.13)(@types/node@22.19.20)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4)
 
   apps/playground:
     dependencies:
@@ -118,16 +257,16 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       clsx:
-        specifier: ^2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       lucide-react:
-        specifier: ^1.16.0
+        specifier: 'catalog:'
         version: 1.16.0(react@19.2.5)
       react:
-        specifier: ^19.2.0
+        specifier: 'catalog:'
         version: 19.2.5
       react-dom:
-        specifier: ^19.2.0
+        specifier: 'catalog:'
         version: 19.2.5(react@19.2.5)
       remark-frontmatter:
         specifier: ^5.0.0
@@ -139,7 +278,7 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       tailwind-merge:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.5.0
     devDependencies:
       '@lentil/config':
@@ -155,49 +294,52 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(rollup@4.60.3)
       '@tailwindcss/postcss':
-        specifier: ^4.2.4
+        specifier: 'catalog:'
         version: 4.2.4
       '@tailwindcss/typography':
         specifier: ^0.5.19
         version: 0.5.19(tailwindcss@4.2.4)
       '@tanstack/react-table':
-        specifier: ^8.21.3
+        specifier: 'catalog:'
         version: 8.21.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@testing-library/jest-dom':
-        specifier: ^6.9.1
+        specifier: 'catalog:'
         version: 6.9.1
       '@testing-library/react':
-        specifier: ^16.0.0
+        specifier: 'catalog:'
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@types/react':
-        specifier: ^19.2.2
+        specifier: 'catalog:'
         version: 19.2.2
       '@types/react-dom':
-        specifier: ^19.2.2
+        specifier: 'catalog:'
         version: 19.2.2(@types/react@19.2.2)
       '@vitejs/plugin-react':
-        specifier: ^4.5.0
+        specifier: 'catalog:'
         version: 4.7.0(vite@6.4.2(@types/node@22.19.20)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4(jiti@2.6.1)
       jsdom:
-        specifier: ^26.1.0
+        specifier: 'catalog:'
         version: 26.1.0
       postcss:
-        specifier: ^8.5.3
+        specifier: 'catalog:'
         version: 8.5.14
       tailwindcss:
-        specifier: ^4.2.4
+        specifier: 'catalog:'
         version: 4.2.4
       typescript:
-        specifier: ^5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       vite:
-        specifier: ^6.3.5
+        specifier: 'catalog:'
         version: 6.4.2(@types/node@22.19.20)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4)
       vite-plugin-compression2:
         specifier: ^2.5.3
         version: 2.5.3(rollup@4.60.3)
       vitest:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.4(@types/debug@4.1.13)(@types/node@22.19.20)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4)
 
   packages/config:
@@ -206,7 +348,7 @@ importers:
         specifier: ^9.39.1
         version: 9.39.4
       eslint:
-        specifier: ^9.39.1
+        specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
       eslint-config-prettier:
         specifier: ^9.1.0
@@ -222,12 +364,12 @@ importers:
         version: 5.2.0(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-turbo:
         specifier: ^2.9.9
-        version: 2.9.9(eslint@9.39.4(jiti@2.6.1))(turbo@2.9.6)
+        version: 2.9.9(eslint@9.39.4(jiti@2.6.1))(turbo@2.9.18)
       globals:
         specifier: ^15.14.0
         version: 15.15.0
       typescript:
-        specifier: 5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       typescript-eslint:
         specifier: ^8.0.0
@@ -260,31 +402,31 @@ importers:
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tanstack/react-table':
-        specifier: ^8.21.3
+        specifier: 'catalog:'
         version: 8.21.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
       clsx:
-        specifier: ^2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
       lucide-react:
-        specifier: ^1.16.0
+        specifier: 'catalog:'
         version: 1.16.0(react@19.2.5)
       maplibre-gl:
         specifier: ^5.5.0
         version: 5.24.0
       react:
-        specifier: ^19.2.0
+        specifier: 'catalog:'
         version: 19.2.5
       react-day-picker:
         specifier: ^10.0.1
         version: 10.0.1(@types/react@19.2.2)(react@19.2.5)
       react-dom:
-        specifier: ^19.2.0
+        specifier: 'catalog:'
         version: 19.2.5(react@19.2.5)
       recharts:
         specifier: ^3.8.1
@@ -293,7 +435,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       tailwind-merge:
-        specifier: ^3.2.0
+        specifier: 'catalog:'
         version: 3.5.0
     devDependencies:
       '@lentil/config':
@@ -303,37 +445,37 @@ importers:
         specifier: ^4.1.3
         version: 4.2.4
       '@testing-library/jest-dom':
-        specifier: ^6.9.1
+        specifier: 'catalog:'
         version: 6.9.1
       '@testing-library/react':
-        specifier: ^16.0.0
+        specifier: 'catalog:'
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@testing-library/user-event':
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@types/node':
-        specifier: ^22.15.3
+        specifier: 'catalog:'
         version: 22.19.20
       '@types/react':
-        specifier: 19.2.2
+        specifier: 'catalog:'
         version: 19.2.2
       '@types/react-dom':
-        specifier: 19.2.2
+        specifier: 'catalog:'
         version: 19.2.2(@types/react@19.2.2)
       '@vitejs/plugin-react':
-        specifier: ^4.3.0
+        specifier: 'catalog:'
         version: 4.7.0(vite@6.4.2(@types/node@22.19.20)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))
       eslint:
-        specifier: ^9.39.1
+        specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
       jsdom:
-        specifier: ^26.1.0
+        specifier: 'catalog:'
         version: 26.1.0
       typescript:
-        specifier: 5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       vitest:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.4(@types/debug@4.1.13)(@types/node@22.19.20)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4)
 
 packages:
@@ -2332,33 +2474,33 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@turbo/darwin-64@2.9.6':
-    resolution: {integrity: sha512-X/56SnVXIQZBLKwniGTwEQTGmtE5brSACnKMBWpY3YafuxVYefrC2acamfjgxP7BG5w3I+6jf0UrLoSzgPcSJg==}
+  '@turbo/darwin-64@2.9.18':
+    resolution: {integrity: sha512-9f27peFu16ur8c0v9nUFUEyBnbKuuFsUTjHFWfmwGfzySBXbHwzU44QhZon6Mznz0cHsIr3984NQj/bVrnGSRw==}
     cpu: [x64]
     os: [darwin]
 
-  '@turbo/darwin-arm64@2.9.6':
-    resolution: {integrity: sha512-aalBeSl4agT/QtYGDyf/XLajedWzUC9Vg/pm/YO6QQ93vkQ91Vz5uK1ta5RbVRDozQSz4njxUNqRNmOXDzW+qw==}
+  '@turbo/darwin-arm64@2.9.18':
+    resolution: {integrity: sha512-9A6TMRq/Ib+QnbhLlgkhOm+624wO4pzSQ/yQviQfWHOlFvaYxdnIAYmu2H6TS6y7kSVL0DvzNe04NbESTOzFVQ==}
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/linux-64@2.9.6':
-    resolution: {integrity: sha512-YKi05jnNHaD7vevgYwahpzGwbsNNTwzU2c7VZdmdFm7+cGDP4oREUWSsainiMfRqjRuolQxBwRn8wf1jmu+YZA==}
+  '@turbo/linux-64@2.9.18':
+    resolution: {integrity: sha512-zCdIDtz69AnbYh913elJRRoF3QY5aa2HNnf+4rAkc7bQ+tWujiDkCNV7stazOUPggaDvhKIf2Z87qHftTeXSkw==}
     cpu: [x64]
     os: [linux]
 
-  '@turbo/linux-arm64@2.9.6':
-    resolution: {integrity: sha512-02o/ZS69cOYEDczXvOB2xmyrtzjQ2hVFtWZK1iqxXUfzMmTjZK4UumrfNnjckSg+gqeBfnPRHa0NstA173Ik3g==}
+  '@turbo/linux-arm64@2.9.18':
+    resolution: {integrity: sha512-Va1kXI04naMgYwqv/5Dfa36dTDx8015U7oaQAjrXa45ua9OoFjSV4OmvkML4EmXvUclQHCiBRbY8bvd0jV7eAg==}
     cpu: [arm64]
     os: [linux]
 
-  '@turbo/windows-64@2.9.6':
-    resolution: {integrity: sha512-wVdQjvnBI15wB6JrA+43CtUtagjIMmX6XYO758oZHAsCNSxqRlJtdyujih0D8OCnwCRWiGWGI63zAxR0hO6s9g==}
+  '@turbo/windows-64@2.9.18':
+    resolution: {integrity: sha512-m0kDhZANxSNz9ck1ybogFscHabriAsp4eDFNrN/1H5WrgTF7b3VlcPZnhuO3v2+E2KnCbeAc+UUT10BZZHdDKw==}
     cpu: [x64]
     os: [win32]
 
-  '@turbo/windows-arm64@2.9.6':
-    resolution: {integrity: sha512-1XUUyWW0W6FTSqGEhU8RHVqb2wP1SPkr7hIvBlMEwH9jr+sJQK5kqeosLJ/QaUv4ecSAd1ZhIrLoW7qslAzT4A==}
+  '@turbo/windows-arm64@2.9.18':
+    resolution: {integrity: sha512-nUdR8WqoomUys9iIQmG45TMiizJ+5BV8egSeLLZba/AWblyp3fVBcIH1kSE58OtK4g2YzbMJEth6Ttv9w5rqMA==}
     cpu: [arm64]
     os: [win32]
 
@@ -5895,8 +6037,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  turbo@2.9.6:
-    resolution: {integrity: sha512-+v2QJey7ZUeUiuigkU+uFfklvNUyPI2VO2vBpMYJA+a1hKFLFiKtUYlRHdb3P9CrAvMzi0upbjI4WT+zKtqkBg==}
+  turbo@2.9.18:
+    resolution: {integrity: sha512-bwabv6PupzeavybzEoArBAkwq5fnzwf8OFnRtpHwnviFWuwJPFxtyH+aVp36TmIqK3aYYgtTJ3J0m2ysxxSzQg==}
     hasBin: true
 
   type-check@0.4.0:
@@ -8196,22 +8338,22 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@turbo/darwin-64@2.9.6':
+  '@turbo/darwin-64@2.9.18':
     optional: true
 
-  '@turbo/darwin-arm64@2.9.6':
+  '@turbo/darwin-arm64@2.9.18':
     optional: true
 
-  '@turbo/linux-64@2.9.6':
+  '@turbo/linux-64@2.9.18':
     optional: true
 
-  '@turbo/linux-arm64@2.9.6':
+  '@turbo/linux-arm64@2.9.18':
     optional: true
 
-  '@turbo/windows-64@2.9.6':
+  '@turbo/windows-64@2.9.18':
     optional: true
 
-  '@turbo/windows-arm64@2.9.6':
+  '@turbo/windows-arm64@2.9.18':
     optional: true
 
   '@tybys/wasm-util@0.10.2':
@@ -9589,11 +9731,11 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-turbo@2.9.9(eslint@9.39.4(jiti@2.6.1))(turbo@2.9.6):
+  eslint-plugin-turbo@2.9.9(eslint@9.39.4(jiti@2.6.1))(turbo@2.9.18):
     dependencies:
       dotenv: 16.0.3
       eslint: 9.39.4(jiti@2.6.1)
-      turbo: 2.9.6
+      turbo: 2.9.18
 
   eslint-scope@5.1.1:
     dependencies:
@@ -12660,14 +12802,14 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  turbo@2.9.6:
+  turbo@2.9.18:
     optionalDependencies:
-      '@turbo/darwin-64': 2.9.6
-      '@turbo/darwin-arm64': 2.9.6
-      '@turbo/linux-64': 2.9.6
-      '@turbo/linux-arm64': 2.9.6
-      '@turbo/windows-64': 2.9.6
-      '@turbo/windows-arm64': 2.9.6
+      '@turbo/darwin-64': 2.9.18
+      '@turbo/darwin-arm64': 2.9.18
+      '@turbo/linux-64': 2.9.18
+      '@turbo/linux-arm64': 2.9.18
+      '@turbo/windows-64': 2.9.18
+      '@turbo/windows-arm64': 2.9.18
 
   type-check@0.4.0:
     dependencies:

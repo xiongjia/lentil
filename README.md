@@ -8,7 +8,8 @@ A monorepo for UI component development with shadcn/ui + Tailwind CSS.
 lentil/
 ├── apps/
 │   ├── backend/            # NestJS REST API server
-│   └── playground/          # Vite + React playground for testing UI components
+│   ├── dashboard/          # Vite + React admin dashboard UI
+│   └── playground/         # Vite + React playground for testing UI components
 ├── packages/
 │   ├── config/              # Shared ESLint & TypeScript configs
 │   └── ui/                  # Shared UI component library (shadcn/ui)
@@ -24,6 +25,7 @@ lentil/
 - **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
 - **Backend**: NestJS 11.x with pino logger
 - **TypeScript**: 5.9.x
+- **Dependency Management**: pnpm catalog (shared versions in `pnpm-workspace.yaml`)
 
 ## Getting Started
 
@@ -37,6 +39,12 @@ pnpm install
 
 ### Development
 
+Start the dashboard admin UI:
+
+```sh
+pnpm turbo run dev --filter=@lentil/dashboard
+```
+
 Start the playground app to test UI components:
 
 ```sh
@@ -49,7 +57,7 @@ Start the backend API server:
 pnpm turbo run dev --filter=@lentil/backend
 ```
 
-Backend runs on `http://localhost:3850` with Swagger docs at `http://localhost:3850/api`.
+Backend runs on `http://localhost:3990` with Swagger docs at `http://localhost:3990/api`.
 
 ### Build
 
@@ -102,13 +110,18 @@ pnpm turbo run cli --filter=@lentil/backend -- health  # Run backend CLI health 
 
 ### @lentil/backend
 
-NestJS 11 REST API server with pino logger, Swagger UI, and nest-commander CLI.
+NestJS 11 REST API server with pino logger, Swagger UI, and nest-commander CLI. Serves the dashboard SPA as static files (built first via turbo `^build`).
 
-- Port: `3850` (configurable via `.env.dev`)
-- Swagger docs: `http://localhost:3850/api`
+- Port: `3990` (configurable via `.env.dev`)
+- Swagger docs: `http://localhost:3990/api/docs`
+- Dashboard UI: `http://localhost:3990/dashboard/` (configurable via `DASHBOARD_BASE_URL`)
 - Log level controlled by `LOG_LEVEL` env var (trace, debug, info, warn, error)
 - Environment files: `.env.dev`, `.env.test`, `.env.prod`
 - CLI: `pnpm turbo run cli --filter=@lentil/backend -- <command>` (uses nest-commander 3)
+
+### @lentil/dashboard
+
+Admin dashboard UI for the backend, built with Vite + React + Tailwind CSS v4. Built output is served as static files by `@lentil/backend` at `/dashboard/` by default.
 
 ### @lentil/playground
 

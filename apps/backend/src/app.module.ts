@@ -23,7 +23,7 @@ export class AppModule implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    const port = this.configService.get<number>("PORT", 3850);
+    const port = this.configService.get<number>("PORT", 3990);
     this.logger.info(`Application is running on: http://localhost:${port}`);
     if (this.configService.get<boolean>("API_DOCS_ENABLED", true)) {
       this.logger.info(`Swagger docs: http://localhost:${port}/api/docs`);
