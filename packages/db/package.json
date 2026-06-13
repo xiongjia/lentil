@@ -1,0 +1,29 @@
+{
+  "name": "@lentil/db",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest",
+    "migration:create": "npx mikro-orm migration:create",
+    "migration:up": "npx mikro-orm migration:up"
+  },
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "dependencies": {
+    "@mikro-orm/core": "catalog:",
+    "@mikro-orm/libsql": "catalog:",
+    "@mikro-orm/migrations": "catalog:",
+    "@mikro-orm/nestjs": "catalog:",
+    "@mikro-orm/postgresql": "catalog:",
+    "@mikro-orm/reflection": "catalog:",
+    "@nestjs/common": "catalog:",
+    "@nestjs/config": "catalog:",
+    "pg": "catalog:"
+  },
+  "devDependencies": {
+    "@lentil/config": "workspace:*",
+    "@mikro-orm/cli": "catalog:",
+    "vitest": "catalog:"
+  }
+}

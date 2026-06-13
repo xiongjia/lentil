@@ -1,0 +1,11 @@
+{
+  "extends": "@lentil/config/typescript-config/base",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src", "migrations"]
+}

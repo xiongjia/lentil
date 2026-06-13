@@ -8,17 +8,25 @@ NestJS REST API server with pino logger and Swagger UI.
 - **Logger**: pino with nestjs-pino
 - **API Documentation**: Swagger UI
 - **Validation**: class-validator + class-transformer
+- **ORM**: MikroORM 6.x
 - **CLI**: nest-commander 3
 
 ## Environment Variables
 
-| Variable               | Default             | Description                                 |
-| ---------------------- | ------------------- | ------------------------------------------- |
-| `PORT`                 | `3990`              | Server port                                 |
-| `LOG_LEVEL`            | `info`              | Log level (trace, debug, info, warn, error) |
-| `API_DOCS_ENABLED`     | `true`              | Enable Swagger API docs at `/api/docs`      |
-| `DASHBOARD_BASE_URL`   | `/dashboard/`       | Dashboard URL prefix (set to `/` for root)  |
-| `DASHBOARD_STATIC_DIR` | `../dashboard/dist` | Dashboard build output directory            |
+| Variable               | Default             | Description                                      |
+| ---------------------- | ------------------- | ------------------------------------------------ |
+| `PORT`                 | `3990`              | Server port                                      |
+| `LOG_LEVEL`            | `info`              | Log level (trace, debug, info, warn, error)      |
+| `API_DOCS_ENABLED`     | `true`              | Enable Swagger API docs at `/api/docs`           |
+| `DASHBOARD_BASE_URL`   | `/dashboard/`       | Dashboard URL prefix (set to `/` for root)       |
+| `DASHBOARD_STATIC_DIR` | `../dashboard/dist` | Dashboard build output directory                 |
+| `DB_TYPE`              | `libsql`            | Database type: `libsql` (SQLite) or `postgresql` |
+| `PID_DIR`              | `.local`            | PID file directory                               |
+| `DB_NAME`              | `.local/lentil.db`  | SQLite file path or PostgreSQL database name     |
+| `DB_HOST`              | `localhost`         | PostgreSQL host (PG only)                        |
+| `DB_PORT`              | `5432`              | PostgreSQL port (PG only)                        |
+| `DB_USER`              | `postgres`          | PostgreSQL user (PG only)                        |
+| `DB_PASSWORD`          | `postgres`          | PostgreSQL password (PG only)                    |
 
 ### Environment Files
 
@@ -36,6 +44,7 @@ Environment files are loaded in priority order: `.env.dev`, `.env.test`, `.env.p
 pnpm dev          # Start with watch mode
 pnpm build        # Build for production
 pnpm start        # Start production server
+pnpm stop         # Stop the running server
 pnpm lint         # Lint code
 pnpm check-types  # TypeScript type check
 pnpm test         # Run unit tests
@@ -116,7 +125,8 @@ The backend serves the dashboard's static build output. The dashboard is built f
 ## Modules
 
 - **LoggerModule** (Global) - Provides `APP_LOGGER` token for DI-based logging
-- **GeneralModule** - General endpoints (health check)
+- **DatabaseModule** (Global) - MikroORM connection, auto-syncs schema on startup
+- **GeneralModule** - General endpoints (health check, `/db/hello`)
 
 ## Logger Usage
 

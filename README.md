@@ -12,6 +12,7 @@ lentil/
 │   └── playground/         # Vite + React playground for testing UI components
 ├── packages/
 │   ├── config/              # Shared ESLint & TypeScript configs
+│   ├── db/                  # Shared database package (entities, migrations)
 │   └── ui/                  # Shared UI component library (shadcn/ui)
 ├── package.json             # Root workspace config (pnpm)
 ├── turbo.json              # Turborepo task orchestration
@@ -23,7 +24,7 @@ lentil/
 - **Package Manager**: pnpm 11.x (monorepo workspace)
 - **Build Tool**: Turborepo 2.x (task orchestration)
 - **Frontend**: React 19.x with shadcn/ui + Tailwind CSS v4
-- **Backend**: NestJS 11.x with pino logger
+- **Backend**: NestJS 11.x with pino logger + MikroORM 6.x
 - **TypeScript**: 5.9.x
 - **Dependency Management**: pnpm catalog (shared versions in `pnpm-workspace.yaml`)
 
@@ -110,11 +111,12 @@ pnpm turbo run cli --filter=@lentil/backend -- health  # Run backend CLI health 
 
 ### @lentil/backend
 
-NestJS 11 REST API server with pino logger, Swagger UI, and nest-commander CLI. Serves the dashboard SPA as static files (built first via turbo `^build`).
+NestJS 11 REST API server with MikroORM 6.x, pino logger, Swagger UI, and nest-commander CLI. Serves the dashboard SPA as static files (built first via turbo `^build`).
 
 - Port: `3990` (configurable via `.env.dev`)
 - Swagger docs: `http://localhost:3990/api/docs`
 - Dashboard UI: `http://localhost:3990/dashboard/` (configurable via `DASHBOARD_BASE_URL`)
+- Database: SQLite via libsql by default, PostgreSQL supported via `DB_TYPE` env var
 - Log level controlled by `LOG_LEVEL` env var (trace, debug, info, warn, error)
 - Environment files: `.env.dev`, `.env.test`, `.env.prod`
 - CLI: `pnpm turbo run cli --filter=@lentil/backend -- <command>` (uses nest-commander 3)
@@ -130,6 +132,10 @@ Vite + React playground for testing UI components.
 ### @lentil/ui
 
 Shared UI component library using shadcn/ui + Tailwind CSS v4.
+
+### @lentil/db
+
+Shared database package — entities, migrations, and MikroORM configuration. Supports SQLite (libsql, WASM) for dev and PostgreSQL for production.
 
 ### @lentil/config
 
