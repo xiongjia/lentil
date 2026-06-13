@@ -1,9 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ConfigModule } from "@nestjs/config";
-import { GeneralModule } from "./general.module";
 import { GeneralService } from "./general.service";
-import { ProvidersModule } from "../providers";
-import { DatabaseModule } from "@lentil/db";
+import { APP_LOGGER } from "../providers";
 import { describe, beforeEach, it, expect } from "@jest/globals";
 
 describe("GeneralService", () => {
@@ -11,11 +8,9 @@ describe("GeneralService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({ isGlobal: true, envFilePath: [".env.test"] }),
-        DatabaseModule,
-        ProvidersModule,
-        GeneralModule,
+      providers: [
+        GeneralService,
+        { provide: APP_LOGGER, useValue: { debug: () => {} } },
       ],
     }).compile();
 

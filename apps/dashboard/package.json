@@ -11,7 +11,10 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@lentil/rpc": "workspace:*",
     "@lentil/ui": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/openapi-client": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
