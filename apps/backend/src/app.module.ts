@@ -1,6 +1,8 @@
 import { Module, OnModuleInit, Inject } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MikroORM } from "@mikro-orm/core";
 import { GeneralModule } from "./modules/general/general.module";
+import { DatabaseModule } from "@lentil/db";
 import { ProvidersModule, APP_LOGGER } from "./modules/providers";
 import pino from "pino";
 
@@ -10,6 +12,7 @@ import pino from "pino";
       isGlobal: true,
       envFilePath: [".env.dev", ".env.test", ".env.prod"],
     }),
+    DatabaseModule,
     ProvidersModule,
     GeneralModule,
   ],
@@ -20,9 +23,12 @@ export class AppModule implements OnModuleInit {
   constructor(
     private configService: ConfigService,
     @Inject(APP_LOGGER) private readonly logger: pino.Logger,
+    private readonly orm: MikroORM,
   ) {}
 
-  onModuleInit() {
+  async onModuleInit() {
+    await this.orm.migrator.up();
+
     const port = this.configService.get<number>("PORT", 3990);
     this.logger.info(`Application is running on: http://localhost:${port}`);
     if (this.configService.get<boolean>("API_DOCS_ENABLED", true)) {

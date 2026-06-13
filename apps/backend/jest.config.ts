@@ -5,7 +5,7 @@ const config: Config = {
   testEnvironment: "node",
   moduleFileExtensions: ["ts", "js"],
   rootDir: "src",
-  testMatch: ["**/*.spec.ts"],
+  testMatch: ["**/*.test.ts"],
 };
 
 export default config;
