@@ -64,8 +64,6 @@ export type {
 } from "./components/ui/input-validated";
 export { Content } from "./components/ui/content";
 export { Header } from "./components/ui/header";
-export { MapView } from "./components/ui/map";
-export type { MapViewProps } from "./components/ui/map";
 export {
   Popover,
   PopoverTrigger,

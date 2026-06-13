@@ -1,0 +1,5 @@
+{
+  "extends": "@lentil/config/typescript-config/base",
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -35,6 +35,7 @@ lentil/
 - Install deps: `pnpm install`
 - Start playground (frontend): `pnpm turbo run dev --filter=@lentil/playground`
 - Start dashboard (admin UI): `pnpm turbo run dev --filter=@lentil/dashboard`
+- Start backend + dashboard: `pnpm dev:app`
 - Start backend: `pnpm turbo run dev --filter=@lentil/backend`
 - Stop backend: `cd apps/backend && pnpm stop`
 - Build all packages: `pnpm turbo run build`

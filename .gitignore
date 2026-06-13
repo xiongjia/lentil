@@ -40,10 +40,15 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+*.pid
 *.tsbuildinfo
 *.db
 temp/
 .snapshot-*.json
+
+# Backend runtime
+apps/backend/.local/
+apps/backend/docs/
 
 # Logs
 logs/
