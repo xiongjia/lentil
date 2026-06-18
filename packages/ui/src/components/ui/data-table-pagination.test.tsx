@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import type { Table } from "@tanstack/react-table";
 import { DataTablePagination } from "./data-table-pagination";
 
 function mockTable(overrides: Record<string, unknown> = {}) {
@@ -13,7 +14,9 @@ function mockTable(overrides: Record<string, unknown> = {}) {
     getFilteredSelectedRowModel: () => ({ rows: [] }),
     getFilteredRowModel: () => ({ rows: new Array(25) }),
     ...overrides,
-  } as any;
+  // `unknown` bridge is the standard TS pattern for partial test mocks
+  // that don't implement the full interface (124+ Table properties).
+  } as unknown as Table<unknown>;
 }
 
 describe("DataTablePagination", () => {

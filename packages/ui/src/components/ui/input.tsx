@@ -4,6 +4,7 @@ import { cn } from "../../lib/utils";
 const Input = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>
+  // eslint-disable-next-line react/prop-types -- types from InputHTMLAttributes
 >(({ className, type, ...props }, ref) => (
   <input
     type={type}

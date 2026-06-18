@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { DataTable } from "./data-table";
 
+import type { ColumnDef } from "@tanstack/react-table";
+
 type TestRow = { name: string; value: number };
 
 const columnHelper = createColumnHelper<TestRow>();
@@ -10,7 +12,7 @@ const columnHelper = createColumnHelper<TestRow>();
 const columns = [
   columnHelper.accessor("name", { header: "Name" }),
   columnHelper.accessor("value", { header: "Value" }),
-];
+] as ColumnDef<TestRow, unknown>[];
 
 const data: TestRow[] = [
   { name: "Alice", value: 100 },

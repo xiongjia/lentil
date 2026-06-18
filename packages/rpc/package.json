@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@lentil/config": "workspace:*",
+    "eslint": "catalog:",
     "tsup": "catalog:"
   }
 }

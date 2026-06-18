@@ -1,5 +1,6 @@
 import { Controller, Get, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import { Implement, implement } from "@orpc/nest";
 import { OpenAPIGenerator } from "@orpc/openapi";
 import { ZodToJsonSchemaConverter } from "@orpc/zod";
@@ -26,6 +27,7 @@ export class GeneralRPC {
   }
 
   @Get("spec")
+  @ApiExcludeEndpoint()
   spec() {
     if (!this.config.get<boolean>("RPC_SPEC_ENABLED", true)) {
       throw new NotFoundException("RPC spec is disabled");

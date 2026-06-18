@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
     "test": "vitest",
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up"
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@lentil/config": "workspace:*",
     "@mikro-orm/cli": "catalog:",
+    "eslint": "catalog:",
     "vitest": "catalog:"
   }
 }

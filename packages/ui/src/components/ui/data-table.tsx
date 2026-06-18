@@ -124,12 +124,13 @@ function DataTable<TData, TValue>({
     if (searchKeys && searchKeys.length > 0 && !activeSearchKey) {
       setActiveSearchKey(searchKeys[0]!);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- activeSearchKey is set inside
   }, [searchKeys]);
 
   const searchLabel = (() => {
     if (!activeSearchKey) return "Search";
     const col = columns.find(
-      (c) => "accessorKey" in c && (c as any).accessorKey === activeSearchKey,
+      (c) => "accessorKey" in c && (c as { accessorKey: string }).accessorKey === activeSearchKey,
     );
     return typeof col?.header === "string" ? col.header : activeSearchKey;
   })();
@@ -156,7 +157,7 @@ function DataTable<TData, TValue>({
               <DropdownMenuContent align="start">
                 {searchKeys.map((key) => {
                   const col = columns.find(
-                    (c) => "accessorKey" in c && (c as any).accessorKey === key,
+                    (c) => "accessorKey" in c && (c as { accessorKey: string }).accessorKey === key,
                   );
                   const label =
                     typeof col?.header === "string" ? col.header : key;

@@ -361,7 +361,7 @@ describe("SidebarMenuBadge", () => {
 
 describe("SidebarMenuSub", () => {
   it("should render sub menu", () => {
-    const { container } = renderSidebar(
+    renderSidebar(
       <Sidebar>
         <SidebarMenu>
           <SidebarMenuItem>

@@ -26,6 +26,7 @@ export const getMikroOrmConfig = (config: ConfigService): Options => {
   if (dbType === "postgresql") {
     return {
       ...base,
+      // eslint-disable-next-line @typescript-eslint/no-require-imports -- MikroORM driver must be loaded dynamically for optional PG dependency
       driver: require("@mikro-orm/postgresql").PostgreSqlDriver,
       host: config.get("DB_HOST", "localhost"),
       port: config.get("DB_PORT", 5432),
@@ -38,6 +39,7 @@ export const getMikroOrmConfig = (config: ConfigService): Options => {
   // default: SQLite via libsql
   return {
     ...base,
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- libsql driver loaded dynamically
     driver: require("@mikro-orm/libsql").LibSqlDriver,
     dbName: config.get("DB_NAME", ".local/lentil.db"),
   };

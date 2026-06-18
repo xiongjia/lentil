@@ -14,8 +14,22 @@ interface RPCClient {
   };
 }
 
+/** Total request timeout in ms (browser fetch does not expose per-phase timing). */
+const RPC_TIMEOUT_MS = 30_000;
+
 // In dev (Vite), backend runs on 3990. In prod (served by backend), relative path works.
 const rpcUrl = import.meta.env.DEV ? "http://localhost:3990/rpc" : "/rpc";
 
-const link = new OpenAPILink(contract, { url: rpcUrl });
+const link = new OpenAPILink(contract, {
+  url: rpcUrl,
+  fetch(request, init, options) {
+    const timeoutSignal = AbortSignal.timeout(RPC_TIMEOUT_MS);
+    const signal = options.signal
+      ? AbortSignal.any([timeoutSignal, options.signal])
+      : timeoutSignal;
+
+    return fetch(request, { ...init, signal });
+  },
+});
+
 export const rpc = createORPCClient(link) as unknown as RPCClient;

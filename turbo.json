@@ -1,6 +1,7 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
+  "globalEnv": ["DB_NAME", "CORS_ORIGIN", "DEV", "PROD", "MODE"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -11,10 +12,9 @@
       "dependsOn": ["^lint"]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": ["^build"]
     },
     "dev": {
-      "dependsOn": ["^dev"],
       "cache": false,
       "persistent": true
     },
