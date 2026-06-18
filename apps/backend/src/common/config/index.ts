@@ -1,4 +1,3 @@
-export { setupPipes } from "./setup-pipes";
-export { setupSwagger } from "./setup-swagger";
+export { setup } from "./setup";
+export { setupApiDoc } from "./setup-apidoc";
 export { setupDashboard } from "./setup-dashboard";
-export { setupScalar } from "./setup-scalar";

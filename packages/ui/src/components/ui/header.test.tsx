@@ -117,8 +117,8 @@ describe("Header", () => {
     const header = container.firstChild!;
     const nodes = Array.from(header.childNodes) as HTMLElement[];
     const endWrapper = nodes[nodes.length - 1];
-
-    expect(endWrapper.classList).toContain("ml-auto");
+    expect(endWrapper).toBeDefined();
+    expect(endWrapper!.classList).toContain("ml-auto");
   });
 
   it("should not render end wrapper when end is omitted", () => {

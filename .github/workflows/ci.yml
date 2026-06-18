@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
+  check:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -28,8 +28,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: pnpm build
+      - name: Cache turbo
+        uses: actions/cache@v5
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-check-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-check-
+
+      - name: Lint
+        run: pnpm exec turbo run lint
+
+      - name: Type check
+        run: pnpm exec turbo run check-types
 
   test:
     name: Unit Tests
@@ -49,26 +60,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run db tests
-        run: pnpm turbo run test --filter=@lentil/db
+      - name: Cache turbo
+        uses: actions/cache@v5
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-test-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-test-
 
-      - name: Run backend tests
-        run: pnpm turbo run test --filter=@lentil/backend
-
-      - name: Run UI tests
-        run: cd packages/ui && npx vitest --run
-
-      - name: Run playground tests
-        run: pnpm turbo run test --filter=@lentil/playground
-
-      - name: Run dashboard tests
-        run: pnpm turbo run test --filter=@lentil/dashboard
+      - name: Run tests
+        run: pnpm exec turbo run test
 
   docker:
     name: Docker Build & Push
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build, test]
+    needs: [check, test]
     permissions:
       contents: read
       packages: write

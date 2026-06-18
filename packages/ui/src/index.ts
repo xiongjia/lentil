@@ -45,6 +45,8 @@ export {
   DialogTitle,
   DialogDescription,
 } from "./components/ui/dialog";
+export { MapView } from "./components/ui/map";
+export type { MapViewProps } from "./components/ui/map";
 export { Input } from "./components/ui/input";
 export { InputStatus } from "./components/ui/input-status";
 export type { InputStatusProps } from "./components/ui/input-status";

@@ -8,6 +8,15 @@ import remarkGfm from "remark-gfm";
 import { compression } from "vite-plugin-compression2";
 import path from "path";
 
+interface MdastNode {
+  type: string;
+  lang?: string | null;
+  meta?: string | null;
+  value?: string;
+  position?: { start: { offset?: number }; end: { offset?: number } };
+  children?: MdastNode[];
+}
+
 // Vite transform plugin: rewrites ```tsx preview fenced code blocks into
 // <ComponentPreview> elements in the raw source text BEFORE MDX compilation.
 // Uses MDAST parser for accurate position-based detection (no regex).
@@ -37,7 +46,7 @@ function mdxCodePreview(): Plugin {
       }
 
       // 2. Re-parse after import injection to get fresh offsets
-      let tree: any;
+      let tree: MdastNode;
       try {
         tree = parser.parse({ value: source });
       } catch {
@@ -48,16 +57,18 @@ function mdxCodePreview(): Plugin {
       const blocks: Array<{ start: number; end: number; codeText: string }> =
         [];
 
-      function walk(node: any) {
+      function walk(node: MdastNode) {
         if (
           node.type === "code" &&
           node.lang === "tsx" &&
           node.meta === "preview" &&
-          node.position
+          node.position?.start.offset != null &&
+          node.position.end.offset != null &&
+          node.value != null
         ) {
           blocks.push({
-            start: node.position.start.offset!,
-            end: node.position.end.offset!,
+            start: node.position.start.offset,
+            end: node.position.end.offset,
             codeText: node.value,
           });
         }

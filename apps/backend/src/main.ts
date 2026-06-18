@@ -3,10 +3,9 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
 import {
-  setupPipes,
+  setup,
   setupDashboard,
-  setupSwagger,
-  setupScalar,
+  setupApiDoc,
 } from "./common/config";
 import { writePidFile } from "./common/utils";
 
@@ -14,18 +13,10 @@ const bootstrap = async () => {
   // Create the NestJS application with Express platform
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Enable CORS for dev (dashboard on different port).
-  // Set CORS_ORIGIN to a specific origin in production.
-  app.enableCors({
-    origin: process.env.CORS_ORIGIN ?? true,
-    credentials: true,
-  });
-
   // Apply global middleware and configuration
-  setupPipes(app);
+  setup(app);
   setupDashboard(app);
-  setupSwagger(app);
-  setupScalar(app);
+  setupApiDoc(app);
 
   // Start listening
   const configService = app.get(ConfigService);
