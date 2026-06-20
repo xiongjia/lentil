@@ -130,7 +130,9 @@ function DataTable<TData, TValue>({
   const searchLabel = (() => {
     if (!activeSearchKey) return "Search";
     const col = columns.find(
-      (c) => "accessorKey" in c && (c as { accessorKey: string }).accessorKey === activeSearchKey,
+      (c) =>
+        "accessorKey" in c &&
+        (c as { accessorKey: string }).accessorKey === activeSearchKey,
     );
     return typeof col?.header === "string" ? col.header : activeSearchKey;
   })();
@@ -157,7 +159,9 @@ function DataTable<TData, TValue>({
               <DropdownMenuContent align="start">
                 {searchKeys.map((key) => {
                   const col = columns.find(
-                    (c) => "accessorKey" in c && (c as { accessorKey: string }).accessorKey === key,
+                    (c) =>
+                      "accessorKey" in c &&
+                      (c as { accessorKey: string }).accessorKey === key,
                   );
                   const label =
                     typeof col?.header === "string" ? col.header : key;

@@ -26,9 +26,11 @@ export class IntegrationRPC {
 
   @Implement(contract.integration.get)
   async get() {
-    return implement(contract.integration.get).handler(async ({ input: { id } }) => {
-      return this.configService.get(id);
-    });
+    return implement(contract.integration.get).handler(
+      async ({ input: { id } }) => {
+        return this.configService.get(id);
+      },
+    );
   }
 
   @Implement(contract.integration.create)
@@ -40,22 +42,28 @@ export class IntegrationRPC {
 
   @Implement(contract.integration.update)
   async update() {
-    return implement(contract.integration.update).handler(async ({ input: { id, ...data } }) => {
-      return this.configService.update(id, data);
-    });
+    return implement(contract.integration.update).handler(
+      async ({ input: { id, ...data } }) => {
+        return this.configService.update(id, data);
+      },
+    );
   }
 
   @Implement(contract.integration.remove)
   async remove() {
-    return implement(contract.integration.remove).handler(async ({ input: { id } }) => {
-      await this.configService.remove(id);
-    });
+    return implement(contract.integration.remove).handler(
+      async ({ input: { id } }) => {
+        await this.configService.remove(id);
+      },
+    );
   }
 
   @Implement(contract.integration.test)
   async test() {
-    return implement(contract.integration.test).handler(async ({ input: { type, config } }) => {
-      return this.integration.testConnection(type, config);
-    });
+    return implement(contract.integration.test).handler(
+      async ({ input: { type, config } }) => {
+        return this.integration.testConnection(type, config);
+      },
+    );
   }
 }

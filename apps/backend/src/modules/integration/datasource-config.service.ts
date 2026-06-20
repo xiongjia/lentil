@@ -35,7 +35,10 @@ export class DatasourceConfigService {
 
   async list(): Promise<ExternalDataSource[]> {
     const configs = await this.em.find(ExternalDataSource, {});
-    this.logger.debug({ count: configs.length }, "Listed external data sources");
+    this.logger.debug(
+      { count: configs.length },
+      "Listed external data sources",
+    );
     return configs;
   }
 
@@ -64,7 +67,10 @@ export class DatasourceConfigService {
     });
     this.em.persist(ds);
     await this.em.flush();
-    this.logger.info({ id: ds.id, name: ds.name, type: ds.type }, "Created external data source");
+    this.logger.info(
+      { id: ds.id, name: ds.name, type: ds.type },
+      "Created external data source",
+    );
 
     const connectionTest = await this.integration
       .testConnection(ds.type, ds.config)
@@ -91,10 +97,16 @@ export class DatasourceConfigService {
     try {
       await this.integration.release(id);
     } catch (err) {
-      this.logger.warn({ id, err }, "Failed to release connection after update");
+      this.logger.warn(
+        { id, err },
+        "Failed to release connection after update",
+      );
     }
 
-    this.logger.info({ id, oldName, newName: ds.name }, "Updated external data source");
+    this.logger.info(
+      { id, oldName, newName: ds.name },
+      "Updated external data source",
+    );
 
     const connectionTest = await this.integration
       .testConnection(ds.type, ds.config)
@@ -115,8 +127,14 @@ export class DatasourceConfigService {
     try {
       await this.integration.release(id);
     } catch (err) {
-      this.logger.warn({ id, err }, "Failed to release connection after remove");
+      this.logger.warn(
+        { id, err },
+        "Failed to release connection after remove",
+      );
     }
-    this.logger.info({ id, name: ds.name, type: ds.type }, "Removed external data source");
+    this.logger.info(
+      { id, name: ds.name, type: ds.type },
+      "Removed external data source",
+    );
   }
 }

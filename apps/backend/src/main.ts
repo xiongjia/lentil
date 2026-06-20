@@ -2,11 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
-import {
-  setup,
-  setupDashboard,
-  setupApiDoc,
-} from "./common/config";
+import { setup, setupDashboard, setupApiDoc } from "./common/config";
 import { writePidFile } from "./common/utils";
 
 const bootstrap = async () => {

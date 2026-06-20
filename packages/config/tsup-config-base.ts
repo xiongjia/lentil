@@ -11,7 +11,9 @@ import { defineConfig, type Options } from "tsup";
  *
  * Pass overrides to customize per-package.
  */
-export function createTsupConfig(overrides: Partial<Options> = {}): ReturnType<typeof defineConfig> {
+export function createTsupConfig(
+  overrides: Partial<Options> = {},
+): ReturnType<typeof defineConfig> {
   return defineConfig({
     entry: ["src/index.ts"],
     format: ["cjs", "esm"],

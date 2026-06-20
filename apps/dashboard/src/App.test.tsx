@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 
 vi.mock("./lib/rpc", () => ({
@@ -12,8 +12,12 @@ vi.mock("./lib/rpc", () => ({
 }));
 
 describe("App", () => {
-  it("renders Check Health button", () => {
+  it("renders Home page by default", async () => {
+    window.location.hash = "#/home";
     render(<App />);
-    expect(screen.getByText("Check Health")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Check Health")).toBeInTheDocument();
+    });
+    expect(screen.getByText("Welcome to the Dashboard")).toBeInTheDocument();
   });
 });
