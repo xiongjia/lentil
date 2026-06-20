@@ -54,6 +54,7 @@ lentil/
 2. **Avoid `any` in TypeScript**: Use proper typing instead of `any`. If an any is truly unavoidable, use a comment to explain why.
 3. **File naming conventions**: Use kebab-case (`my-component.tsx`) or lowercase with dots (`my.component.tsx`). Special exceptions like `App.tsx`, `main.tsx` are allowed to use PascalCase.
 4. **Backend logging**: Use `APP_LOGGER` injection for runtime logging; use pino directly in bootstrap code. Log levels controlled by `LOG_LEVEL` env var.
-5. **Tests co-located**: Test files live next to source files (`*.test.ts` / `*.test.tsx`).
-6. **UI components in @lentil/ui**: Reusable components go in the UI package with exports in `src/index.ts`. Import from `@lentil/ui` directly (not subpaths). Playground uses them for documentation.
-7. **Arrow functions preferred**: Use `const ... = () => {}` arrow functions instead of `function` declarations. `function` is only for special cases (generators, `this` binding, hoisting).
+5. **Controllers are thin, services are thick**: REST/RPC controllers only destructure input and delegate to services. No business logic, no direct EntityManager usage in controllers. All CRUD, query execution, and side effects live in services.
+6. **Tests co-located**: Test files live next to source files (`*.test.ts` / `*.test.tsx`).
+7. **UI components in @lentil/ui**: Reusable components go in the UI package with exports in `src/index.ts`. Import from `@lentil/ui` directly (not subpaths). Playground uses them for documentation.
+8. **Arrow functions preferred**: Use `const ... = () => {}` arrow functions instead of `function` declarations. `function` is only for special cases (generators, `this` binding, hoisting).

@@ -1,10 +1,11 @@
-import { Controller, Get, NotFoundException } from "@nestjs/common";
+import { Controller, Get, Inject, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import { Implement, implement } from "@orpc/nest";
 import { OpenAPIGenerator } from "@orpc/openapi";
 import { ZodToJsonSchemaConverter } from "@orpc/zod";
 import { contract } from "@lentil/rpc";
+import { GeneralService } from "./general.service";
 
 const openapiGenerator = new OpenAPIGenerator({
   schemaConverters: [new ZodToJsonSchemaConverter()],
@@ -12,18 +13,16 @@ const openapiGenerator = new OpenAPIGenerator({
 
 @Controller("rpc")
 export class GeneralRPC {
-  constructor(private readonly config: ConfigService) {}
+  constructor(
+    private readonly config: ConfigService,
+    @Inject(GeneralService) private readonly generalService: GeneralService,
+  ) {}
 
   @Implement(contract.general.health)
   health() {
-    return implement(contract.general.health).handler(() => ({ status: "ok" }));
-  }
-
-  @Implement(contract.general.hello)
-  hello() {
-    return implement(contract.general.hello).handler(() => ({
-      message: "Hello World",
-    }));
+    return implement(contract.general.health).handler(() =>
+      this.generalService.health(),
+    );
   }
 
   @Get("spec")

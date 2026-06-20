@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MikroORM } from "@mikro-orm/core";
 import { ORPCModule } from "@orpc/nest";
 import { GeneralModule } from "./modules/general/general.module";
+import { IntegrationModule } from "./modules/integration/integration.module";
 import { DatabaseModule } from "@lentil/db";
 import { ProvidersModule, APP_LOGGER } from "./modules/providers";
 import pino from "pino";
@@ -17,6 +18,7 @@ import pino from "pino";
     DatabaseModule,
     ProvidersModule,
     GeneralModule,
+    IntegrationModule,
   ],
   controllers: [],
   providers: [],
