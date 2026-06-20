@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
     "test": "vitest",
@@ -21,7 +21,8 @@
     "@mikro-orm/reflection": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/config": "catalog:",
-    "pg": "catalog:"
+    "pg": "catalog:",
+    "uuid": "^11"
   },
   "devDependencies": {
     "@lentil/config": "workspace:*",

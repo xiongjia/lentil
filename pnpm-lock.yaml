@@ -230,6 +230,9 @@ importers:
       nestjs-pino:
         specifier: '4.6'
         version: 4.6.1(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(pino-http@10.5.0)(pino@9.14.0)(rxjs@7.8.2)
+      pg:
+        specifier: 'catalog:'
+        version: 8.21.0
       pino:
         specifier: ^9.6.0
         version: 9.14.0
@@ -248,6 +251,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      uuid:
+        specifier: ^11
+        version: 11.1.1
     devDependencies:
       '@jest/globals':
         specifier: 'catalog:'
@@ -276,6 +282,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.20
+      '@types/pg':
+        specifier: ^8.20.0
+        version: 8.20.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
@@ -515,6 +524,9 @@ importers:
       pg:
         specifier: 'catalog:'
         version: 8.21.0
+      uuid:
+        specifier: ^11
+        version: 11.1.1
     devDependencies:
       '@lentil/config':
         specifier: workspace:*
@@ -3139,6 +3151,9 @@ packages:
 
   '@types/node@22.19.20':
     resolution: {integrity: sha512-6tELRwSDYWW9EdZhbeZmYGZ1/7Djkt+Ah3/ScEYT9cDord7UJzasR/4D3VONg9tQI5CDp+/CZC1AXj2pCFOvpw==}
+
+  '@types/pg@8.20.0':
+    resolution: {integrity: sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==}
 
   '@types/qs@6.15.0':
     resolution: {integrity: sha512-JawvT8iBVWpzTrz3EGw9BTQFg3BQNmwERdKE22vlTxawwtbyUSlMppvZYKLZzB5zgACXdXxbD3m1bXaMqP/9ow==}
@@ -7131,6 +7146,10 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
+    hasBin: true
+
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
@@ -9929,6 +9948,12 @@ snapshots:
   '@types/node@22.19.20':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/pg@8.20.0':
+    dependencies:
+      '@types/node': 22.19.20
+      pg-protocol: 1.14.0
+      pg-types: 2.2.0
 
   '@types/qs@6.15.0': {}
 
@@ -14837,6 +14862,8 @@ snapshots:
       react: 19.2.5
 
   util-deprecate@1.0.2: {}
+
+  uuid@11.1.1: {}
 
   v8-compile-cache-lib@3.0.1: {}
 

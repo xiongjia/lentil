@@ -1,5 +1,4 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { EntityManager } from "@mikro-orm/core";
 import { GeneralController } from "./general.controller";
 import { GeneralService } from "./general.service";
 import { APP_LOGGER } from "../providers";
@@ -14,7 +13,6 @@ describe("GeneralController", () => {
       providers: [
         GeneralService,
         { provide: APP_LOGGER, useValue: { debug: () => {} } },
-        { provide: EntityManager, useValue: {} },
       ],
     }).compile();
 
