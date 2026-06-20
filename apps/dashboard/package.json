@@ -14,6 +14,7 @@
   "dependencies": {
     "@lentil/rpc": "workspace:*",
     "@lentil/ui": "workspace:*",
+    "lucide-react": "catalog:",
     "@orpc/client": "catalog:",
     "@orpc/openapi-client": "catalog:",
     "react": "catalog:",

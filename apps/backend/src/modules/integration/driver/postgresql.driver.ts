@@ -7,7 +7,9 @@ const IDLE_TIMEOUT_MS = 60_000;
 
 /** PG error codes starting with "08" are connection exceptions (SQLSTATE). */
 const isConnectionError = (err: unknown): boolean =>
-  typeof err === "object" && err !== null && typeof (err as Record<string, unknown>).code === "string"
+  typeof err === "object" &&
+  err !== null &&
+  typeof (err as Record<string, unknown>).code === "string"
     ? (err as { code: string }).code.startsWith("08")
     : false;
 

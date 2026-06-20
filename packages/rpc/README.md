@@ -19,10 +19,10 @@ src/
 
 ### `generalContract`
 
-| Route | Method | Path              | Output                         |
-| ----- | ------ | ----------------- | ------------------------------ |
-| health | POST  | /general/health   | `{ status: string }`           |
-| hello  | POST  | /general/hello    | `{ message: string }`          |
+| Route  | Method | Path            | Output                |
+| ------ | ------ | --------------- | --------------------- |
+| health | POST   | /general/health | `{ status: string }`  |
+| hello  | POST   | /general/hello  | `{ message: string }` |
 
 ## Usage
 

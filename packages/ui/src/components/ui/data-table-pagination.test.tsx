@@ -14,8 +14,8 @@ function mockTable(overrides: Record<string, unknown> = {}) {
     getFilteredSelectedRowModel: () => ({ rows: [] }),
     getFilteredRowModel: () => ({ rows: new Array(25) }),
     ...overrides,
-  // `unknown` bridge is the standard TS pattern for partial test mocks
-  // that don't implement the full interface (124+ Table properties).
+    // `unknown` bridge is the standard TS pattern for partial test mocks
+    // that don't implement the full interface (124+ Table properties).
   } as unknown as Table<unknown>;
 }
 

@@ -1,43 +1,33 @@
-import { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@lentil/ui";
-import { rpc } from "./lib/rpc";
+import { Suspense, lazy } from "react";
+import { useHashRoute } from "./lib/router";
+import { defaultSlug } from "./pages";
+import { AppLayout } from "./layouts/app-layout";
+import { ErrorBoundary } from "./components/error-boundary";
+
+const Home = lazy(() => import("./pages/home"));
+const Settings = lazy(() => import("./pages/settings"));
+
+const pages: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
+  home: Home,
+  settings: Settings,
+};
 
 const App = () => {
-  const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<string | null>(null);
-
-  const checkHealth = async () => {
-    try {
-      const result = await rpc.general.health();
-      setStatus(result.status);
-    } catch (err) {
-      setStatus(`Error: ${err instanceof Error ? err.message : "Unknown"}`);
-    } finally {
-      setOpen(true);
-    }
-  };
+  const [slug] = useHashRoute(defaultSlug);
+  const PageComponent = pages[slug];
 
   return (
-    <div>
-      <Button onClick={checkHealth}>Check Health</Button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Health Check</DialogTitle>
-            <DialogDescription>
-              Server status: {status ?? "loading..."}
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <AppLayout slug={slug}>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="p-8">Loading...</div>}>
+          {PageComponent ? (
+            <PageComponent />
+          ) : (
+            <div className="p-8">Page not found: {slug}</div>
+          )}
+        </Suspense>
+      </ErrorBoundary>
+    </AppLayout>
   );
 };
 
