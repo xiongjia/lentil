@@ -15,14 +15,7 @@ import {
 } from "@lentil/ui";
 import type { ExternalDataSource } from "../lib/rpc";
 import { rpc } from "../lib/rpc";
-
-/** Safely format a date-like value for display. Returns "—" for invalid dates. */
-const formatDate = (d: unknown): string => {
-  if (!d) return "—";
-  const date = d instanceof Date ? d : new Date(d as string | number);
-  if (isNaN(date.getTime())) return "—";
-  return date.toLocaleDateString();
-};
+import { formatDateTime } from "../lib/format";
 
 interface DatasourceListProps {
   onEdit: (ds: ExternalDataSource) => void;
@@ -153,7 +146,7 @@ const DatasourceList = ({
                     {ds.enabled ? "Enabled" : "Disabled"}
                   </span>
                 </TableCell>
-                <TableCell>{formatDate(ds.updatedAt)}</TableCell>
+                <TableCell>{formatDateTime(ds.updatedAt)}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-1">
                     <Button

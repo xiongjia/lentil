@@ -13,15 +13,14 @@ export class Migration001Init extends Migration {
           "type" VARCHAR NOT NULL,
           "config" JSONB NOT NULL,
           "enabled" BOOLEAN NOT NULL DEFAULT TRUE,
-          "created_at" BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
-          "updated_at" BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
+          "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
           CONSTRAINT "external_datasource_pkey" PRIMARY KEY ("id"),
           CONSTRAINT "external_datasource_name_unique" UNIQUE ("name")
         );
       `);
     } else {
       // SQLite / libsql — unixepoch() returns seconds; multiply for milliseconds.
-      // Available since SQLite 3.38 (libsql includes it).
       this.addSql(`
         CREATE TABLE IF NOT EXISTS "external_datasource" (
           "id" TEXT NOT NULL PRIMARY KEY,
@@ -30,8 +29,8 @@ export class Migration001Init extends Migration {
           "type" TEXT NOT NULL,
           "config" TEXT NOT NULL DEFAULT '{}',
           "enabled" INTEGER NOT NULL DEFAULT 1,
-          "created_at" INTEGER NOT NULL DEFAULT (unixepoch('now') * 1000),
-          "updated_at" INTEGER NOT NULL DEFAULT (unixepoch('now') * 1000)
+          "created_at" BIGINT NOT NULL DEFAULT (unixepoch('now') * 1000),
+          "updated_at" BIGINT NOT NULL DEFAULT (unixepoch('now') * 1000)
         );
       `);
     }
