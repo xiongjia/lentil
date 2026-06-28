@@ -1,21 +1,20 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { ExternalDataSourceEntity } from "@lentil/db";
 import { EntityManager } from "@mikro-orm/core";
-import { ExternalDataSource } from "@lentil/db";
-import { APP_LOGGER } from "../providers";
-import { IntegrationService } from "./integration.service";
+import { Inject, Injectable } from "@nestjs/common";
 import pino from "pino";
-
-interface ConnectionTestResult {
-  ok: boolean;
-  error?: string;
-}
-
-export interface SaveResult extends ExternalDataSource {
-  connectionTest: ConnectionTestResult;
-}
+import { APP_LOGGER } from "../providers";
+import {
+  type CreateDatasourceInputDto,
+  type ExternalDataSourceDto,
+  type SaveDatasourceResultDto,
+  toDatasourceDto,
+  toDatasourceDtoList,
+  type UpdateDatasourceInputDto,
+} from "./datasource.dto";
+import { IntegrationService } from "./integration.service";
 
 /**
- * CRUD operations for ExternalDataSource configs.
+ * CRUD operations for ExternalDataSourceEntity configs.
  *
  * Every mutation logs the action + affected datasource identity.
  * Create and update run a connection test after persisting — the config
@@ -33,19 +32,24 @@ export class DatasourceConfigService {
     private readonly integration: IntegrationService,
   ) {}
 
-  async list(): Promise<ExternalDataSource[]> {
-    const configs = await this.em.find(ExternalDataSource, {});
+  async list(): Promise<ExternalDataSourceDto[]> {
+    const configItems = await this.em.find(ExternalDataSourceEntity, {});
     this.logger.debug(
-      { count: configs.length },
+      { count: configItems.length },
       "Listed external data sources",
     );
-    return configs;
+    return toDatasourceDtoList(configItems);
   }
 
-  async get(id: string): Promise<ExternalDataSource> {
-    const ds = await this.em.findOneOrFail(ExternalDataSource, { id });
-    this.logger.debug({ id, name: ds.name }, "Fetched external data source");
-    return ds;
+  async get(id: string): Promise<ExternalDataSourceDto> {
+    const configItem = await this.em.findOneOrFail(ExternalDataSourceEntity, {
+      id,
+    });
+    this.logger.debug(
+      { id, name: configItem.name },
+      "Fetched external data source",
+    );
+    return toDatasourceDto(configItem);
   }
 
   /**
@@ -53,13 +57,10 @@ export class DatasourceConfigService {
    * Config is saved regardless of test outcome — the caller
    * receives the persisted record + the test result.
    */
-  async create(input: {
-    name: string;
-    description?: string;
-    type: string;
-    config: Record<string, unknown>;
-  }): Promise<SaveResult> {
-    const ds = this.em.create(ExternalDataSource, {
+  async create(
+    input: CreateDatasourceInputDto,
+  ): Promise<SaveDatasourceResultDto> {
+    const ds = this.em.create(ExternalDataSourceEntity, {
       ...input,
       enabled: true,
       createdAt: new Date(),
@@ -76,7 +77,7 @@ export class DatasourceConfigService {
       .testConnection(ds.type, ds.config)
       .catch((err) => ({ ok: false as const, error: String(err) }));
 
-    return { ...ds, connectionTest };
+    return { ...toDatasourceDto(ds), connectionTest };
   }
 
   /**
@@ -85,9 +86,9 @@ export class DatasourceConfigService {
    */
   async update(
     id: string,
-    data: Partial<Pick<ExternalDataSource, "name" | "description" | "config">>,
-  ): Promise<SaveResult> {
-    const ds = await this.em.findOneOrFail(ExternalDataSource, { id });
+    data: Omit<UpdateDatasourceInputDto, "id">,
+  ): Promise<SaveDatasourceResultDto> {
+    const ds = await this.em.findOneOrFail(ExternalDataSourceEntity, { id });
     const oldName = ds.name;
     this.em.assign(ds, data);
     this.em.persist(ds);
@@ -112,7 +113,7 @@ export class DatasourceConfigService {
       .testConnection(ds.type, ds.config)
       .catch((err) => ({ ok: false as const, error: String(err) }));
 
-    return { ...ds, connectionTest };
+    return { ...toDatasourceDto(ds), connectionTest };
   }
 
   /**
@@ -120,9 +121,10 @@ export class DatasourceConfigService {
    * Persisted deletion happens first; connection teardown is best-effort.
    */
   async remove(id: string): Promise<void> {
-    const ds = await this.em.findOneOrFail(ExternalDataSource, { id });
+    const ds = await this.em.findOneOrFail(ExternalDataSourceEntity, { id });
     this.em.remove(ds);
     await this.em.flush();
+
     // Best-effort connection release — must not block removal
     try {
       await this.integration.release(id);

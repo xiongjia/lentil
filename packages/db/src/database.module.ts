@@ -2,7 +2,7 @@ import { Global, Module } from "@nestjs/common";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { ConfigService } from "@nestjs/config";
 import { getMikroOrmConfig } from "./setup-db.js";
-import { ExternalDataSource } from "./entities/external-datasource.entity.js";
+import { ExternalDataSourceEntity } from "./entities/external-datasource.entity.js";
 
 @Global()
 @Module({
@@ -11,7 +11,7 @@ import { ExternalDataSource } from "./entities/external-datasource.entity.js";
       inject: [ConfigService],
       useFactory: (config: ConfigService) => getMikroOrmConfig(config),
     }),
-    MikroOrmModule.forFeature([ExternalDataSource]),
+    MikroOrmModule.forFeature([ExternalDataSourceEntity]),
   ],
   exports: [MikroOrmModule],
 })

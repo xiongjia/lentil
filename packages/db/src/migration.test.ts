@@ -3,7 +3,7 @@ import { MikroORM } from "@mikro-orm/core";
 import { LibSqlDriver } from "@mikro-orm/libsql";
 import { Migrator } from "@mikro-orm/migrations";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
-import { ExternalDataSource } from "./entities/external-datasource.entity";
+import { ExternalDataSourceEntity } from "./entities/external-datasource.entity";
 
 describe("migration", () => {
   let orm: MikroORM;
@@ -12,7 +12,7 @@ describe("migration", () => {
     orm = await MikroORM.init<LibSqlDriver>({
       driver: LibSqlDriver,
       dbName: ":memory:",
-      entities: [ExternalDataSource],
+      entities: [ExternalDataSourceEntity],
       extensions: [Migrator],
       migrations: {
         path: "./migrations",

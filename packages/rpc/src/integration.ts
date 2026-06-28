@@ -1,103 +1,112 @@
 import { oc } from "@orpc/contract";
 import { z } from "zod/v3";
+import { pgDriverSchema } from "./drivers/postgresql";
 
-// ── Driver type + config (discriminated union) ──────────────────
+const datasourceType = z.discriminatedUnion("type", [pgDriverSchema]);
 
-const pgConfig = z
-  .object({
-    host: z.string().describe("Hostname or IP"),
-    port: z.number().int().min(1).max(65535).default(5432).describe("Port"),
-    database: z.string().describe("Database name"),
-    user: z.string().describe("Username"),
-    password: z.string().describe("Password"),
-    max: z
-      .number()
-      .int()
-      .min(1)
-      .max(100)
-      .optional()
-      .describe("Max pool size (default 5)"),
-  })
-  .passthrough();
+const connTestSchema = z.object({
+  ok: z.boolean().describe("Whether the connection test succeeded"),
+  error: z.string().optional().describe("Error message when `ok` is false"),
+});
 
-/**
- * Discriminated union: `type` determines what `config` shape is accepted.
- * Add a new entry here when implementing a new driver.
- */
-const typeWithConfig = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("postgresql"), config: pgConfig }),
+const extDataSourceBaseSchema = z.object({
+  id: z.string().uuid().describe("Unique identifier (UUID v7)"),
+  name: z.string().describe("Human-readable name, e.g. 'production-pg'"),
+  description: z
+    .string()
+    .nullable()
+    .optional()
+    .describe("Optional notes about this data source"),
+  enabled: z.boolean().describe("Whether the data source is active"),
+  createdAt: z.coerce.date().describe("Timestamp when the record was created"),
+  updatedAt: z.coerce
+    .date()
+    .describe("Timestamp when the record was last updated"),
+});
+
+const dataSourceBaseWithConnTestSchema = extDataSourceBaseSchema.extend({
+  connectionTest: connTestSchema,
+});
+
+export const dataSourceSchema = z.discriminatedUnion("type", [
+  extDataSourceBaseSchema.merge(pgDriverSchema),
 ]);
 
-// ── Shared output schemas ───────────────────────────────────────
+export const saveDatasourceResultSchema = z.discriminatedUnion("type", [
+  dataSourceBaseWithConnTestSchema.merge(pgDriverSchema),
+]);
 
-const connectionTestSchema = z.object({
-  ok: z.boolean(),
-  error: z.string().optional(),
+const createDatasourceInputSchema = datasourceType.and(
+  z.object({
+    name: z
+      .string()
+      .describe("Human-readable name (must be unique), e.g. 'production-pg'"),
+    description: z.string().optional().describe("Optional notes"),
+  }),
+);
+
+const updateDatasourceInputSchema = z.object({
+  id: z.string().uuid().describe("Data source UUID to update"),
+  name: z
+    .string()
+    .optional()
+    .describe("Human-readable name (must be unique), e.g. 'production-pg'"),
+  description: z.string().optional().describe("Optional notes"),
+  config: pgDriverSchema.shape.config
+    .partial()
+    .optional()
+    .describe("Driver configuration (partial update)"),
 });
 
-const externalDataSourceSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  description: z.string().nullable().optional(),
-  type: z.string(),
-  config: z.record(z.unknown()),
-  enabled: z.boolean(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-});
-
-// ── Contract ────────────────────────────────────────────────────
+export type ExternalDataSource = z.infer<typeof dataSourceSchema>;
+export type ConnectionTest = z.infer<typeof connTestSchema>;
+export type SaveDatasourceResult = z.infer<typeof saveDatasourceResultSchema>;
+export type CreateDatasourceInput = z.infer<typeof createDatasourceInputSchema>;
+export type UpdateDatasourceInput = z.infer<typeof updateDatasourceInputSchema>;
 
 export const integrationContract = {
   list: oc
     .route({ method: "POST", path: "/integration/list" })
-    .output(z.array(externalDataSourceSchema)),
+    .output(z.array(dataSourceSchema)),
 
   get: oc
     .route({ method: "POST", path: "/integration/get" })
-    .input(z.object({ id: z.string().uuid() }))
-    .output(externalDataSourceSchema),
+    .input(
+      z.object({
+        id: z.string().uuid().describe("Data source UUID"),
+      }),
+    )
+    .output(dataSourceSchema),
 
   create: oc
     .route({ method: "POST", path: "/integration/create" })
-    .input(
-      typeWithConfig.and(
-        z.object({
-          name: z.string().describe("Unique identifier, e.g. 'production-pg'"),
-          description: z.string().optional().describe("Optional notes"),
-        }),
-      ),
-    )
-    .output(
-      externalDataSourceSchema.extend({ connectionTest: connectionTestSchema }),
-    ),
+    .input(createDatasourceInputSchema)
+    .output(saveDatasourceResultSchema),
 
   update: oc
     .route({ method: "POST", path: "/integration/update" })
-    .input(
-      z.object({
-        id: z.string().uuid(),
-        name: z.string().optional(),
-        description: z.string().optional(),
-        config: z.record(z.unknown()).optional(),
-      }),
-    )
-    .output(
-      externalDataSourceSchema.extend({ connectionTest: connectionTestSchema }),
-    ),
+    .input(updateDatasourceInputSchema)
+    .output(saveDatasourceResultSchema),
 
   remove: oc
     .route({ method: "POST", path: "/integration/remove" })
-    .input(z.object({ id: z.string().uuid() }))
+    .input(
+      z.object({
+        id: z.string().uuid().describe("Data source UUID to delete"),
+      }),
+    )
     .output(z.void()),
 
   test: oc
     .route({ method: "POST", path: "/integration/test" })
-    .input(typeWithConfig)
+    .input(datasourceType)
     .output(
       z.object({
-        ok: z.boolean(),
-        error: z.string().optional(),
+        ok: z.boolean().describe("Whether the connection test succeeded"),
+        error: z
+          .string()
+          .optional()
+          .describe("Error message when `ok` is false"),
       }),
     ),
 };

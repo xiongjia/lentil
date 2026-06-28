@@ -10,6 +10,7 @@ import {
 } from "@lentil/ui";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
 
+/** Keyboard-shortcut label shown in the sidebar-toggle tooltip. */
 const shortcutLabel = (() => {
   if (typeof navigator === "undefined") return "⌘B";
   return /Mac|iPod|iPhone|iPad/.test(navigator.platform ?? "")
@@ -22,6 +23,15 @@ interface AppHeaderProps {
   onToggle: () => void;
 }
 
+/**
+ * Top application bar.
+ *
+ * Renders the {@link Header} component from `@lentil/ui` with three slots:
+ *
+ * - **title** — `"Dashboard"`
+ * - **start** — sidebar collapse / expand toggle button with tooltip
+ * - **end**   — {@link ThemeToggle} for light ↔ dark switching
+ */
 const AppHeader = ({ collapsed, onToggle }: AppHeaderProps) => {
   const tooltipText = useMemo(
     () =>

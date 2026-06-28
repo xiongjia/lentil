@@ -1,16 +1,16 @@
+import { ExternalDataSourceEntity } from "@lentil/db";
+import { EntityManager } from "@mikro-orm/core";
 import {
-  Injectable,
-  Inject,
-  NotFoundException,
   BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
   OnApplicationShutdown,
 } from "@nestjs/common";
-import { EntityManager } from "@mikro-orm/core";
-import { ExternalDataSource } from "@lentil/db";
+import pino from "pino";
 import { APP_LOGGER } from "../providers";
 import { DataSourceDriver } from "./driver/driver.interface";
 import { PostgresqlDriver } from "./driver/postgresql.driver";
-import pino from "pino";
 
 // Stateless registry: maps datasource type → driver instance.
 // Multiple sources of the same type share one driver but get independent connections.
@@ -31,9 +31,8 @@ export class IntegrationService implements OnApplicationShutdown {
     @Inject(APP_LOGGER) private readonly logger: pino.Logger,
     private readonly em: EntityManager,
   ) {}
-  /**
-   * Release all cached connections on application shutdown.
-   */
+
+  // Release all cached connections on application shutdown.
   async onApplicationShutdown() {
     const ids = [...this.connections.keys()];
     await Promise.all(ids.map((id) => this.release(id)));
@@ -50,17 +49,20 @@ export class IntegrationService implements OnApplicationShutdown {
    */
   private async getConnection(sourceId: string) {
     const cached = this.connections.get(sourceId);
-    if (cached) return cached;
-
-    const ds = await this.em.findOne(ExternalDataSource, {
+    if (cached) {
+      return cached;
+    }
+    const ds = await this.em.findOne(ExternalDataSourceEntity, {
       id: sourceId,
       enabled: true,
     });
-    if (!ds) throw new NotFoundException("Data source not found or disabled");
-
+    if (!ds) {
+      throw new NotFoundException("Data source not found or disabled");
+    }
     const driver = drivers.get(ds.type);
-    if (!driver) throw new BadRequestException(`Unsupported type: ${ds.type}`);
-
+    if (!driver) {
+      throw new BadRequestException(`Unsupported type: ${ds.type}`);
+    }
     const conn = driver.createConnection(ds.config);
     const entry = { conn, driver };
     this.connections.set(sourceId, entry);
@@ -80,7 +82,9 @@ export class IntegrationService implements OnApplicationShutdown {
     config: Record<string, unknown>,
   ): Promise<{ ok: boolean; error?: string }> {
     const driver = drivers.get(type);
-    if (!driver) return { ok: false, error: `Unsupported type: ${type}` };
+    if (!driver) {
+      return { ok: false, error: `Unsupported type: ${type}` };
+    }
     return driver.testConnection(config);
   }
 
@@ -90,8 +94,9 @@ export class IntegrationService implements OnApplicationShutdown {
    */
   async release(sourceId: string) {
     const entry = this.connections.get(sourceId);
-    if (!entry) return;
-
+    if (!entry) {
+      return;
+    }
     await entry.driver.end(entry.conn);
     this.connections.delete(sourceId);
     this.logger.info({ sourceId }, "Data source connection released");
