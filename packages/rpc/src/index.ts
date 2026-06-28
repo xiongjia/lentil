@@ -7,4 +7,12 @@ export const contract = {
 };
 export type Contract = typeof contract;
 
-export { generalContract, integrationContract };
+export type {
+  ConnectionTest,
+  CreateDatasourceInput,
+  ExternalDataSource,
+  SaveDatasourceResult,
+  UpdateDatasourceInput,
+} from "./integration";
+export { generalContract } from "./general";
+export { integrationContract, dataSourceSchema, saveDatasourceResultSchema } from "./integration";

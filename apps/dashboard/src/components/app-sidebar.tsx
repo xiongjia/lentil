@@ -8,11 +8,19 @@ import {
   SidebarSeparator,
 } from "@lentil/ui";
 
+/** Static navigation items rendered in the sidebar. */
 const items = [
   { slug: "home", title: "Home", icon: Home },
   { slug: "settings", title: "Settings", icon: Settings },
 ];
 
+/**
+ * Internal sub-component that renders the navigation menu items.
+ *
+ * Each item wraps an `<a>` tag pointing to the corresponding hash URL.
+ * The currently-active item is highlighted via {@link SidebarMenuButton}'s
+ * `isActive` prop.
+ */
 const SidebarNavItems = ({
   slug,
   collapsed,
@@ -43,6 +51,13 @@ interface AppSidebarProps {
   slug: string;
 }
 
+/**
+ * Collapsible left navigation sidebar.
+ *
+ * - **Expanded** — shows a "Navigation" section label, separator, and
+ *   icon + text menu items.
+ * - **Collapsed** — icons only, compact width (`w-12` vs `w-64`).
+ */
 const AppSidebar = ({ collapsed, slug }: AppSidebarProps) => (
   <SidebarAside collapsed={collapsed}>
     {!collapsed && <SidebarGroupLabel>Navigation</SidebarGroupLabel>}

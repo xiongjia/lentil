@@ -14,10 +14,17 @@ import {
 } from "@lentil/ui";
 import { rpc } from "../lib/rpc";
 
+/**
+ * Home (landing) page.
+ *
+ * Displays a welcome card with a "Check Health" button that calls
+ * {@link rpc.general.health} and shows the result in a dialog.
+ */
 const Home = () => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
 
+  /** Call the backend health endpoint and open the result dialog. */
   const checkHealth = async () => {
     try {
       const result = await rpc.general.health();

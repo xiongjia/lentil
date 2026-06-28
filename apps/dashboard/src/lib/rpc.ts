@@ -1,16 +1,38 @@
 import { createORPCClient } from "@orpc/client";
 import { OpenAPILink } from "@orpc/openapi-client/fetch";
 import { contract } from "@lentil/rpc";
+import type {
+  ConnectionTest,
+  CreateDatasourceInput,
+  ExternalDataSource,
+  SaveDatasourceResult,
+  UpdateDatasourceInput,
+} from "@lentil/rpc";
+
+export type { ExternalDataSource } from "@lentil/rpc";
 
 /**
- * Callable RPC client shape — mirror of @lentil/rpc contract procedures.
- * When adding/removing a procedure in packages/rpc/src/, update this interface
- * so the dashboard gets compile-time type-checking on rpc.* calls.
+ * Typed RPC client shape — mirrors the procedures defined in
+ * {@link contract} from `@lentil/rpc`.
+ *
+ * Each contract procedure becomes a callable method.  When adding or removing
+ * a procedure in `packages/rpc/src/`, update this interface so the dashboard
+ * gets compile-time type-checking on `rpc.*` calls.
  */
 interface RPCClient {
   general: {
     health(): Promise<{ status: string }>;
-    hello(): Promise<{ message: string }>;
+  };
+  integration: {
+    list(): Promise<ExternalDataSource[]>;
+    get(input: { id: string }): Promise<ExternalDataSource>;
+    create(input: CreateDatasourceInput): Promise<SaveDatasourceResult>;
+    update(input: UpdateDatasourceInput): Promise<SaveDatasourceResult>;
+    remove(input: { id: string }): Promise<void>;
+    test(input: {
+      type: string;
+      config: Record<string, unknown>;
+    }): Promise<ConnectionTest>;
   };
 }
 
@@ -32,4 +54,5 @@ const link = new OpenAPILink(contract, {
   },
 });
 
-export const rpc = createORPCClient(link) as unknown as RPCClient;
+/** Typed RPC client — call signatures are validated by {@link RPCClient}. */
+export const rpc: RPCClient = createORPCClient(link) as unknown as RPCClient;

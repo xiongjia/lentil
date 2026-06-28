@@ -8,6 +8,13 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
+/**
+ * React error boundary that catches render-time errors in its child tree.
+ *
+ * When an error is caught a simple error card is displayed instead of the
+ * crashed subtree.  This prevents a single page failure from taking down the
+ * entire app shell.
+ */
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);

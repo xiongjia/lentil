@@ -8,6 +8,15 @@ interface AppLayoutProps {
   children: ReactNode;
 }
 
+/**
+ * Root application shell.
+ *
+ * Owns the `collapsed` sidebar state and composes the three layout zones:
+ *
+ * 1. **Header**  — {@link AppHeader} (title, toggle, theme)
+ * 2. **Sidebar** — {@link AppSidebar} (collapsible navigation)
+ * 3. **Content** — `<main>` wrapping {@link Content} from `@lentil/ui`
+ */
 const AppLayout = ({ slug, children }: AppLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleSidebar = useCallback(() => setCollapsed((v) => !v), []);

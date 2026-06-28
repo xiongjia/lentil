@@ -3,10 +3,10 @@ import { ConfigService } from "@nestjs/config";
 import * as path from "node:path";
 import "@mikro-orm/migrations"; // auto-registers Migrator extension
 import { Migrator } from "@mikro-orm/migrations";
-import { ExternalDataSource } from "./entities/external-datasource.entity.js";
+import { ExternalDataSourceEntity } from "./entities/external-datasource.entity.js";
 
 // __dirname is …/dist or …/src depending on dev vs compiled.
-// Aboslute paths avoid CWD differences.
+// Absolute paths avoid CWD differences.
 // __dirname = …/dist/src → pkgRoot = …/
 const pkgRoot = path.resolve(__dirname, "..", "..");
 const migrationsDir = path.resolve(pkgRoot, "dist", "migrations");
@@ -15,8 +15,9 @@ export const getMikroOrmConfig = (config: ConfigService): Options => {
   const dbType = config.get<string>("DB_TYPE", "libsql");
 
   const base = {
-    entities: [ExternalDataSource],
+    entities: [ExternalDataSourceEntity],
     extensions: [Migrator],
+    underscored: true,
     migrations: {
       path: migrationsDir,
       snapshot: false,

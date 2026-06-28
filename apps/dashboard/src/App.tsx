@@ -4,14 +4,24 @@ import { defaultSlug } from "./pages";
 import { AppLayout } from "./layouts/app-layout";
 import { ErrorBoundary } from "./components/error-boundary";
 
+// Lazy-loaded page components — each page is a separate chunk.
 const Home = lazy(() => import("./pages/home"));
 const Settings = lazy(() => import("./pages/settings"));
 
+/** Maps hash-routed slugs to their lazy-loaded page components. */
 const pages: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
   home: Home,
   settings: Settings,
 };
 
+/**
+ * Root application component.
+ *
+ * - Resolves the current route slug via {@link useHashRoute}.
+ * - Renders the {@link AppLayout} shell with the matching page component.
+ * - Wraps the page in {@link ErrorBoundary} and {@link Suspense} for
+ *   error isolation and lazy-loading feedback.
+ */
 const App = () => {
   const [slug] = useHashRoute(defaultSlug);
   const PageComponent = pages[slug];
