@@ -1,5 +1,6 @@
 import Home from "./home";
 import Settings from "./settings";
+import Scrape from "./scrape";
 
 /**
  * Static page registry — maps hash-route slugs to their React components.
@@ -8,6 +9,7 @@ import Settings from "./settings";
 export const pages: Record<string, React.ComponentType> = {
   home: Home,
   settings: Settings,
+  scrape: Scrape,
 };
 
 /** Slug used when the URL hash is empty. */
