@@ -5,18 +5,19 @@ const scrapeCacheSchema = z.object({
   id: z.string().uuid().describe("Unique identifier (UUID v7)"),
   datasourceId: z.string().describe("Data source UUID this cache belongs to"),
   query: z.string().describe("The SELECT query that was executed"),
-  status: z
-    .enum(["running", "done", "failed"])
-    .describe("Execution status"),
+  status: z.enum(["running", "done", "failed"]).describe("Execution status"),
   columns: z.array(z.string()).describe("Column names from the result set"),
   rows: z
     .array(z.record(z.unknown()))
     .describe("Result rows as generic key-value objects"),
   rowCount: z.number().int().describe("Number of cached rows"),
-  error: z.string().nullable().optional().describe("Error message when status is 'failed'"),
+  error: z
+    .string()
+    .nullable()
+    .optional()
+    .describe("Error message when status is 'failed'"),
   createdAt: z.coerce.date().describe("Timestamp when the record was created"),
-  updatedAt: z
-    .coerce
+  updatedAt: z.coerce
     .date()
     .describe("Timestamp when the record was last updated"),
 });

@@ -15,12 +15,20 @@ vi.mock("../lib/rpc", () => ({
   },
 }));
 
-const makeDs = (overrides: Partial<ExternalDataSource> = {}): ExternalDataSource => ({
+const makeDs = (
+  overrides: Partial<ExternalDataSource> = {},
+): ExternalDataSource => ({
   id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   name: "test-db",
   description: null,
   type: "postgresql",
-  config: { host: "localhost", port: 5432, database: "mydb", user: "pg", password: "secret" },
+  config: {
+    host: "localhost",
+    port: 5432,
+    database: "mydb",
+    user: "pg",
+    password: "secret",
+  },
   enabled: true,
   createdAt: new Date("2025-01-01"),
   updatedAt: new Date("2025-06-01"),
@@ -34,11 +42,7 @@ describe("DatasourceForm", () => {
 
   it("renders create mode with empty fields", () => {
     render(
-      <DatasourceForm
-        open={true}
-        onOpenChange={vi.fn()}
-        onSaved={vi.fn()}
-      />,
+      <DatasourceForm open={true} onOpenChange={vi.fn()} onSaved={vi.fn()} />,
     );
 
     expect(screen.getByText("Add Data Source")).toBeDefined();
@@ -134,11 +138,7 @@ describe("DatasourceForm", () => {
     const onSaved = vi.fn();
 
     render(
-      <DatasourceForm
-        open={true}
-        onOpenChange={vi.fn()}
-        onSaved={onSaved}
-      />,
+      <DatasourceForm open={true} onOpenChange={vi.fn()} onSaved={onSaved} />,
     );
 
     fireEvent.change(screen.getByLabelText("Name"), {

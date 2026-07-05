@@ -70,7 +70,9 @@ const Scrape = () => {
         setDsError(null);
       })
       .catch((err) => {
-        setDsError(err instanceof Error ? err.message : "Failed to load datasources");
+        setDsError(
+          err instanceof Error ? err.message : "Failed to load datasources",
+        );
       });
   }, []);
 
@@ -83,7 +85,9 @@ const Scrape = () => {
       .list()
       .then(setCaches)
       .catch((err) => {
-        setCacheError(err instanceof Error ? err.message : "Failed to load cache");
+        setCacheError(
+          err instanceof Error ? err.message : "Failed to load cache",
+        );
       })
       .finally(() => setLoading(false));
   }, []);
@@ -100,7 +104,10 @@ const Scrape = () => {
     setError(null);
 
     try {
-      await rpc.scrape.execute({ datasourceId: selectedDs, query: query.trim() });
+      await rpc.scrape.execute({
+        datasourceId: selectedDs,
+        query: query.trim(),
+      });
       loadCaches();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -165,7 +172,10 @@ const Scrape = () => {
               className="flex-1 font-mono"
             />
 
-            <Button onClick={handleExecute} disabled={executing || datasources.length === 0}>
+            <Button
+              onClick={handleExecute}
+              disabled={executing || datasources.length === 0}
+            >
               {executing ? "Running..." : "Execute"}
             </Button>
           </div>
@@ -210,7 +220,13 @@ const Scrape = () => {
                 {caches.map((c) => (
                   <TableRow key={c.id}>
                     <TableCell>
-                      <span className={STATUS_CLASSES[c.status] ?? "text-muted-foreground"}>{c.status}</span>
+                      <span
+                        className={
+                          STATUS_CLASSES[c.status] ?? "text-muted-foreground"
+                        }
+                      >
+                        {c.status}
+                      </span>
                     </TableCell>
                     <TableCell className="text-muted-foreground text-sm">
                       {c.datasourceId.slice(0, 8)}...
@@ -285,7 +301,7 @@ const Scrape = () => {
             <p className="text-sm text-muted-foreground py-4 text-center">
               {viewing.status === "done"
                 ? "Query returned 0 rows."
-                : viewing.error ?? "No data"}
+                : (viewing.error ?? "No data")}
             </p>
           )}
         </DialogContent>

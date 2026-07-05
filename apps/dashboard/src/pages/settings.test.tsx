@@ -25,7 +25,13 @@ const makeDs = () => ({
   name: "test-db",
   description: null,
   type: "postgresql",
-  config: { host: "localhost", port: 5432, database: "mydb", user: "pg", password: "secret" },
+  config: {
+    host: "localhost",
+    port: 5432,
+    database: "mydb",
+    user: "pg",
+    password: "secret",
+  },
   enabled: true,
   createdAt: new Date("2025-01-01"),
   updatedAt: new Date("2025-06-01"),
@@ -46,9 +52,7 @@ describe("Settings", () => {
   it("shows empty state initially", async () => {
     render(<Settings />);
     await waitFor(() => {
-      expect(
-        screen.getByText("No data sources configured yet."),
-      ).toBeDefined();
+      expect(screen.getByText("No data sources configured yet.")).toBeDefined();
     });
   });
 
@@ -58,7 +62,9 @@ describe("Settings", () => {
     fireEvent.click(screen.getByText("Add Data Source"));
 
     await waitFor(() => {
-      expect(screen.getByText("Configure a new external data source.")).toBeDefined();
+      expect(
+        screen.getByText("Configure a new external data source."),
+      ).toBeDefined();
     });
   });
 

@@ -58,8 +58,8 @@ const DatasourceDeleteDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Data Source</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete{" "}
-            <strong>{datasource?.name}</strong>? This action cannot be undone.
+            Are you sure you want to delete <strong>{datasource?.name}</strong>?
+            This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

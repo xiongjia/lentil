@@ -51,9 +51,7 @@ const DatasourceForm = ({
 }: DatasourceFormProps) => {
   const isEdit = !!datasource;
   const [name, setName] = useState(datasource?.name ?? "");
-  const [description, setDescription] = useState(
-    datasource?.description ?? "",
-  );
+  const [description, setDescription] = useState(datasource?.description ?? "");
   const [type, setType] = useState<"postgresql">(
     (datasource?.type as "postgresql") ?? "postgresql",
   );
@@ -61,9 +59,7 @@ const DatasourceForm = ({
     (datasource?.config?.host as string) ?? "",
   );
   const [port, setPort] = useState<string>(
-    datasource?.config?.port != null
-      ? String(datasource.config.port)
-      : "5432",
+    datasource?.config?.port != null ? String(datasource.config.port) : "5432",
   );
   const [database, setDatabase] = useState<string>(
     (datasource?.config?.database as string) ?? "",
@@ -256,9 +252,7 @@ const DatasourceForm = ({
           )}
 
           {/* ── Feedback ──────────────────────────────────── */}
-          {error && (
-            <p className="text-sm text-destructive">Error: {error}</p>
-          )}
+          {error && <p className="text-sm text-destructive">Error: {error}</p>}
           {testResult && (
             <p className="text-sm text-muted-foreground">{testResult}</p>
           )}
