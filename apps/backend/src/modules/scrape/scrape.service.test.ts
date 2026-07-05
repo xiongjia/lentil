@@ -7,7 +7,6 @@ import { describe, beforeEach, it, expect, jest } from "@jest/globals";
 
 // @orpc/server is ESM-only; provide a CJS-compatible mock for Jest.
 jest.mock("@orpc/server", () => {
-  // eslint-disable-next-line @typescript-eslint/no-extraneous-class
   class ORPCError extends Error {
     code: string;
     constructor(code: string, options: { message: string }) {
