@@ -30,6 +30,9 @@ dist
 .claude/settings.local.json
 .codegraph/
 *-draft.md 
+.pi/config.json
+.pi/settings.local.*
+
 
 # VSCode
 .vscode/

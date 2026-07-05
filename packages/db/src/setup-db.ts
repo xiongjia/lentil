@@ -4,6 +4,7 @@ import * as path from "node:path";
 import "@mikro-orm/migrations"; // auto-registers Migrator extension
 import { Migrator } from "@mikro-orm/migrations";
 import { ExternalDataSourceEntity } from "./entities/external-datasource.entity.js";
+import { ScrapeCacheEntity } from "./entities/scrape-cache.entity.js";
 
 // __dirname is …/dist or …/src depending on dev vs compiled.
 // Absolute paths avoid CWD differences.
@@ -15,7 +16,7 @@ export const getMikroOrmConfig = (config: ConfigService): Options => {
   const dbType = config.get<string>("DB_TYPE", "libsql");
 
   const base = {
-    entities: [ExternalDataSourceEntity],
+    entities: [ExternalDataSourceEntity, ScrapeCacheEntity],
     extensions: [Migrator],
     underscored: true,
     migrations: {

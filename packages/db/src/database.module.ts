@@ -3,6 +3,7 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { ConfigService } from "@nestjs/config";
 import { getMikroOrmConfig } from "./setup-db.js";
 import { ExternalDataSourceEntity } from "./entities/external-datasource.entity.js";
+import { ScrapeCacheEntity } from "./entities/scrape-cache.entity.js";
 
 @Global()
 @Module({
@@ -11,7 +12,7 @@ import { ExternalDataSourceEntity } from "./entities/external-datasource.entity.
       inject: [ConfigService],
       useFactory: (config: ConfigService) => getMikroOrmConfig(config),
     }),
-    MikroOrmModule.forFeature([ExternalDataSourceEntity]),
+    MikroOrmModule.forFeature([ExternalDataSourceEntity, ScrapeCacheEntity]),
   ],
   exports: [MikroOrmModule],
 })

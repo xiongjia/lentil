@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { pages, defaultSlug } from "./index";
 
 describe("pages", () => {
-  it("has home and settings entries", () => {
-    expect(Object.keys(pages)).toEqual(["home", "settings"]);
+  it("has home, scrape, and settings entries", () => {
+    expect(Object.keys(pages).sort()).toEqual(["home", "scrape", "settings"]);
   });
 
   it("home page is a function", () => {
@@ -12,6 +12,10 @@ describe("pages", () => {
 
   it("settings page is a function", () => {
     expect(typeof pages.settings).toBe("function");
+  });
+
+  it("scrape page is a function", () => {
+    expect(typeof pages.scrape).toBe("function");
   });
 
   it("defaultSlug is 'home'", () => {

@@ -6,10 +6,12 @@ import type {
   CreateDatasourceInput,
   ExternalDataSource,
   SaveDatasourceResult,
+  ScrapeCache,
+  ScrapeExecuteInput,
   UpdateDatasourceInput,
 } from "@lentil/rpc";
 
-export type { ExternalDataSource } from "@lentil/rpc";
+export type { ExternalDataSource, ScrapeCache } from "@lentil/rpc";
 
 /**
  * Typed RPC client shape — mirrors the procedures defined in
@@ -33,6 +35,12 @@ interface RPCClient {
       type: string;
       config: Record<string, unknown>;
     }): Promise<ConnectionTest>;
+  };
+  scrape: {
+    execute(input: ScrapeExecuteInput): Promise<ScrapeCache>;
+    list(): Promise<ScrapeCache[]>;
+    get(input: { id: string }): Promise<ScrapeCache>;
+    remove(input: { id: string }): Promise<void>;
   };
 }
 
