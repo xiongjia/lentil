@@ -196,8 +196,12 @@ describe("DatasourceConfigService", () => {
       });
       expect(createCall[1]).toHaveProperty("createdAt");
       expect(createCall[1]).toHaveProperty("updatedAt");
-      expect((createCall[1] as Record<string, unknown>).createdAt).toBeInstanceOf(Date);
-      expect((createCall[1] as Record<string, unknown>).updatedAt).toBeInstanceOf(Date);
+      expect(
+        (createCall[1] as Record<string, unknown>).createdAt,
+      ).toBeInstanceOf(Date);
+      expect(
+        (createCall[1] as Record<string, unknown>).updatedAt,
+      ).toBeInstanceOf(Date);
     });
 
     it("persists and tests the connection", async () => {
@@ -358,9 +362,9 @@ describe("DatasourceConfigService", () => {
       (mockEm.findOneOrFail as jest.Mock).mockRejectedValue(
         new Error("not found"),
       );
-      await expect(
-        service.update("missing-id", { name: "x" }),
-      ).rejects.toThrow("not found");
+      await expect(service.update("missing-id", { name: "x" })).rejects.toThrow(
+        "not found",
+      );
     });
   });
 });

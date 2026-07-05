@@ -1,13 +1,15 @@
-import { Module, OnModuleInit, Inject } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { DatabaseModule } from "@lentil/db";
 import { MikroORM } from "@mikro-orm/core";
+import { Inject, Module, OnModuleInit } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import type { ORPCModuleConfig } from "@orpc/nest";
 import { ORPCModule } from "@orpc/nest";
+import type pino from "pino";
+import { createLoggingInterceptor } from "./common/config";
 import { GeneralModule } from "./modules/general/general.module";
 import { IntegrationModule } from "./modules/integration/integration.module";
+import { APP_LOGGER, ProvidersModule } from "./modules/providers";
 import { ScrapeModule } from "./modules/scrape/scrape.module";
-import { DatabaseModule } from "@lentil/db";
-import { ProvidersModule, APP_LOGGER } from "./modules/providers";
-import pino from "pino";
 
 @Module({
   imports: [
@@ -15,7 +17,12 @@ import pino from "pino";
       isGlobal: true,
       envFilePath: [".env.dev", ".env.test", ".env.prod"],
     }),
-    ORPCModule.forRoot({}),
+    ORPCModule.forRootAsync({
+      inject: [APP_LOGGER],
+      useFactory: (logger: pino.Logger): ORPCModuleConfig => ({
+        interceptors: [createLoggingInterceptor(logger)],
+      }),
+    }),
     DatabaseModule,
     ProvidersModule,
     GeneralModule,

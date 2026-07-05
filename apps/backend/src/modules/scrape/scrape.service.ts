@@ -1,10 +1,62 @@
 import { ScrapeCacheEntity } from "@lentil/db";
 import type { ScrapeCache, ScrapeExecuteInput } from "@lentil/rpc";
 import { EntityManager } from "@mikro-orm/core";
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
+import { ORPCError } from "@orpc/server";
 import pino from "pino";
 import { APP_LOGGER } from "../providers";
 import { IntegrationService } from "../integration/integration.service";
+
+/** Maximum rows a scrape query may return. */
+const MAX_ROWS = 10000;
+
+/**
+ * Prepare a user-supplied SQL query for safe execution.
+ *
+ * - Strips SQL comments (block and line)
+ * - Rejects multi-statement queries (mid-query semicolons)
+ * - Ensures only SELECT or WITH … SELECT is allowed
+ * - Caps the LIMIT to {@link MAX_ROWS}, preserving any OFFSET
+ */
+const prepareQuery = (raw: string): string => {
+  // Strip SQL comments
+  let q = raw.replace(/\/\*[\s\S]*?\*\//g, ""); // block comments
+  q = q.replace(/--[^\n]*/g, ""); // line comments
+  q = q.trim();
+
+  // Strip trailing semicolon
+  q = q.replace(/;\s*$/, "");
+
+  // Reject multi-statement queries
+  if (/;/.test(q)) {
+    throw new ORPCError("BAD_REQUEST", {
+      message: "Multiple SQL statements are not allowed",
+    });
+  }
+
+  const upper = q.toUpperCase();
+
+  if (!upper.startsWith("SELECT") && !upper.startsWith("WITH")) {
+    throw new ORPCError("BAD_REQUEST", {
+      message: "Only SELECT queries are allowed",
+    });
+  }
+
+  // Cap LIMIT: replace any existing LIMIT with a capped version,
+  // preserving the OFFSET clause if present.
+  const limitRe = /\bLIMIT\s+(\d+)(\s+OFFSET\s+(\d+))?\s*$/i;
+  const match = q.match(limitRe);
+
+  if (match) {
+    const userLimit = parseInt(match[1]!, 10);
+    const capped = Math.min(userLimit, MAX_ROWS);
+    const offsetClause = match[3] ? ` OFFSET ${match[3]}` : "";
+    const queryWithoutLimit = q.slice(0, match.index).trimEnd();
+    return `${queryWithoutLimit} LIMIT ${capped}${offsetClause}`;
+  }
+
+  return `${q} LIMIT ${MAX_ROWS}`;
+};
 
 /**
  * Executes SELECT queries against external data sources and caches results locally.
@@ -25,17 +77,7 @@ export class ScrapeService {
    * Execute a SELECT query on a data source and cache the result.
    */
   async execute(input: ScrapeExecuteInput): Promise<ScrapeCache> {
-    // Security guard: only allow read-only queries
-    const normalized = input.query.trimStart().toUpperCase();
-    if (!normalized.startsWith("SELECT") && !normalized.startsWith("WITH")) {
-      throw new BadRequestException("Only SELECT queries are allowed");
-    }
-
-    // Cap result size to prevent OOM / DB bloat.
-    // If the query already has a LIMIT clause, reuse it rather than appending a duplicate.
-    const sanitized = input.query.replace(/;\s*$/, "");
-    const hasLimit = /\bLIMIT\s+\d+(\s+OFFSET\s+\d+)?\s*$/i.test(sanitized);
-    const limitedQuery = hasLimit ? sanitized : `${sanitized} LIMIT 10000`;
+    const limitedQuery = prepareQuery(input.query);
 
     const cache = this.em.create(ScrapeCacheEntity, {
       datasourceId: input.datasourceId,
@@ -47,15 +89,15 @@ export class ScrapeService {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    await this.em.persistAndFlush(cache);
+    this.em.persist(cache);
+    await this.em.flush();
 
     try {
       const rows = await this.integration.execute(input.datasourceId, {
         sql: limitedQuery,
       });
 
-      const columns =
-        rows.length > 0 ? Object.keys(rows[0]!) : [];
+      const columns = rows.length > 0 ? Object.keys(rows[0]!) : [];
 
       this.em.assign(cache, {
         status: "done",
@@ -64,11 +106,14 @@ export class ScrapeService {
         rowCount: rows.length,
         updatedAt: new Date(),
       });
-      this.em.persist(cache);
       await this.em.flush();
 
       this.logger.info(
-        { id: cache.id, datasourceId: input.datasourceId, rowCount: rows.length },
+        {
+          id: cache.id,
+          datasourceId: input.datasourceId,
+          rowCount: rows.length,
+        },
         "Scrape executed successfully",
       );
 
@@ -80,8 +125,16 @@ export class ScrapeService {
         error: message,
         updatedAt: new Date(),
       });
-      this.em.persist(cache);
-      await this.em.flush();
+
+      // Best-effort persist — don't let a flush failure swallow the original error
+      try {
+        await this.em.flush();
+      } catch (flushErr) {
+        this.logger.error(
+          { id: cache.id, flushError: String(flushErr) },
+          "Failed to persist scrape failure status; original error preserved",
+        );
+      }
 
       this.logger.error(
         { id: cache.id, datasourceId: input.datasourceId, error: message },

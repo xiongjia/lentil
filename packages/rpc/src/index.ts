@@ -18,5 +18,9 @@ export type {
 } from "./integration";
 export type { ScrapeCache, ScrapeExecuteInput } from "./scrape";
 export { generalContract } from "./general";
-export { integrationContract, dataSourceSchema, saveDatasourceResultSchema } from "./integration";
+export {
+  integrationContract,
+  dataSourceSchema,
+  saveDatasourceResultSchema,
+} from "./integration";
 export { scrapeContract } from "./scrape";
