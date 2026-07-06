@@ -27,8 +27,45 @@ const executeInputSchema = z.object({
   query: z.string().max(10000).describe("SELECT query to execute"),
 });
 
+// ── Summary type (for list, no rows) ────────────────────────────────────
+
+const scrapeCacheSummarySchema = scrapeCacheSchema.omit({ rows: true });
+
+// ── Pagination types (for get with pagination) ──────────────────────────
+
+const paginationInputSchema = z.object({
+  id: z.string().uuid().describe("Cache entry UUID"),
+  page: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .default(1)
+    .describe("Page number (1-based)"),
+  pageSize: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .max(500)
+    .default(50)
+    .describe("Rows per page (max 500)"),
+});
+
+const paginatedScrapeCacheSchema = scrapeCacheSchema.extend({
+  page: z.number().int().describe("Current page number"),
+  pageSize: z.number().int().describe("Rows per page"),
+  totalPages: z.number().int().describe("Total number of pages"),
+});
+
+// ── Refresh type (re-execute a cached query) ───────────────────────────
+
+const refreshInputSchema = z.object({
+  id: z.string().uuid().describe("Cache entry UUID to refresh"),
+});
+
 export type ScrapeCache = z.infer<typeof scrapeCacheSchema>;
+export type ScrapeCacheSummary = z.infer<typeof scrapeCacheSummarySchema>;
 export type ScrapeExecuteInput = z.infer<typeof executeInputSchema>;
+export type PaginatedScrapeCache = z.infer<typeof paginatedScrapeCacheSchema>;
 
 export const scrapeContract = {
   execute: oc
@@ -38,15 +75,16 @@ export const scrapeContract = {
 
   list: oc
     .route({ method: "POST", path: "/scrape/list" })
-    .output(z.array(scrapeCacheSchema)),
+    .output(z.array(scrapeCacheSummarySchema)),
 
   get: oc
     .route({ method: "POST", path: "/scrape/get" })
-    .input(
-      z.object({
-        id: z.string().uuid().describe("Cache entry UUID"),
-      }),
-    )
+    .input(paginationInputSchema)
+    .output(paginatedScrapeCacheSchema),
+
+  refresh: oc
+    .route({ method: "POST", path: "/scrape/refresh" })
+    .input(refreshInputSchema)
     .output(scrapeCacheSchema),
 
   remove: oc

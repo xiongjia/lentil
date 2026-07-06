@@ -16,7 +16,12 @@ export type {
   SaveDatasourceResult,
   UpdateDatasourceInput,
 } from "./integration";
-export type { ScrapeCache, ScrapeExecuteInput } from "./scrape";
+export type {
+  ScrapeCache,
+  ScrapeCacheSummary,
+  ScrapeExecuteInput,
+  PaginatedScrapeCache,
+} from "./scrape";
 export { generalContract } from "./general";
 export {
   integrationContract,

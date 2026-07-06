@@ -45,14 +45,14 @@ describe("Settings", () => {
 
   it("renders page title and Add button", async () => {
     render(<Settings />);
-    expect(screen.getByText("Settings")).toBeDefined();
-    expect(screen.getByText("Add Data Source")).toBeDefined();
+    expect(screen.getByText("Settings")).toBeInTheDocument();
+    expect(screen.getByText("Add Data Source")).toBeInTheDocument();
   });
 
   it("shows empty state initially", async () => {
     render(<Settings />);
     await waitFor(() => {
-      expect(screen.getByText("No data sources configured yet.")).toBeDefined();
+      expect(screen.getByText("No data sources configured yet.")).toBeInTheDocument();
     });
   });
 
@@ -64,7 +64,7 @@ describe("Settings", () => {
     await waitFor(() => {
       expect(
         screen.getByText("Configure a new external data source."),
-      ).toBeDefined();
+      ).toBeInTheDocument();
     });
   });
 
@@ -73,14 +73,14 @@ describe("Settings", () => {
     render(<Settings />);
 
     await waitFor(() => {
-      expect(screen.getByText("test-db")).toBeDefined();
+      expect(screen.getByText("test-db")).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText("Edit"));
 
     await waitFor(() => {
       // Edit dialog title should appear
-      expect(screen.getByText("Edit Data Source")).toBeDefined();
+      expect(screen.getByText("Edit Data Source")).toBeInTheDocument();
     });
   });
 
@@ -89,13 +89,13 @@ describe("Settings", () => {
     render(<Settings />);
 
     await waitFor(() => {
-      expect(screen.getByText("test-db")).toBeDefined();
+      expect(screen.getByText("test-db")).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText("Delete"));
 
     await waitFor(() => {
-      expect(screen.getByText("Delete Data Source")).toBeDefined();
+      expect(screen.getByText("Delete Data Source")).toBeInTheDocument();
     });
   });
 
@@ -105,7 +105,7 @@ describe("Settings", () => {
     render(<Settings />);
 
     await waitFor(() => {
-      expect(screen.getByText("test-db")).toBeDefined();
+      expect(screen.getByText("test-db")).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText("Test"));
@@ -120,7 +120,7 @@ describe("Settings", () => {
     // Alert should show success
     expect(
       screen.getByText(/Connection to "test-db" succeeded./),
-    ).toBeDefined();
+    ).toBeInTheDocument();
   });
 
   it("shows error alert when Test fails", async () => {
@@ -129,13 +129,13 @@ describe("Settings", () => {
     render(<Settings />);
 
     await waitFor(() => {
-      expect(screen.getByText("test-db")).toBeDefined();
+      expect(screen.getByText("test-db")).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText("Test"));
 
     await waitFor(() => {
-      expect(screen.getByText(/failed: timeout/)).toBeDefined();
+      expect(screen.getByText(/failed: timeout/)).toBeInTheDocument();
     });
   });
 });

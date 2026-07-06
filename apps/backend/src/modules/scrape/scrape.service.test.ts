@@ -305,7 +305,7 @@ describe("ScrapeService", () => {
       expect(result).toEqual([]);
     });
 
-    it("returns all cache entries", async () => {
+    it("returns all cache entries as summary (no rows)", async () => {
       const entry1 = {
         id: "a",
         datasourceId: "ds-1",
@@ -327,6 +327,10 @@ describe("ScrapeService", () => {
       expect(result).toHaveLength(2);
       expect(result[0].status).toBe("done");
       expect(result[1].status).toBe("failed");
+      // Summary should omit rows
+      expect("rows" in result[0]).toBe(false);
+      expect(result[0].rowCount).toBe(1);
+      expect(result[0].columns).toEqual(["?column?"]);
     });
   });
 
@@ -352,6 +356,207 @@ describe("ScrapeService", () => {
       const result = await service.get("a");
       expect(result.id).toBe("a");
       expect(result.status).toBe("done");
+    });
+  });
+
+  // ── getPaginated ─────────────────────────────────────────────────
+
+  describe("getPaginated", () => {
+    const makeRows = (n: number): Record<string, unknown>[] =>
+      Array.from({ length: n }, (_, i) => ({ id: i + 1, val: `row-${i + 1}` }));
+
+    it("returns first page by default (page=1, pageSize=50)", async () => {
+      const rows = makeRows(150);
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id", "val"],
+          rows,
+          rowCount: 150,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 1, 50);
+      expect(result.page).toBe(1);
+      expect(result.pageSize).toBe(50);
+      expect(result.totalPages).toBe(3);
+      expect(result.rows).toHaveLength(50);
+      expect(result.rows[0]).toEqual({ id: 1, val: "row-1" });
+      expect(result.rows[49]).toEqual({ id: 50, val: "row-50" });
+    });
+
+    it("returns the requested page", async () => {
+      const rows = makeRows(150);
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id", "val"],
+          rows,
+          rowCount: 150,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 2, 50);
+      expect(result.page).toBe(2);
+      expect(result.rows).toHaveLength(50);
+      expect(result.rows[0]).toEqual({ id: 51, val: "row-51" });
+    });
+
+    it("clamps page to the last page when exceeding total", async () => {
+      const rows = makeRows(10);
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id", "val"],
+          rows,
+          rowCount: 10,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 100, 50);
+      expect(result.page).toBe(1); // clamped to 1 (only page)
+      expect(result.totalPages).toBe(1);
+      expect(result.rows).toHaveLength(10);
+    });
+
+    it("returns 1 page for empty rows", async () => {
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: [],
+          rows: [],
+          rowCount: 0,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 1, 50);
+      expect(result.page).toBe(1);
+      expect(result.totalPages).toBe(1);
+      expect(result.rows).toHaveLength(0);
+    });
+
+    it("uses non-default pageSize", async () => {
+      const rows = makeRows(25);
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id", "val"],
+          rows,
+          rowCount: 25,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 1, 10);
+      expect(result.page).toBe(1);
+      expect(result.pageSize).toBe(10);
+      expect(result.totalPages).toBe(3);
+      expect(result.rows).toHaveLength(10);
+      expect(result.rows[0]).toEqual({ id: 1, val: "row-1" });
+      expect(result.rows[9]).toEqual({ id: 10, val: "row-10" });
+    });
+
+    it("handles page exactly equal to totalPages", async () => {
+      const rows = makeRows(100);
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id", "val"],
+          rows,
+          rowCount: 100,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.getPaginated("a", 2, 50);
+      expect(result.page).toBe(2);
+      expect(result.totalPages).toBe(2);
+      expect(result.rows).toHaveLength(50);
+      // Last page returns the final 50 rows
+      expect(result.rows[0]).toEqual({ id: 51, val: "row-51" });
+      expect(result.rows[49]).toEqual({ id: 100, val: "row-100" });
+    });
+  });
+
+  // ── refresh ────────────────────────────────────────────────────
+
+  describe("refresh", () => {
+    it("resets cache to running and triggers background execution", async () => {
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.resolve({
+          id: "a",
+          datasourceId: "ds-1",
+          query: "SELECT 1",
+          status: "done",
+          columns: ["id"],
+          rows: [{ id: 1 }],
+          rowCount: 1,
+          error: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const result = await service.refresh("a");
+
+      // Should immediately return with status running, rows cleared
+      expect(result.status).toBe("running");
+      expect(result.rows).toEqual([]);
+      expect(result.columns).toEqual([]);
+      expect(result.rowCount).toBe(0);
+
+      // Should have persisted the running state
+      expect(mockEm.assign).toHaveBeenCalledWith(expect.any(Object), {
+        status: "running",
+        columns: [],
+        rows: [],
+        rowCount: 0,
+        error: undefined,
+        updatedAt: expect.any(Date),
+      });
+      expect(mockEm.flush).toHaveBeenCalled();
+    });
+
+    it("throws when cache entry does not exist", async () => {
+      (mockEm.findOneOrFail as jest.Mock).mockImplementation(() =>
+        Promise.reject(new Error("not found")),
+      );
+
+      await expect(service.refresh("nonexistent")).rejects.toThrow("not found");
     });
   });
 

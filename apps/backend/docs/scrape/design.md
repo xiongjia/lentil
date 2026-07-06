@@ -39,12 +39,13 @@ mounted under the shared `contract` object exported by `@lentil/rpc`.
 
 ### Procedures
 
-| Procedure | Method | Path              | Input                     | Output          |
-| --------- | ------ | ----------------- | ------------------------- | --------------- |
-| `execute` | POST   | `/scrape/execute` | `{ datasourceId, query }` | `ScrapeCache`   |
-| `list`    | POST   | `/scrape/list`    | — (none)                  | `ScrapeCache[]` |
-| `get`     | POST   | `/scrape/get`     | `{ id }`                  | `ScrapeCache`   |
-| `remove`  | POST   | `/scrape/remove`  | `{ id }`                  | `void`          |
+| Procedure | Method | Path              | Input                      | Output                 |
+| --------- | ------ | ----------------- | -------------------------- | ---------------------- |
+| `execute` | POST   | `/scrape/execute` | `{ datasourceId, query }`  | `ScrapeCache`          |
+| `list`    | POST   | `/scrape/list`    | — (none)                   | `ScrapeCacheSummary[]` |
+| `get`     | POST   | `/scrape/get`     | `{ id, page?, pageSize? }` | `PaginatedScrapeCache` |
+| `refresh` | POST   | `/scrape/refresh` | `{ id }`                   | `ScrapeCache`          |
+| `remove`  | POST   | `/scrape/remove`  | `{ id }`                   | `void`                 |
 
 ### Schema: `ScrapeCache`
 
@@ -60,6 +61,39 @@ mounted under the shared `contract` object exported by `@lentil/rpc`.
 | `error`        | `string \| null \| undefined` | Error message on failure                 |
 | `createdAt`    | `Date`                        | Row creation timestamp                   |
 | `updatedAt`    | `Date`                        | Row last-update timestamp                |
+
+### Schema: `ScrapeCacheSummary`
+
+Same as `ScrapeCache` but **omits the `rows` field**. Used by `list()` to reduce
+payload size — the cache list page only displays metadata, not row data.
+
+### Schema: `PaginationInput`
+
+| Field      | Type            | Default | Constraint  |
+| ---------- | --------------- | ------- | ----------- |
+| `id`       | `string (UUID)` | —       | —           |
+| `page`     | `number`        | `1`     | `.min(1)`   |
+| `pageSize` | `number`        | `50`    | `.min(1)`   |
+|            |                 |         | `.max(500)` |
+
+### Schema: `PaginatedScrapeCache`
+
+Extends `ScrapeCache` with three pagination metadata fields:
+
+| Field        | Type     | Notes                      |
+| ------------ | -------- | -------------------------- |
+| `page`       | `number` | Current page (1-based)     |
+| `pageSize`   | `number` | Rows per page              |
+| `totalPages` | `number` | Total pages for this cache |
+
+All other `ScrapeCache` fields remain, but `rows` only contains the current
+page's slice of data — not the full result set.
+
+### Schema: `refreshInput`
+
+| Field | Type            | Constraint |
+| ----- | --------------- | ---------- |
+| `id`  | `string (UUID)` | —          |
 
 ### Schema: `executeInput`
 
@@ -146,28 +180,92 @@ table.
 6. **Logging** — Each execution outcome is logged with structured context (`id`,
    `datasourceId`, `rowCount`, `error`).
 
-### `list()` — List Cache Entries
+### `list()` — List Cache Entries (Summary)
 
-Returns all entries ordered by `updatedAt` descending (most recent first).
+Returns all entries as `ScrapeCacheSummary[]` ordered by `updatedAt` descending
+(most recent first). The `rows` field is excluded from the response to minimize
+payload size. Only `columns`, `rowCount`, and other metadata are returned.
 
-### `get(id)` — Single Cache Entry
+### `get(id)` — Single Cache Entry (Full)
 
-Returns one entry by UUID. Throws `NotFoundException` if missing.
+Returns one entry by UUID with the complete `rows` array. Throws
+`NotFoundException` if missing. Intended for programmatic access / export;
+prefer `getPaginated()` for UI display.
+
+### `getPaginated(id, page?, pageSize?)` — Paginated Row Access
+
+Returns one entry by UUID with only the requested page slice of `rows`.
+
+- **Pagination**: in-memory array slice (rows are stored as a single JSONB column)
+- **Page clamping**: if `page` exceeds `totalPages`, it is clamped to the last
+  valid page (never returns an empty page)
+- **Returns**: `PaginatedScrapeCache` with `page`, `pageSize`, `totalPages`
 
 ### `remove(id)` — Delete Cache Entry
 
 Deletes one entry by UUID. Throws `NotFoundException` if missing.
 
+### `refresh(id)` — Async Re-execution
+
+Re-executes an existing cached query and updates the result in the background.
+
+```
+┌────────────┐     ┌──────────────┐     ┌────────────────────┐
+│  find      │────▶│  reset to    │────▶│  return DTO        │
+│  entity    │     │  "running"   │     │  (status="running")│
+└────────────┘     └──────┬───────┘     └─────────┬──────────┘
+                          │                       │
+                          │  flush                 │  (immediate)
+                          ▼                       ▼
+                   ┌───────────────┐        ┌───────────────┐
+                   │  background   │        │  API response │
+                   │  execution    │        │  returned to  │
+                   │  (fire &      │        │  client       │
+                   │   forget)     │        └───────────────┘
+                   └──────┬────────┘
+                          │
+              ┌───────────┴───────────┐
+              ▼                       ▼
+         ┌──────────┐          ┌──────────┐
+         │ success  │          │ failure  │
+         │ status=  │          │ status=  │
+         │ "done"   │          │ "failed" │
+         │ columns, │          │ error=   │
+         │ rows,    │          │ message  │
+         │ rowCount │          └──────────┘
+         └──────────┘
+```
+
+**Step-by-step:**
+
+1. **Find** — Looks up the existing cache entry by ID; throws `NotFoundException`
+   if missing.
+2. **Reset** — Sets `status: "running"`, clears `columns`, `rows`, `rowCount`,
+   and `error`. Persists immediately.
+3. **Fire** — Calls `executeRefresh()` as a fire-and-forget background task
+   (`.catch()` attached to prevent unhandled promise rejections).
+4. **Return** — Returns the DTO with `status: "running"` to the caller immediately.
+
+**Background execution (`executeRefresh`):**
+
+- Reuses the original `query` (already validated + LIMIT-appended by `execute`).
+- Delegates to `IntegrationService.execute()` to run the SQL.
+- On success: persists `status: "done"` with new `columns`, `rows`, `rowCount`.
+- On failure: persists `status: "failed"` with the error message.
+- Flush failures are logged but do not propagate (best-effort persistence).
+
 ### Dependencies
 
-| Dependency           | Source            | Role                                 |
-| -------------------- | ----------------- | ------------------------------------ |
-| `EntityManager`      | `@mikro-orm/core` | Database CRUD                        |
-| `IntegrationService` | `../integration/` | Execute SQL on external data sources |
-| `APP_LOGGER`         | `../providers/`   | Pino logger injection                |
-| `ScrapeCacheEntity`  | `@lentil/db`      | ORM entity                           |
-| `ScrapeCache`        | `@lentil/rpc`     | DTO type (output)                    |
-| `ScrapeExecuteInput` | `@lentil/rpc`     | DTO type (input)                     |
+| Dependency             | Source            | Role                                 |
+| ---------------------- | ----------------- | ------------------------------------ |
+| `EntityManager`        | `@mikro-orm/core` | Database CRUD                        |
+| `IntegrationService`   | `../integration/` | Execute SQL on external data sources |
+| `APP_LOGGER`           | `../providers/`   | Pino logger injection                |
+| `ScrapeCacheEntity`    | `@lentil/db`      | ORM entity                           |
+| `ScrapeCache`          | `@lentil/rpc`     | DTO type (output)                    |
+| `ScrapeCacheSummary`   | `@lentil/rpc`     | DTO type (list output)               |
+| `PaginatedScrapeCache` | `@lentil/rpc`     | DTO type (paginated get output)      |
+| `ScrapeExecuteInput`   | `@lentil/rpc`     | DTO type (input)                     |
 
 ---
 
@@ -214,16 +312,50 @@ React page with three sections:
 
 - Columns: Status, Datasource (truncated UUID), Query (truncated), Rows, Time, Actions
 - Color-coded status badges (green=done, red=failed, blue=running)
+- **Refresh** button starts async re-execution of a cached query (disabled while
+  refreshing or when `status === "running"`; shows "Refreshing..." during polling)
 - **View** button opens result dialog (disabled unless `status === "done"`)
 - **Delete** button with loading state (`deleting` set disables the button)
 - Error display for cache list load failures
 - Empty state: "No cached results yet"
 
-### 3. Result View Dialog
+**Refresh polling flow**:
+
+```
+User clicks "Refresh" on a row
+  → handleRefresh calls rpc.scrape.refresh({ id })
+  → status set to "running" immediately
+  → startPolling polls rpc.scrape.list() every 2 seconds
+  → When entry.status !== "running", polling stops
+  → "Refreshing..." indicator cleared
+```
+
+The polling uses `setTimeout` (not `setInterval`) to avoid overlapping requests.
+A `useRef` tracks the timeout handle, and a `useEffect` cleanup clears it on
+component unmount to prevent memory leaks.
+
+### 3. Result View Dialog (Paginated)
 
 - Modal dialog showing columns as table headers and rows as table data
+- Pagination controls (Previous / Next) at the bottom when `totalPages > 1`
+- **Loading state**: shows "Loading..." indicator while fetching a page
 - Empty result message when query returns 0 rows
 - Error display when status is `"failed"`
+
+**Pagination flow**:
+
+```
+User clicks "View" on a row
+  → handleView calls rpc.scrape.get({ id, page: 1, pageSize: 50 })
+  → Dialog opens with first page of rows
+User clicks "Previous" / "Next"
+  → goToPage calls rpc.scrape.get({ id, page: N, pageSize: 50 })
+  → Dialog shows the new page slice
+```
+
+Each page fetches a fresh request; the full rows array is never loaded client-
+side. The `viewId` state tracks which cache entry is being browsed, and `viewData`
+holds the latest paginated response.
 
 ### Error States
 
@@ -233,6 +365,7 @@ React page with three sections:
 | Cache list fails      | Shows `cacheError` above table              |
 | Execution fails       | Shows `error` in execute form               |
 | Delete fails          | Shows `error` in execute form               |
+| Refresh fails         | Shows `error` in execute form               |
 | No datasources exist  | Placeholder option, Execute button disabled |
 
 ### RPC Client (`apps/dashboard/src/lib/rpc.ts`)
@@ -240,13 +373,20 @@ React page with three sections:
 The `RPCClient` interface mirrors the contract. The `scrape` namespace exposes:
 
 ```typescript
+import type { PaginatedScrapeCache, ScrapeCacheSummary } from "@lentil/rpc";
+
 scrape: {
   execute(input: ScrapeExecuteInput): Promise<ScrapeCache>;
-  list(): Promise<ScrapeCache[]>;
-  get(input: { id: string }): Promise<ScrapeCache>;
+  list(): Promise<ScrapeCacheSummary[]>;
+  get(input: { id: string; page?: number; pageSize?: number }): Promise<PaginatedScrapeCache>;
+  refresh(input: { id: string }): Promise<ScrapeCache>;
   remove(input: { id: string }): Promise<void>;
 }
 ```
+
+The `list()` type was changed from `ScrapeCache[]` to `ScrapeCacheSummary[]`
+(drops `rows`). The `get()` type accepts optional `page`/`pageSize` and returns
+`PaginatedScrapeCache` with pagination metadata.
 
 ---
 
@@ -269,21 +409,28 @@ scrape: {
   (2 DB round-trips vs 3 in the initial design).
 - **Result storage**: Entire result set stored as JSON in the `rows` column.
   Large results will increase DB storage and read latency.
-- **No pagination on `list()`**: Returns all cache entries. May need pagination
-  as the cache grows over time.
+- **`list()` returns summary only**: The `rows` field is omitted from list
+  responses to reduce payload size (each row can be large). Full row access is
+  available via `get()` or `getPaginated()`.
+- **`get()` pagination is in-memory**: Rows are stored as a single JSONB column;
+  pagination slices the deserialized array. For very large result sets, a future
+  optimization could store rows in a separate child table with indexed offsets.
 
 ---
 
 ## Test Coverage (`scrape.service.test.ts`)
 
-50 tests organized by method:
+63 tests organized by method:
 
-| Group     | Tests | What's Covered                                                   |
-| --------- | ----- | ---------------------------------------------------------------- |
-| `execute` | 9     | Success path, SQL guard (DELETE/DROP/WITH), LIMIT appending,     |
-|           |       | trailing semicolon, existing LIMIT, LIMIT+OFFSET, empty results, |
-|           |       | error handling                                                   |
-| `list`    | 2     | Empty list, multiple entries                                     |
-| `get`     | 1     | Single entry lookup                                              |
-| `remove`  | 1     | Deletion + flush                                                 |
-| Sanity    | 1     | Service is defined                                               |
+| Group          | Tests | What's Covered                                                   |
+| -------------- | ----- | ---------------------------------------------------------------- |
+| `execute`      | 9     | Success path, SQL guard (DELETE/DROP/WITH), LIMIT appending,     |
+|                |       | trailing semicolon, existing LIMIT, LIMIT+OFFSET, empty results, |
+|                |       | error handling                                                   |
+| `list`         | 2     | Empty list, multiple entries (returns summary without `rows`)    |
+| `get`          | 1     | Single entry lookup (full rows)                                  |
+| `getPaginated` | 6     | Default page, requested page, page clamping, empty rows,         |
+|                |       | non-default pageSize, page === totalPages boundary               |
+| `refresh`      | 2     | Reset to running + clear data, not-found throws                  |
+| `remove`       | 1     | Deletion + flush                                                 |
+| Sanity         | 1     | Service is defined                                               |
