@@ -28,9 +28,20 @@ export class ScrapeRPC {
 
   @Implement(contract.scrape.get)
   get() {
-    return implement(contract.scrape.get).handler(async ({ input: { id } }) => {
-      return await this.scrapeService.get(id);
-    });
+    return implement(contract.scrape.get).handler(
+      async ({ input: { id, page, pageSize } }) => {
+        return await this.scrapeService.getPaginated(id, page, pageSize);
+      },
+    );
+  }
+
+  @Implement(contract.scrape.refresh)
+  refresh() {
+    return implement(contract.scrape.refresh).handler(
+      async ({ input: { id } }) => {
+        return await this.scrapeService.refresh(id);
+      },
+    );
   }
 
   @Implement(contract.scrape.remove)
