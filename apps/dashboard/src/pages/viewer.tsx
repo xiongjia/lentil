@@ -77,8 +77,8 @@ const BATCH_PAGE_SIZE = 500;
 /**
  * Fetch every page of a cache entry and return all rows.
  *
- * **Performance note**: Pages are fetched sequentially. With a 10 000-row
- * result and pageSize = 500 this makes up to 20 serial requests. For large
+ * **Performance note**: Pages are fetched sequentially. With a 10 000-row
+ * result and pageSize=500 this makes up to 20 serial requests. For large
  * datasets a future optimization could use concurrent fetches (e.g. 4 at a
  * time) via `Promise.allSettled` without overwhelming the server.
  */
@@ -387,7 +387,6 @@ const ChartConfigPanel = ({
         yAxis: [yDefault],
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     stringCols,
     numericCols,
