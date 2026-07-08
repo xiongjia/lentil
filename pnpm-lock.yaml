@@ -318,6 +318,9 @@ importers:
       '@orpc/openapi-client':
         specifier: 'catalog:'
         version: 1.14.6
+      '@tanstack/react-table':
+        specifier: 'catalog:'
+        version: 8.21.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       lucide-react:
         specifier: 'catalog:'
         version: 1.16.0(react@19.2.5)

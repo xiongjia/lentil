@@ -1,4 +1,4 @@
-import { Home, Settings, Download } from "lucide-react";
+import { Home, Settings, Download, Eye } from "lucide-react";
 import {
   SidebarAside,
   SidebarMenu,
@@ -12,6 +12,7 @@ import {
 const items = [
   { slug: "home", title: "Home", icon: Home },
   { slug: "scrape", title: "Scrape", icon: Download },
+  { slug: "viewer", title: "Viewer", icon: Eye },
   { slug: "settings", title: "Settings", icon: Settings },
 ];
 

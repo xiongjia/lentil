@@ -8,12 +8,14 @@ import { ErrorBoundary } from "./components/error-boundary";
 const Home = lazy(() => import("./pages/home"));
 const Settings = lazy(() => import("./pages/settings"));
 const Scrape = lazy(() => import("./pages/scrape"));
+const Viewer = lazy(() => import("./pages/viewer"));
 
 /** Maps hash-routed slugs to their lazy-loaded page components. */
 const pages: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
   home: Home,
   settings: Settings,
   scrape: Scrape,
+  viewer: Viewer,
 };
 
 /**
