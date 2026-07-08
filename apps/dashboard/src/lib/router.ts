@@ -15,13 +15,13 @@ export const useHashRoute = (
 ): [string, (slug: string) => void] => {
   const [slug, setSlug] = useState(() => {
     const hash = window.location.hash.replace("#/", "");
-    return hash || defaultSlug;
+    return hash.split("?")[0] || defaultSlug;
   });
 
   useEffect(() => {
     const onHashChange = () => {
       const hash = window.location.hash.replace("#/", "");
-      setSlug(hash || defaultSlug);
+      setSlug(hash.split("?")[0] || defaultSlug);
     };
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);

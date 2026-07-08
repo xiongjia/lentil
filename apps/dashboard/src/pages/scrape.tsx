@@ -6,11 +6,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   Input,
   Table,
   TableBody,
@@ -19,11 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@lentil/ui";
-import type {
-  ExternalDataSource,
-  PaginatedScrapeCache,
-  ScrapeCacheSummary,
-} from "../lib/rpc";
+import type { ExternalDataSource, ScrapeCacheSummary } from "../lib/rpc";
 import { rpc } from "../lib/rpc";
 import { formatDateTime } from "../lib/format";
 
@@ -33,9 +24,6 @@ const STATUS_CLASSES: Record<string, string> = {
   failed: "text-destructive",
   running: "text-blue-600",
 };
-
-/** Default number of rows per page in the result view dialog. */
-const PAGE_SIZE = 50;
 
 /** Minimal subset of ExternalDataSource needed for the datasource dropdown. */
 interface DatasourceOption {
@@ -60,13 +48,6 @@ const Scrape = () => {
   const [cacheError, setCacheError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState<string | null>(null);
-
-  // ── View dialog state (paginated) ───────────────────────
-  const [viewId, setViewId] = useState<string | null>(null);
-  const [viewData, setViewData] = useState<PaginatedScrapeCache | null>(null);
-  const [viewPage, setViewPage] = useState(1);
-  const [viewLoading, setViewLoading] = useState(false);
-  const [viewError, setViewError] = useState<string | null>(null);
 
   const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -185,65 +166,6 @@ const Scrape = () => {
     };
   }, []);
 
-  // ── Open view dialog ────────────────────────────────────────
-
-  const handleView = useCallback(async (cache: ScrapeCacheSummary) => {
-    setViewId(cache.id);
-    setViewPage(1);
-    setViewLoading(true);
-    setViewError(null);
-    try {
-      const data = await rpc.scrape.get({
-        id: cache.id,
-        page: 1,
-        pageSize: PAGE_SIZE,
-      });
-      setViewData(data);
-    } catch (err) {
-      setViewError(
-        err instanceof Error ? err.message : "Failed to load result",
-      );
-      setViewData(null);
-    } finally {
-      setViewLoading(false);
-    }
-  }, []);
-
-  // ── Navigate to a page in the view dialog ───────────────────
-
-  const goToPage = useCallback(
-    async (page: number) => {
-      if (!viewId) return;
-      setViewLoading(true);
-      setViewError(null);
-      try {
-        const data = await rpc.scrape.get({
-          id: viewId,
-          page,
-          pageSize: PAGE_SIZE,
-        });
-        setViewData(data);
-        setViewPage(page);
-      } catch (err) {
-        setViewError(
-          err instanceof Error ? err.message : "Failed to load page",
-        );
-      } finally {
-        setViewLoading(false);
-      }
-    },
-    [viewId],
-  );
-
-  // ── Close view dialog ───────────────────────────────────────
-
-  const closeView = useCallback(() => {
-    setViewId(null);
-    setViewData(null);
-    setViewPage(1);
-    setViewError(null);
-  }, []);
-
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Scrape</h2>
@@ -356,7 +278,9 @@ const Scrape = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleView(c)}
+                          onClick={() => {
+                            window.location.hash = `#/viewer?id=${c.id}`;
+                          }}
                           disabled={c.status !== "done"}
                         >
                           View
@@ -388,84 +312,6 @@ const Scrape = () => {
           )}
         </CardContent>
       </Card>
-
-      {/* ── View result dialog (paginated) ──────────────────── */}
-      <Dialog open={!!viewId} onOpenChange={closeView}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-auto">
-          <DialogHeader>
-            <DialogTitle>Result</DialogTitle>
-            <DialogDescription>
-              {viewData?.rowCount ?? 0} row
-              {viewData?.rowCount !== 1 ? "s" : ""}
-              {viewData && ` — Page ${viewData.page}/${viewData.totalPages}`}
-            </DialogDescription>
-          </DialogHeader>
-
-          {viewError && (
-            <p className="text-sm text-destructive mb-3">{viewError}</p>
-          )}
-
-          {viewLoading ? (
-            <p className="text-sm text-muted-foreground py-4 text-center">
-              Loading...
-            </p>
-          ) : !viewData ? null : viewData.rows.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {viewData.columns.map((col) => (
-                    <TableHead key={col}>{col}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {viewData.rows.map((row, i) => (
-                  <TableRow key={i}>
-                    {viewData.columns.map((col) => (
-                      <TableCell key={col} className="text-sm">
-                        {String(row[col] ?? "")}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <p className="text-sm text-muted-foreground py-4 text-center">
-              {viewData.status === "done"
-                ? "Query returned 0 rows."
-                : (viewData.error ?? "No data")}
-            </p>
-          )}
-
-          {/* ── Pagination controls ──────────────────────── */}
-          {viewData && viewData.totalPages > 1 && (
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-sm text-muted-foreground">
-                Page {viewPage} of {viewData.totalPages}
-              </span>
-              <div className="flex gap-1">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => goToPage(viewPage - 1)}
-                  disabled={viewPage <= 1 || viewLoading}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => goToPage(viewPage + 1)}
-                  disabled={viewPage >= viewData.totalPages || viewLoading}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

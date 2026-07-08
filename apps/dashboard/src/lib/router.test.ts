@@ -45,6 +45,12 @@ describe("useHashRoute", () => {
     expect(result.current[0]).toBe("settings");
   });
 
+  it("strips query string from the slug", () => {
+    window.location.hash = "#/viewer?id=abc123";
+    const { result } = renderHook(() => useHashRoute("home"));
+    expect(result.current[0]).toBe("viewer");
+  });
+
   it("defaults to 'home' when no defaultSlug is provided", () => {
     const { result } = renderHook(() => useHashRoute());
     expect(result.current[0]).toBe("home");
